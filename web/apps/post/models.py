@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.template.defaultfilters import truncatechars
 from django_extensions.db.models import TimeStampedModel
 from redactor.fields import RedactorField
 
@@ -29,17 +30,22 @@ class Post(TimeStampedModel):
 
     pub_date = models.DateTimeField()
 
+    def __str__(self):
+        return truncatechars(self.name, 32)
+
     class Meta:
         ordering = ['-pub_date']
         app_label = 'post'
 
 
-class Tag(models.Model):
+class Tag(TimeStampedModel):
     name = models.CharField(max_length=256)
     slug = models.SlugField(unique=True)
 
-    order = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(USER_MODEL)
+
+    def __str__(self):
+        return truncatechars(self.name, 32)
 
     class Meta:
-        ordering = ['order']
         app_label = 'post'
