@@ -130,9 +130,6 @@ FIXTURE_DIRS = [
 ]
 
 include(
-    optional('settings_logger.py'),
-)
-
-include(
+    'settings_logger.py',
     optional('settings_local.py'),
 )
