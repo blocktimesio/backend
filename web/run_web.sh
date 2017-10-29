@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sleep 10s
+sleep 7s
 
 cd /code/
 python manage.py migrate

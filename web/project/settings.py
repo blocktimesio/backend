@@ -41,9 +41,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'redactor',
     'solo',
-    'templated_email',
-
-    'apps.core',
+    # 'templated_email',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +123,7 @@ BASE_URL = env('BASE_URL')
 ADMIN_SITE_HEADER = 'BlockTimes'
 
 SOLO_CACHE_TIMEOUT = 60 * 2
-SOLO_CACHE_PREFIX = 'drmartiner_solo'
+SOLO_CACHE_PREFIX = 'blocktimes_solo'
 
 FIXTURE_DIRS = [
     root('fixtures'),

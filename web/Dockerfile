@@ -1,7 +1,9 @@
-FROM python:2.7
+FROM python:3.6.0
+
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
-WORKDIR /code
-ADD requirements.txt /code/
+
+RUN mkdir /app
+WORKDIR /app
+ADD . /app/
+
 RUN pip install -r requirements.txt
-ADD . /code/
