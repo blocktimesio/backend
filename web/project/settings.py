@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'redactor',
     'solo',
     'templated_email',
+
+    'apps.post',
+    'apps.users',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +133,8 @@ SOLO_CACHE_PREFIX = 'blocktimes_solo'
 FIXTURE_DIRS = [
     root('fixtures'),
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 include(
     'settings_logger.py',
