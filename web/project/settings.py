@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'redactor',
     'solo',
-    # 'templated_email',
+    'templated_email',
 ]
 
 MIDDLEWARE = [
