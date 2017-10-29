@@ -1,0 +1,17 @@
+.idea/
+
+.DS_Store
+._*
+.~*#
+*.pyc
+*.swp
+*.swo
+*.swn
+.svn
+*.orig
+*.egg-info
+
+.env
+settings_local.py
+web/media/
+web/static/

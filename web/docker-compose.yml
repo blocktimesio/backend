@@ -1,0 +1,29 @@
+version: '2'
+services:
+  web:
+    build: .
+    restart: always
+    command: sh /code/run_web.sh
+    volumes:
+      - .:/code
+    links:
+      - db:db
+      - redis:redis
+    ports:
+      - 8000:8000
+    expose:
+      - 5432
+      - 6379
+  db:
+    image: 'postgres:9.6'
+    restart: always
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_DB=blocktimes
+      - POSTGRES_USER=blocktimes
+      - POSTGRES_PASSWORD=aG6PvGesnI
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
