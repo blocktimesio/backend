@@ -1,6 +1,5 @@
 from django.contrib.auth.forms import (
     UsernameField,
-    UserChangeForm as BaseUserChangeForm,
     UserCreationForm as BaseUserCreationForm
 
 )
@@ -12,7 +11,3 @@ class UserCreationForm(BaseUserCreationForm):
         model = User
         fields = ['username', 'email', 'type']
         field_classes = {'username': UsernameField}
-
-
-class UserChangeForm(BaseUserChangeForm):
-    pass
