@@ -103,6 +103,8 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 
+TIME_ZONE = 'CET'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (root - 1)('media')
 
