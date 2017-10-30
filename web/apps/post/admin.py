@@ -23,14 +23,6 @@ class TagAdmin(admin.ModelAdmin):
             kwargs['queryset'] = User.objects.filter(type__in=User.TYPE.EDITORS)
         return super(TagAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def get_readonly_fields(self, request, obj=None):
-        fields = []
-
-        if request.user.is_publisher:
-            return ['__all__']
-
-        return fields
-
     def has_change_permission(self, request, obj=None):
         if request.user.is_editor:
             return True
@@ -70,14 +62,6 @@ class PostAdmin(admin.ModelAdmin):
         if request.user.is_editor:
             fields.insert(1, 'author')
             fields.insert(2, 'assigned')
-        return fields
-
-    def get_readonly_fields(self, request, obj=None):
-        fields = []
-
-        if obj and obj.author != request.user and request.user.is_publisher:
-            return ['__all__']
-
         return fields
 
     def has_delete_permission(self, request, obj=None):
