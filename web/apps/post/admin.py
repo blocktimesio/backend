@@ -40,6 +40,10 @@ class TagAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     filter_horizontal = ['tags']
     prepopulated_fields = {'slug': ('name',), }
+
+    list_display = ['name', 'status', 'author', 'assigned', 'created', 'modified']
+    list_filter = [PostOwnerFilter, 'author', 'assigned', 'created', 'modified']
+
     fieldsets = (
         ('Main', {'fields': (('name', 'slug'), 'pub_date')}),
         ('Content', {'fields': ('content', 'tags')}),
@@ -48,21 +52,9 @@ class PostAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'author':
             kwargs['queryset'] = User.objects.filter(type__in=User.TYPE.EDITORS)
+        if db_field.name == 'assigned':
+            kwargs['queryset'] = User.objects.filter(type__in=User.TYPE.EDITORS)
         return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def get_list_display(self, request):
-        fields = ['name', 'status', 'pub_date', 'created', 'modified']
-        if request.user.is_editor:
-            fields.insert(2, 'author')
-            fields.insert(3, 'assigned')
-        return fields
-
-    def get_list_filter(self, request):
-        fields = [PostOwnerFilter, 'status', 'pub_date', 'created', 'modified']
-        if request.user.is_editor:
-            fields.insert(1, 'author')
-            fields.insert(2, 'assigned')
-        return fields
 
     def has_delete_permission(self, request, obj=None):
         if request.user.is_editor:
