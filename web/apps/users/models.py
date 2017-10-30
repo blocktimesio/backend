@@ -18,7 +18,7 @@ class User(AbstractUser):
 
         EDITORS = [EDITOR, PUBLISHER]
 
-    type = models.CharField(max_length=4, default=TYPE.PUBLISHER, choices=TYPE.CHOICES)
+    type = models.CharField(max_length=4, default=TYPE.USER, choices=TYPE.CHOICES)
     email = models.EmailField(max_length=255, unique=True)
 
     @property

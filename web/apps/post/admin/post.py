@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets
 from django.contrib.auth import get_user_model
 from .filters import PostOwnerFilter
+from .post_forms import AdminPostForm
 from ...users.models import User as UserModel
 from ..models import Post
 
@@ -10,14 +11,16 @@ User = get_user_model()  # type: UserModel
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    form = AdminPostForm
     filter_horizontal = ['tags']
 
     list_display = ['name', 'status', 'locked', 'author', 'assigned', 'created', 'modified']
     list_filter = [PostOwnerFilter, 'status', 'locked', 'author', 'assigned', 'created', 'modified']
 
     fieldsets = (
-        ('Main', {'fields': [('name', 'slug'), 'image']}),
+        ('Main', {'fields': ['name', 'slug', 'image']}),
         ('Content', {'fields': ['content', 'tags']}),
+        ('Assigned to', {'fields': ['assigned']}),
     )
 
     def get_prepopulated_fields(self, request, obj=None):
@@ -46,6 +49,11 @@ class PostAdmin(admin.ModelAdmin):
             return fields
         return []
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(PostAdmin, self).get_form(request, obj, **kwargs)
+        form.user = request.user
+        return form
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'author':
             kwargs['queryset'] = User.objects.filter(type__in=User.TYPE.EDITORS)
@@ -60,7 +68,10 @@ class PostAdmin(admin.ModelAdmin):
             return obj.author == request.user
         return True
 
-    def save_model(self, request, obj, form, change):
+    def save_model(self, request, obj: Post, form, change):
         if getattr(obj, 'author', None) is None:
             obj.author = request.user
+
+        # TODO: disable to edit assigned
+
         obj.save()
