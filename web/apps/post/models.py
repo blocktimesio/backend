@@ -31,6 +31,9 @@ class Post(TimeStampedModel):
 
     pub_date = models.DateTimeField(blank=True, null=True)
 
+    locked = models.BooleanField(default=False)
+    locked_by = models.ForeignKey(USER_MODEL, related_name='locked_by', blank=True, null=True)
+
     def __str__(self):
         return truncatechars(self.name, 32)
 

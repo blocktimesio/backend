@@ -41,8 +41,8 @@ class PostAdmin(admin.ModelAdmin):
     filter_horizontal = ['tags']
     prepopulated_fields = {'slug': ('name',), }
 
-    list_display = ['name', 'status', 'author', 'assigned', 'created', 'modified']
-    list_filter = [PostOwnerFilter, 'author', 'assigned', 'created', 'modified']
+    list_display = ['name', 'status', 'locked', 'author', 'assigned', 'created', 'modified']
+    list_filter = [PostOwnerFilter, 'status', 'locked', 'author', 'assigned', 'created', 'modified']
 
     fieldsets = (
         ('Main', {'fields': (('name', 'slug'), 'pub_date')}),
