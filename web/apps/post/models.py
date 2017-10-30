@@ -23,12 +23,13 @@ class Post(TimeStampedModel):
 
     name = models.CharField(max_length=256)
     slug = models.SlugField(unique=True)
-    user = models.ForeignKey(USER_MODEL)
+    author = models.ForeignKey(USER_MODEL, related_name='author')
+    assigned = models.ForeignKey(USER_MODEL, related_name='assigned', blank=True, null=True)
     status = models.CharField(max_length=8, choices=STATUSES.CHOICES, default=STATUSES.DRAFT)
     tags = models.ManyToManyField('Tag', blank=True)
     content = RedactorField()
 
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return truncatechars(self.name, 32)
@@ -42,7 +43,7 @@ class Tag(TimeStampedModel):
     name = models.CharField(max_length=256)
     slug = models.SlugField(unique=True)
 
-    user = models.ForeignKey(USER_MODEL)
+    author = models.ForeignKey(USER_MODEL)
 
     def __str__(self):
         return truncatechars(self.name, 32)
