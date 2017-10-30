@@ -65,7 +65,7 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = [PostOwnerFilter, 'status', 'locked', 'author', 'assigned', 'created', 'modified']
 
     fieldsets = (
-        ('Main', {'fields': ['name', 'slug']}),
+        ('Main', {'fields': [('name', 'slug'), 'image']}),
         ('Content', {'fields': ['content', 'tags']}),
     )
 
