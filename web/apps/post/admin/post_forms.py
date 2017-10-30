@@ -7,8 +7,6 @@ User = get_user_model()  # type: UserModel
 
 
 class AdminPostForm(forms.ModelForm):
-    # assigned_to = forms.ModelChoiceField(queryset=User.objects.all(), required=False)
-
     def __init__(self, *args, **kwargs):
         super(AdminPostForm, self).__init__(*args, **kwargs)
 
