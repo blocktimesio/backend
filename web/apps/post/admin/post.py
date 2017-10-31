@@ -86,5 +86,5 @@ class PostAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            'all': ('admin/styles.css',),
+            'all': ('admin/css/styles.css',),
         }
