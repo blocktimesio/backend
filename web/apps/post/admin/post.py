@@ -18,9 +18,9 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = [PostOwnerFilter, 'status', 'locked', 'author', 'assigned', 'created', 'modified']
 
     fieldsets = (
-        ('Main', {'fields': ['name', 'slug', 'image']}),
+        ('Main', {'fields': ['name', 'slug', 'image'], 'classes': ['full-width']}),
         ('Content', {'fields': ['content', 'tags']}),
-        ('Assigned to', {'fields': ['assigned']}),
+        ('Assigned to', {'fields': ['assigned'], 'classes': ['full-width']}),
     )
 
     def get_prepopulated_fields(self, request, obj=None):
@@ -83,3 +83,8 @@ class PostAdmin(admin.ModelAdmin):
         # TODO: disable to edit assigned
 
         obj.save()
+
+    class Media:
+        css = {
+            'all': ('admin/styles.css',),
+        }

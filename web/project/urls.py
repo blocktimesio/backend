@@ -12,7 +12,7 @@ if settings.DEBUG:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-    urlpatterns += staticfiles_urlpatterns(prefix=settings.STATIC_URL)
+    urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(prefix=settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     urlpatterns += [
