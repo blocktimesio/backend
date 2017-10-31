@@ -2,24 +2,22 @@
 
 {% load static %}
 
-{#{% block extrahead %}{{ block.super }}#}
-{#    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>#}
-{#    {{ media }}#}
-{#{% endblock %}#}
-{##}
-{#{% block extrastyle %}#}
-{#    {{ block.super }}#}
-{#    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />#}
-{#{% endblock %}#}
-
-{% block after_field_sets %}
-{#    <fieldset class="module aligned ">#}
-{#        <h2>Assigned to</h2>#}
-{#        <div class="form-row field-name field-slug">#}
-{#            <div class="field-box field-name">#}
-{#                <label class="required" for="id_name">Name:</label>#}
-{#                <input type="text" name="name" value="Publisher post" class="vTextField" maxlength="256" required="" id="id_name">#}
-{#            </div>#}
-{#        </div>#}
-{#    </fieldset>#}
+{% block object-tools-items %}
+    <li>
+        {% if request.user.is_editor %}
+            <a href="javascript:void(0)" class="historylink" id="id_lock_btn">
+                {% if object.locked %}Unlock{% else %}Lock{% endif %}
+            </a>
+        {% endif %}
+        {% if request.user.is_publisher %}
+            {% if request.user == object.author %}
+                {% if not post.assigned or request.user == post.assigned %}
+                    <a href="javascript:void(0)" class="historylink" id="id_lock_btn">
+                        {% if object.locked %}Unlock{% else %}Lock{% endif %}
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </li>
+    {{ block.super }}
 {% endblock %}
