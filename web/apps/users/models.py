@@ -1,5 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import (AbstractUser, Group)
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 
 
 class User(AbstractUser):
@@ -35,3 +37,21 @@ class User(AbstractUser):
 
     class Meta:
         app_label = 'users'
+
+
+@receiver(pre_save, sender=User)
+def pre_create_user(sender, instance: User,  **kwargs):
+    if instance.type in User.TYPE.EDITORS:
+        instance.is_staff = True
+    else:
+        instance.is_staff = False
+
+
+@receiver(post_save, sender=User)
+def post_create_user(sender, instance: User, **kwargs):
+    g = Group.objects.get(name='Journalists')
+    if instance.type in User.TYPE.EDITORS:
+        if not instance.groups.filter(id__in=[g.id]).exists():
+            g.user_set.add(instance)
+    else:
+        instance.groups.filter(id__in=[g.id]).delete()

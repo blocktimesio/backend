@@ -42,11 +42,19 @@ class PostAdmin(admin.ModelAdmin):
             return []
 
         fields = flatten_fieldsets(self.fieldsets)
-        is_author = obj.author == request.user
-        if obj.locked and not is_author:
+
+        if obj.locked:
             return fields
-        if not request.user.is_editor and not is_author:
-            return fields
+
+        if request.user.is_publisher:
+            # Not author
+            if obj.author != request.user:
+                return fields
+
+            # Assigned to other
+            if obj.assigned and obj.assigned != request.user:
+                return fields
+
         return []
 
     def get_form(self, request, obj=None, **kwargs):

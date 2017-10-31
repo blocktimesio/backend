@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import (
     UsernameField,
     UserCreationForm as BaseUserCreationForm
-
 )
 from .models import User
 
