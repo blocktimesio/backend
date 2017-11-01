@@ -19,10 +19,14 @@ class AdminPostForm(forms.ModelForm):
             self.fields['assigned'].queryset = User.objects.filter(type=User.TYPE.EDITOR)
 
         instance = kwargs.get('instance')  # type: Post
-        if instance:
-            if not self.user.is_publisher or instance.author != self.user:
-                if instance.assigned and instance.assigned != self.user:
-                    self.fields['assigned'].disabled = True
+        if instance and self.user.is_publisher:
+            # Not author
+            if instance.author != self.user:
+                self.fields['assigned'].disabled = True
+
+            # Assigned not to the publisher
+            if instance.assigned and instance.assigned != self.user:
+                self.fields['assigned'].disabled = True
 
     class Meta:
         model = Post

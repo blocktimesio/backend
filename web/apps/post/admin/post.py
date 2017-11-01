@@ -1,6 +1,9 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.admin.utils import flatten_fieldsets
 from django.contrib.auth import get_user_model
+from django.http import (HttpResponse, HttpResponseForbidden)
+from django.shortcuts import get_object_or_404
 from .filters import PostOwnerFilter
 from .post_forms import AdminPostForm
 from ...users.models import User as UserModel
@@ -23,6 +26,35 @@ class PostAdmin(admin.ModelAdmin):
         ('Assigned to', {'fields': ['assigned'], 'classes': ['full-width']}),
     )
 
+    def get_urls(self):
+        urls = super(PostAdmin, self).get_urls()
+        my_urls = [
+            url(r'^(?P<pk>\d+)/change/lock/?$', self.lock_post, name='admin_post_lock'),
+        ]
+        return my_urls + urls
+
+    def lock_post(self, request, pk):
+        if request.user.type not in User.TYPE.EDITORS:
+            return HttpResponseForbidden()
+
+        post = get_object_or_404(Post, pk=pk)  # type: Post
+
+        if request.user.is_editor:
+            post.locked = not post.locked
+            post.save()
+            return HttpResponse(status=202)
+
+        if request.user.is_publisher:
+            if request.user == post.author:
+                if not post.assigned or request.user == post.assigned:
+                    post.locked = not post.locked
+                    post.save()
+                    return HttpResponse(status=202)
+                else:
+                    return HttpResponseForbidden()
+            else:
+                return HttpResponseForbidden()
+
     def get_prepopulated_fields(self, request, obj=None):
         prepopulated_fields = {'slug': ('name',), }
 
@@ -43,8 +75,9 @@ class PostAdmin(admin.ModelAdmin):
 
         fields = flatten_fieldsets(self.fieldsets)
 
-        if obj.locked:
-            return fields
+        if request.user.is_editor:
+            if obj.assigned and obj.assigned != request.user and obj.locked:
+                return fields
 
         if request.user.is_publisher:
             # Not author
@@ -80,11 +113,13 @@ class PostAdmin(admin.ModelAdmin):
         if getattr(obj, 'author', None) is None:
             obj.author = request.user
 
-        # TODO: disable to edit assigned
+        if 'assigned' in form.changed_data:
+            obj.locked = False
 
         obj.save()
 
     class Media:
+        js = ['admin/js/toggle-post-lock.js']
         css = {
             'all': ('admin/css/styles.css',),
         }

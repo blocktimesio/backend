@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.template.defaultfilters import truncatechars
 from django_extensions.db.models import TimeStampedModel
+from django.template.defaultfilters import truncatechars
 from redactor.fields import RedactorField
 
 USER_MODEL = get_user_model()
