@@ -11,11 +11,11 @@
 *.orig
 *.egg-info
 
-.env
-settings_local.py
+back/.env
+back/project/settings_local.py
 
 back/run/
 back/media/
 back/static/
 
-crawlers/media/
+nginx/logs/
