@@ -1,8 +1,6 @@
 #!/bin/sh
 
-sleep 7s
+pip install -r requirements.txt
 
-cd /code/
-python manage.py migrate
-
-gunicorn web.wsgi:application -b 0.0.0.0:8000 -w 2 --reload --timeout 360
+./manage.py migrate
+gunicorn project.wsgi:application -b 0.0.0.0:8000 -w 2 --reload --timeout 360
