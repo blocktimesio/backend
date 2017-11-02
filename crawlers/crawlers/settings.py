@@ -19,7 +19,7 @@ DOWNLOAD_DELAY = 2
 ITEM_PIPELINES = {}
 
 IMAGES_URLS_FIELD = 'image_url'
-IMAGES_STORE = os.path.join(BASE_DIR, '..', 'media')
+IMAGES_STORE = os.path.join(BASE_DIR, '../../back/media')
 
 MONGO_DATABASE = 'crawlers'
 MONGO_URI = 'mongodb://localhost:27017/{}'.format(MONGO_DATABASE)
