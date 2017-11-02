@@ -41,11 +41,11 @@ INSTALLED_APPS = [
     'solo',
     'templated_email',
 
-    'django_mongoengine',
-    'django_mongoengine.mongo_auth',
-    'django_mongoengine.mongo_admin',
+    # 'django_mongoengine',
+    # 'django_mongoengine.mongo_auth',
+    # 'django_mongoengine.mongo_admin',
 
-    'apps.crawler',
+    # 'apps.crawler',
     'apps.post',
     'apps.users',
 ]
