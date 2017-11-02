@@ -1,8 +1,8 @@
 version: '2'
 services:
-  web:
+  back:
     restart: always
-    build: .
+    build: ./back/.
     command: sh docker-run-web.sh
     working_dir: /app/
     volumes:
