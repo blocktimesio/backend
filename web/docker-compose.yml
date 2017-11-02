@@ -3,7 +3,7 @@ services:
   web:
     restart: always
     build: .
-    command: sh run_web.sh
+    command: sh docker-run-web.sh
     working_dir: /app/
     volumes:
       - .:/app
