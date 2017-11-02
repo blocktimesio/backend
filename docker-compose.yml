@@ -3,10 +3,10 @@ services:
   back:
     restart: always
     build: ./back/.
-    command: sh docker-run-web.sh
+    command: sh docker-run.sh
     working_dir: /app/
     volumes:
-      - .:/app
+      - ./back:/app
     links:
       - db:db
     ports:
