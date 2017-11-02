@@ -18,7 +18,7 @@ services:
     environment:
       PYTHONUNBUFFERED: 1
       SECRET_KEY: xs(r1v@27my)yw$c+6aww0l+9h5q^dc&y%+jpiid0xbvr8jwd1
-      DATABASE_URL: postgres://blocktimes:Blockttt81@localhost/blocktimes
+      DATABASE_URL: postgres://blocktimes:Blockttt81@db/blocktimes
       ALLOWED_HOSTS: blocktimes.com,localhost,127.0.0.1
       BASE_URL: https://blocktimes.com/
 
