@@ -9,17 +9,12 @@ include(
 root = environ.Path(__file__) - 1
 env = environ.Env(DEBUG=(bool, False))
 
-environ.Env.read_env(
-    os.path.join(str(environ.Path(__file__) - 2), '.env')
-)
+env_path = (root - 1)('.env')
+if os.path.exists(env_path):
+    environ.Env.read_env(env_path)
 
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = root()
-
-os.environ.setdefault('BASE_DIR', BASE_DIR)
-
-os.sys.path.insert(0, os.path.join(PROJECT_DIR))
-os.sys.path.insert(0, os.path.join(PROJECT_DIR, 'apps'))
+os.sys.path.insert(0, (root - 1))
+os.sys.path.insert(0, (root - 1)('apps'))
 
 DEBUG = env('DEBUG')
 
@@ -69,9 +64,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
-        ],
+        'DIRS': [root('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
