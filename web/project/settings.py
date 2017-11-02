@@ -2,16 +2,18 @@ import os
 import environ
 from split_settings.tools import (optional, include)
 
-include(
-    optional('local_settings.py')
-)
+if not os.environ.get('NO_LOAD_SETTINGS_LOCAL'):
+    include(
+        optional('settings_local.py')
+    )
 
 root = environ.Path(__file__) - 1
 env = environ.Env(DEBUG=(bool, False))
 
-env_path = (root - 1)('.env')
-if os.path.exists(env_path):
-    environ.Env.read_env(env_path)
+if not os.environ.get('NO_LOAD_ENV_FILE'):
+    env_path = (root - 1)('.env')
+    if os.path.exists(env_path):
+        environ.Env.read_env(env_path)
 
 os.sys.path.insert(0, (root - 1))
 os.sys.path.insert(0, (root - 1)('apps'))
@@ -143,7 +145,9 @@ FIXTURE_DIRS = [
 
 AUTH_USER_MODEL = 'users.User'
 
-include(
-    'settings_logger.py',
-    optional('settings_local.py'),
-)
+include('settings_logger.py')
+
+if os.environ.get('LOAD_SETTINGS_LOCAL'):
+    include(
+        optional('settings_local.py')
+    )
