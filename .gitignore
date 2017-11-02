@@ -14,8 +14,8 @@
 .env
 settings_local.py
 
-web/run/
-web/media/
-web/static/
+back/run/
+back/media/
+back/static/
 
 crawlers/media/
