@@ -44,6 +44,11 @@ INSTALLED_APPS = [
     'solo',
     'templated_email',
 
+    'django_mongoengine',
+    'django_mongoengine.mongo_auth',
+    'django_mongoengine.mongo_admin',
+
+    'apps.crawler',
     'apps.post',
     'apps.users',
 ]
@@ -86,6 +91,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {'default': env.db()}
+
+MONGODB_DATABASES = {
+    'default': {
+        'name': 'crawlers',
+        'host': 'localhost',
+        'tz_aware': True
+    },
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
