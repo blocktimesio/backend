@@ -1,6 +1,8 @@
 #!/bin/sh
 
-pip install -r requirements.txt
+sleep 10s
 
 ./manage.py migrate
-gunicorn project.wsgi:application -b 0.0.0.0:8000 -w 2 --reload --timeout 360
+./manage.py collectstatic --noinput
+
+gunicorn project.wsgi:application -w 2 --reload -b=unix:/app/run/gunicorn.socket
