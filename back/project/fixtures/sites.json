@@ -1,0 +1,18 @@
+[
+    {
+        "model": "sites.site",
+        "pk": 1,
+        "fields": {
+            "domain": "back.blocktimes.io",
+            "name": "back.blocktimes.io"
+        }
+    },
+    {
+        "model": "sites.site",
+        "pk": 2,
+        "fields": {
+            "domain": "blocktimes.io",
+            "name": "blocktimes.io"
+        }
+    }
+]
