@@ -134,7 +134,7 @@ EMAIL_CONFIG = env.email_url(
 
 BASE_URL = env('BASE_URL')
 
-ADMIN_SITE_HEADER = 'BlockTimes'
+ADMIN_SITE_HEADER = 'Block Times'
 
 SOLO_CACHE_TIMEOUT = 60 * 2
 SOLO_CACHE_PREFIX = 'blocktimes_solo'

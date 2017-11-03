@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.conf.urls import (url, include)
 # from django_mongoengine import mongo_admin
 
+admin.site.site_header = settings.ADMIN_SITE_HEADER
+
 urlpatterns = [
     # url(r'^favicon\.ico$', views.FaviconRedirectView.as_view(), name='favicon'),
     # url(r'^robots\.txt$', views.TemplateView.as_view(template_name='robots.txt')),
