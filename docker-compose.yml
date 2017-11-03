@@ -36,12 +36,10 @@ services:
     image: 'bitnami/mongodb:latest'
     expose:
       - 27017
-    volumes:
-      - ./mongo:/bitnami
     environment:
-      MONGODB_USERNAME: root
-      MONGODB_PASSWORD: cacjFy7kTh
       MONGODB_DATABASE: blocktimes
+      MONGODB_USERNAME: blocktimes
+      MONGODB_PASSWORD: cacjFy7kTh
 
   nginx:
     build: ./nginx/.
