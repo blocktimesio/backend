@@ -21,12 +21,22 @@ class Post(TimeStampedModel):
             (PUBLISHED, 'Published'),
         )
 
+    class TYPE:
+        NEWS = 'news'
+        LONG = 'long'
+
+        CHOICES = (
+            (NEWS, 'News'),
+            (LONG, 'Long post'),
+        )
+
     name = models.CharField(max_length=256)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='post_main_image', blank=True, null=True)
     author = models.ForeignKey(USER_MODEL, related_name='author')
     assigned = models.ForeignKey(USER_MODEL, related_name='assigned', blank=True, null=True)
     status = models.CharField(max_length=8, choices=STATUSES.CHOICES, default=STATUSES.DRAFT)
+    type = models.CharField(max_length=8, choices=TYPE.CHOICES, default=TYPE.NEWS)
     tags = models.ManyToManyField('Tag', blank=True)
     content = RedactorField()
 
