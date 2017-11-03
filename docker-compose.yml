@@ -17,8 +17,8 @@ services:
       PYTHONUNBUFFERED: 1
       SECRET_KEY: xs(r1v@27my)yw$c+6aww0l+9h5q^dc&y%+jpiid0xbvr8jwd1
       DATABASE_URL: postgres://blocktimes:Blockttt81@db/blocktimes
-      ALLOWED_HOSTS: blocktimes.com,localhost,127.0.0.1
-      BASE_URL: https://blocktimes.com/
+      ALLOWED_HOSTS: blocktimes.io,localhost,127.0.0.1
+      BASE_URL: http://blocktimes.io/
       NO_LOAD_ENV_FILE: 'yes'
       NO_LOAD_SETTINGS_LOCAL: 'yes'
 
@@ -33,7 +33,7 @@ services:
       POSTGRES_PASSWORD: Blockttt81
 
   nginx:
-    image: 'nginx:latest'
+    build: ./nginx/.
     volumes:
       - ./back/run:/opt/run
 
