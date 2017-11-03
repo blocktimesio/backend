@@ -33,7 +33,7 @@ services:
       POSTGRES_PASSWORD: Blockttt81
 
   mongo:
-    image: 'bitnami/mongodb:latest'
+    image: 'mongo:latest'
     expose:
       - 27017
     environment:
