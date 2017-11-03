@@ -36,10 +36,13 @@ services:
     image: 'mongo:latest'
     expose:
       - 27017
+    volumes:
+      - ./mongo/data:/data/db
     environment:
       MONGODB_DATABASE: blocktimes
       MONGODB_USERNAME: blocktimes
       MONGODB_PASSWORD: cacjFy7kTh
+      MONGO_DATA_DIR: /data/db
 
   nginx:
     build: ./nginx/.
