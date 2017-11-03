@@ -9,10 +9,10 @@ services:
       - ./back:/app
     links:
       - db:db
-    ports:
-      - 127.0.0.1:27018:27018
+      - mongo:mongo
     expose:
       - 5432
+      - 27017
     environment:
       PYTHONUNBUFFERED: 1
       SECRET_KEY: xs(r1v@27my)yw$c+6aww0l+9h5q^dc&y%+jpiid0xbvr8jwd1
@@ -31,6 +31,17 @@ services:
       POSTGRES_DB: blocktimes
       POSTGRES_USER: blocktimes
       POSTGRES_PASSWORD: Blockttt81
+
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    expose:
+      - 27017
+    volumes:
+      - ./mongo:/bitnami
+    environment:
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: cacjFy7kTh
+      MONGODB_DATABASE: blocktimes
 
   nginx:
     build: ./nginx/.
