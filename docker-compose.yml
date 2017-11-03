@@ -10,6 +10,9 @@ services:
     links:
       - db:db
       - mongo:mongo
+    depends_on:
+      - db
+      - mongo
     expose:
       - 5432
       - 27017
@@ -58,6 +61,8 @@ services:
       - ./nginx/static_params:/etc/nginx/static_params
       - ./nginx/back.conf:/etc/nginx/sites-enabled/back.conf
     links:
+      - back
+    depends_on:
       - back
     ports:
       - 80:80
