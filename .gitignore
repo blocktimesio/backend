@@ -19,3 +19,4 @@ back/media/
 back/static/
 
 nginx/logs/
+mongo/data/
