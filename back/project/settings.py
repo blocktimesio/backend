@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django_mongoengine.mongo_auth',
     'django_mongoengine.mongo_admin',
 
-    'apps.crawler',
+    # 'apps.crawler',
     'apps.post',
     'apps.users',
 ]
@@ -86,6 +86,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {'default': env.db()}
+
+MONGODB_DATABASES = {
+    'default': {
+        'name': 'blocktimes',
+        'host': 'localhost',
+        'tz_aware': True
+    },
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
