@@ -17,3 +17,15 @@ class BaseItem(scrapy.Item):
 
 class CoindeskItem(BaseItem):
     pass
+
+
+class BitcoinistItem(BaseItem):
+    pass
+
+
+class CoinTelegraphItem(BaseItem):
+    pass
+
+
+class NewsBtcItem(BaseItem):
+    pass

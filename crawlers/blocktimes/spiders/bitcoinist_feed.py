@@ -1,17 +1,18 @@
 import os
+import re
 import scrapy
 import feedparser
-from ..items import NewsBtcItem
+from ..items import BitcoinistItem
 from dateutil.parser import *
 
 
-class NewsBtcFeedSpider(scrapy.Spider):
-    name = 'newsbtc_feed'
-    start_urls = ['http://www.newsbtc.com/feed/']
+class BitcoinistFeedSpider(scrapy.Spider):
+    name = 'bitcoinist_feed'
+    start_urls = ['http://bitcoinist.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {
-            'blocktimes.pipelines.NewsBtcImagePipeline': 1,
-            'blocktimes.pipelines.NewsBtcMongoPipeline': 2,
+            'blocktimes.pipelines.BitcoinistImagePipeline': 1,
+            'blocktimes.pipelines.BitcoinistMongoPipeline': 2,
         },
     }
 
@@ -24,18 +25,21 @@ class NewsBtcFeedSpider(scrapy.Spider):
     def parse_article(self, response):
         entry = response.meta['entry']
 
-        text = ''.join(
-            [e.root for e in response.xpath('//div[@class="entry-content"]//p//text()')]
-        )
+        text = ''.join([e.root for e in response.xpath('//article//p//span//text()')])
 
         slug = response.url.split('/')[-2]
 
-        image_url = response.css('.wp-post-image::attr("src")')[0].root
-        file_name = os.path.basename(image_url)
-        image_name = slug + os.path.splitext(file_name)[1]
-        image_file_path = os.path.join(self.name, image_name)
+        m = re.match('(.*)url\(\'(.*)\'\)', response.css('.post-header > div::attr("style")')[0].root)
+        if m:
+            image_url = m.group(2)
+            file_name = os.path.basename(image_url)
+            image_name = slug + os.path.splitext(file_name)[1]
+            image_file_path = os.path.join(self.name, image_name)
+        else:
+            image_url = ''
+            image_file_path = ''
 
-        yield NewsBtcItem(
+        yield BitcoinistItem(
             url=response.url,
             slug=slug,
 

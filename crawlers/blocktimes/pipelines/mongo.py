@@ -11,3 +11,7 @@ class CoinTelegrapMongoPipeline(BaseMongoPipeline):
 
 class NewsBtcMongoPipeline(BaseMongoPipeline):
     collection_name = 'newsbtc_items'
+
+
+class BitcoinistMongoPipeline(BaseMongoPipeline):
+    collection_name = 'bitcoinist_items'

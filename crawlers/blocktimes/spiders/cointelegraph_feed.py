@@ -1,7 +1,7 @@
 import os
 import scrapy
 import feedparser
-from ..items import CoindeskItem
+from ..items import CoinTelegraphItem
 from dateutil.parser import *
 
 
@@ -34,7 +34,7 @@ class CoinTelegraphFeedSpider(scrapy.Spider):
         image_name = slug + os.path.splitext(file_name)[1]
         image_file_path = os.path.join(self.name, image_name)
 
-        yield CoindeskItem(
+        yield CoinTelegraphItem(
             url=response.url,
             slug=slug,
 

@@ -11,3 +11,7 @@ class CoinTelegrapImagePipeline(BaseImagePipeline):
 
 class NewsBtcImagePipeline(BaseImagePipeline):
     pass
+
+
+class BitcoinistImagePipeline(BaseImagePipeline):
+    pass
