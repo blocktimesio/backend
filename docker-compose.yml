@@ -37,6 +37,7 @@ services:
 
   mongo:
     image: 'mongo:latest'
+    restart: always
     expose:
       - 27017
     volumes:
@@ -49,6 +50,7 @@ services:
 
   nginx:
     build: ./nginx/.
+    restart: always
     volumes:
       - ./back/run:/opt/run
 
@@ -64,3 +66,26 @@ services:
       - back
     ports:
       - 80:80
+    expose:
+      - 6800
+
+  scrapyd:
+    build: ./scrapyd/.
+    restart: always
+    working_dir: /scrapyd
+    depends_on:
+      - mongo
+    links:
+      - mongo:mongo
+    environment:
+      MONGO_URI: blocktimes
+      MONGO_DATABASE: mongodb://blocktimes:@cacjFy7kThmongo/blocktimes
+      IMAGES_STORE: /var/lib/scrapyd
+    expose:
+      - 27017
+      - 6800
+    ports:
+      - 6800:6800
+    volumes:
+      - ./scrapyd/:/scrapyd
+      - ./back/media:/var/lib/scrapyd
