@@ -60,8 +60,6 @@ services:
       - ./nginx/proxy_params:/etc/nginx/proxy_params
       - ./nginx/static_params:/etc/nginx/static_params
       - ./nginx/back.conf:/etc/nginx/sites-enabled/back.conf
-    links:
-      - back
     depends_on:
       - back
     ports:
