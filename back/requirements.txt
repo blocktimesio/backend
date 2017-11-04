@@ -5,7 +5,7 @@ django-admin-honeypot==1.0.0
 django-environ==0.4.4
 django-extensions==1.9.7
 django-flat-responsive==2.0
--e git+https://github.com/MongoEngine/django-mongoengine#egg=django_mongoengine
+git+https://github.com/MongoEngine/django-mongoengine#egg=django_mongoengine
 django-render-block==0.5
 django-solo==1.1.2
 django-split-settings==0.2.5

@@ -41,9 +41,9 @@ INSTALLED_APPS = [
     'solo',
     'templated_email',
 
-    # 'django_mongoengine',
-    # 'django_mongoengine.mongo_auth',
-    # 'django_mongoengine.mongo_admin',
+    'django_mongoengine',
+    'django_mongoengine.mongo_auth',
+    'django_mongoengine.mongo_admin',
 
     # 'apps.crawler',
     'apps.post',
@@ -89,7 +89,7 @@ DATABASES = {'default': env.db()}
 
 MONGODB_DATABASES = {
     'default': {
-        'name': 'crawlers',
+        'name': 'blocktimes',
         'host': 'localhost',
         'tz_aware': True
     },

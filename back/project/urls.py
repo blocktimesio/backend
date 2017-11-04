@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls import (url, include)
-# from django_mongoengine import mongo_admin
+from django_mongoengine import mongo_admin
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
@@ -22,14 +22,14 @@ if settings.DEBUG:
         url(r'^admin/', include(admin.site.urls)),
         url(r'^admin/redactor/', include('redactor.urls')),
 
-        # url(r'^admin/crawler/', include(mongo_admin.site.urls)),
+        url(r'^admin/crawler/', include(mongo_admin.site.urls)),
     ]
 else:
     urlpatterns += [
         url(r'^admin-secret/', include(admin.site.urls)),
         url(r'^admin-secret/redactor/', include('redactor.urls')),
 
-        # url(r'^admin-secret/crawler/', include(mongo_admin.site.urls)),
+        url(r'^admin-secret/crawler/', include(mongo_admin.site.urls)),
     ]
 
 # handler404 = views.handler404
