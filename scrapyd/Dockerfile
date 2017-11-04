@@ -1,6 +1,5 @@
-FROM vimagick/scrapyd
+FROM yc7en/scrapyd-py3
 
-RUN mkdir /scrapyd
 WORKDIR /scrapyd
 ADD . /scrapyd/
 
