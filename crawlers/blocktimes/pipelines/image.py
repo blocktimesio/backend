@@ -19,3 +19,7 @@ class BitcoinistImagePipeline(BaseImagePipeline):
 
 class TrustNodesImagePipeline(BaseImagePipeline):
     pass
+
+
+class EthereumWorldNewsImagePipeline(BaseImagePipeline):
+    pass

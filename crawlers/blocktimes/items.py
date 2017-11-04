@@ -33,3 +33,7 @@ class NewsBtcItem(BaseItem):
 
 class TrustNodesItem(BaseItem):
     pass
+
+
+class EthereumWorldNewsItem(BaseItem):
+    pass

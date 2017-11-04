@@ -19,3 +19,7 @@ class BitcoinistMongoPipeline(BaseMongoPipeline):
 
 class TrustNodesMongoPipeline(BaseMongoPipeline):
     collection_name = 'trustnodes_items'
+
+
+class EthereumWorldNewsMongoPipeline(BaseMongoPipeline):
+    collection_name = 'ethereumworldnews_items'

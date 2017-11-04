@@ -3,8 +3,10 @@ from .mongo import CoindeskMongoPipeline
 from .mongo import NewsBtcMongoPipeline
 from .mongo import BitcoinistMongoPipeline
 from .mongo import TrustNodesMongoPipeline
+from .mongo import EthereumWorldNewsMongoPipeline
 from .image import CoindeskImagePipeline
 from .image import CoinTelegrapImagePipeline
 from .image import NewsBtcImagePipeline
 from .image import BitcoinistImagePipeline
 from .image import TrustNodesImagePipeline
+from .image import EthereumWorldNewsImagePipeline
