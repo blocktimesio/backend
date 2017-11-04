@@ -96,3 +96,7 @@ services:
       - triton.cns.services=mongo-express
     ports:
       - 8081
+    links:
+      - mongo:mongo
+    expose:
+      - 8081
