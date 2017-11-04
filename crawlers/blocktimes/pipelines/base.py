@@ -2,12 +2,9 @@ import os
 import pymongo
 from scrapy import Request
 from scrapy.pipelines.images import ImagesPipeline
-from ..items import CoindeskItem
 
 
 class BaseMongoPipeline(object):
-    collection_name = 'coindesk_items'
-
     def __init__(self, mongo_uri, mongo_db):
         self.mongo_db = mongo_db
         self.mongo_uri = mongo_uri
@@ -26,7 +23,7 @@ class BaseMongoPipeline(object):
     def close_spider(self, spider):
         self.client.close()
 
-    def process_item(self, item: CoindeskItem, spider):
+    def process_item(self, item, spider):
         collections = self.db[self.collection_name]
         count = collections.find({'slug': item['slug']}).count()
         if count:

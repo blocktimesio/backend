@@ -19,7 +19,13 @@ DOWNLOAD_DELAY = 2
 ITEM_PIPELINES = {}
 
 IMAGES_URLS_FIELD = 'image_url'
-IMAGES_STORE = os.path.join(BASE_DIR, '../../back/media')
 
-MONGO_DATABASE = 'blocktimes'
-MONGO_URI = 'mongodb://localhost:27017/{}'.format(MONGO_DATABASE)
+IMAGES_STORE = os.environ.get('IMAGES_STORE', None)
+if not IMAGES_STORE:
+    IMAGES_STORE = os.path.join(BASE_DIR, '../../back/media')
+
+MONGO_DATABASE = os.environ.get('MONGO_DATABASE', 'blocktimes')
+
+MONGO_URI = os.environ.get('MONGO_URI', None)
+if not MONGO_URI:
+    MONGO_URI = 'mongodb://localhost/{}'.format(MONGO_DATABASE)
