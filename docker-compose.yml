@@ -65,7 +65,6 @@ services:
       - 80:80
     expose:
       - 6800
-      - 8081
 
   scrapyd:
     build: ./scrapyd/.
@@ -90,13 +89,13 @@ services:
     image: mongo-express
     links:
       - mongo:mongo
+    ports:
+      - 8081:8081
     expose:
       - 8081
       - 27017
-    ports:
-      - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/blocktimes
-      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: NxFaXl6Zvoszs7WP1tNI
+      ME_CONFIG_MONGODB_URL: 'mongodb://mongo:27017/blocktimes'
+      ME_CONFIG_OPTIONS_EDITORTHEME: 'ambiance'
+      ME_CONFIG_BASICAUTH_USERNAME: 'admin'
+      ME_CONFIG_BASICAUTH_PASSWORD: 'NxFaXl6Zvoszs7WP1tNI'
