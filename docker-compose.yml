@@ -43,9 +43,6 @@ services:
     volumes:
       - ./mongo/data:/data/db
     environment:
-      MONGODB_DATABASE: blocktimes
-      MONGODB_USERNAME: blocktimes
-      MONGODB_PASSWORD: cacjFy7kTh
       MONGO_DATA_DIR: /data/db
 
   nginx:
@@ -78,7 +75,7 @@ services:
     links:
       - mongo:mongo
     environment:
-      MONGO_URI: mongodb://blocktimes:cacjFy7kTh@mongo/blocktimes
+      MONGO_URI: mongodb://mongo:27017/blocktimes
       MONGO_DATABASE: blocktimes
       IMAGES_STORE: /var/lib/scrapyd
     expose:
