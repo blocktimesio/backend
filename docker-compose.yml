@@ -63,9 +63,6 @@ services:
       - ./nginx/back.conf:/etc/nginx/sites-enabled/back.conf
     depends_on:
       - back
-      - mongo-admin
-    links:
-      - mongo-admin:mongo-admin
     ports:
       - 80:80
     expose:
