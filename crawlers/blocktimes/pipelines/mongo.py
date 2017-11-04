@@ -7,3 +7,7 @@ class CoindeskMongoPipeline(BaseMongoPipeline):
 
 class CoinTelegrapMongoPipeline(BaseMongoPipeline):
     collection_name = 'cointelegrap_items'
+
+
+class NewsBtcMongoPipeline(BaseMongoPipeline):
+    collection_name = 'newsbtc_items'

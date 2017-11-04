@@ -7,3 +7,7 @@ class CoindeskImagePipeline(BaseImagePipeline):
 
 class CoinTelegrapImagePipeline(BaseImagePipeline):
     pass
+
+
+class NewsBtcImagePipeline(BaseImagePipeline):
+    pass
