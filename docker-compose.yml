@@ -78,8 +78,8 @@ services:
     links:
       - mongo:mongo
     environment:
-      MONGO_URI: blocktimes
-      MONGO_DATABASE: mongodb://blocktimes:@cacjFy7kThmongo/blocktimes
+      MONGO_URI: mongodb://blocktimes:cacjFy7kTh@mongo/blocktimes
+      MONGO_DATABASE: blocktimes
       IMAGES_STORE: /var/lib/scrapyd
     expose:
       - 27017
