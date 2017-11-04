@@ -18,7 +18,7 @@ class CoindeskFeedSpider(scrapy.Spider):
         """ Load feed """
         feed = feedparser.parse(response.body.decode())
         for entry in feed.entries:
-            yield response.follow(entry['link'], self.parse_article, meta={'entry': entry})
+            yield scrapy.Request(entry['link'], self.parse_article, meta={'entry': entry})
 
     def parse_article(self, response):
         entry = response.meta['entry']
