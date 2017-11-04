@@ -65,6 +65,7 @@ services:
       - 80:80
     expose:
       - 6800
+      - 8082
 
   scrapyd:
     build: ./scrapyd/.
@@ -75,14 +76,25 @@ services:
     links:
       - mongo:mongo
     environment:
-      MONGO_URI: mongodb://mongo:27017/blocktimes
       MONGO_DATABASE: blocktimes
       IMAGES_STORE: /var/lib/scrapyd
+      MONGO_URI: mongodb://mongo:27017/blocktimes
     expose:
-      - 27017
       - 6800
-    ports:
-      - 6800:6800
+      - 27017
     volumes:
       - ./scrapyd/:/scrapyd
       - ./back/media:/var/lib/scrapyd
+
+  mongo-admin:
+    image: 0x59/admin-mongo:latest
+    expose:
+      - 8082
+    environment:
+      - PORT=8082
+      - DB_HOST=mongo
+      - CONN_NAME=mongo
+    links:
+      - mongo:mongo
+    depends_on:
+      - mongo
