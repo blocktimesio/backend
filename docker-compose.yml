@@ -85,16 +85,14 @@ services:
       - ./scrapyd/:/scrapyd
       - ./back/media:/var/lib/scrapyd
 
-  mongoexpress:
-    image: yeasy/mongo-express
-    hostname: mongo-express
-    links:
-        - mongo:mongo
-    ports:
-        - "8081:8081"
+  mongo-express:
+    image: autopilotpattern/mongo-express
     restart: always
-    mem_limit: 128m
+    mem_limit: "512m"
     environment:
-        - WEB_USER='user'
-        - WEB_PASS='pass'
-    command: sh -c 'sleep 10 && tini -- node app'
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_SERVER=mongo
+    labels:
+      - triton.cns.services=mongo-express
+    ports:
+      - 8081
