@@ -50,5 +50,5 @@ class BaseImagePipeline(ImagesPipeline):
             if os.path.exists(full_path):
                 return
 
-        meta = {'image_file_path': item['image_file_path']}
-        yield Request(url=item['image_url'], meta=meta)
+            meta = {'image_file_path': item['image_file_path']}
+            yield Request(url=item['image_url'], meta=meta)

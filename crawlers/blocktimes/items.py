@@ -29,3 +29,7 @@ class CoinTelegraphItem(BaseItem):
 
 class NewsBtcItem(BaseItem):
     pass
+
+
+class TrustNodesItem(BaseItem):
+    pass

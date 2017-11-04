@@ -15,3 +15,7 @@ class NewsBtcMongoPipeline(BaseMongoPipeline):
 
 class BitcoinistMongoPipeline(BaseMongoPipeline):
     collection_name = 'bitcoinist_items'
+
+
+class TrustNodesMongoPipeline(BaseMongoPipeline):
+    collection_name = 'trustnodes_items'

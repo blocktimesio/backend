@@ -15,3 +15,7 @@ class NewsBtcImagePipeline(BaseImagePipeline):
 
 class BitcoinistImagePipeline(BaseImagePipeline):
     pass
+
+
+class TrustNodesImagePipeline(BaseImagePipeline):
+    pass
