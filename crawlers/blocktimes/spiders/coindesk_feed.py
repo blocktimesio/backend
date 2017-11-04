@@ -9,8 +9,8 @@ class CoindeskFeedSpider(scrapy.Spider):
     start_urls = ['https://www.coindesk.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {
-            'crawlers.pipelines.CoindeskMongoPipeline': 1,
-            'crawlers.pipelines.CoindeskImagePipeline': 2,
+            'blocktimes.pipelines.CoindeskMongoPipeline': 1,
+            'blocktimes.pipelines.CoindeskImagePipeline': 2,
         },
     }
 

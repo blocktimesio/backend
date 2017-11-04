@@ -3,10 +3,10 @@ import logging
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
-BOT_NAME = 'crawlers'
+BOT_NAME = 'blocktimes'
 
-SPIDER_MODULES = ['crawlers.spiders']
-NEWSPIDER_MODULE = 'crawlers.spiders'
+SPIDER_MODULES = ['blocktimes.spiders']
+NEWSPIDER_MODULE = 'blocktimes.spiders'
 
 ROBOTSTXT_OBEY = False
 
@@ -21,5 +21,5 @@ ITEM_PIPELINES = {}
 IMAGES_URLS_FIELD = 'image_url'
 IMAGES_STORE = os.path.join(BASE_DIR, '../../back/media')
 
-MONGO_DATABASE = 'crawlers'
+MONGO_DATABASE = 'blocktimes'
 MONGO_URI = 'mongodb://localhost:27017/{}'.format(MONGO_DATABASE)
