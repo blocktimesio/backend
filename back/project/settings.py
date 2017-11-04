@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django_mongoengine.mongo_auth',
     'django_mongoengine.mongo_admin',
 
-    # 'apps.crawler',
+    'apps.crawler',
     'apps.post',
     'apps.users',
 ]
