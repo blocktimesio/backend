@@ -94,7 +94,8 @@ services:
       - 8081
       - 27017
     environment:
-      ME_CONFIG_MONGODB_URL: 'mongodb://mongo:27017/blocktimes'
-      ME_CONFIG_OPTIONS_EDITORTHEME: 'ambiance'
-      ME_CONFIG_BASICAUTH_USERNAME: 'admin'
-      ME_CONFIG_BASICAUTH_PASSWORD: 'NxFaXl6Zvoszs7WP1tNI'
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/blocktimes
+      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: NxFaXl6Zvoszs7WP1tNI
+      ME_CONFIG_SITE_BASEURL: /admin-secret/crawler/
