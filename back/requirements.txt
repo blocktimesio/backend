@@ -5,7 +5,6 @@ django-admin-honeypot==1.0.0
 django-environ==0.4.4
 django-extensions==1.9.7
 django-flat-responsive==2.0
-git+https://github.com/MongoEngine/django-mongoengine#egg=django_mongoengine
 django-render-block==0.5
 django-solo==1.1.2
 django-split-settings==0.2.5
@@ -15,7 +14,6 @@ gunicorn==19.7.1
 ipython==6.2.1
 ipython-genutils==0.2.0
 jedi==0.11.0
-mongoengine==0.14.3
 olefile==0.44
 parso==0.1.0
 pexpect==4.2.1
@@ -25,7 +23,6 @@ prompt-toolkit==1.0.15
 psycopg2==2.7.3.2
 ptyprocess==0.5.2
 Pygments==2.2.0
-pymongo==3.5.1
 pytz==2017.3
 simplegeneric==0.8.1
 six==1.11.0

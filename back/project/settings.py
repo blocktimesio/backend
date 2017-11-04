@@ -87,14 +87,6 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {'default': env.db()}
 
-MONGODB_DATABASES = {
-    'default': {
-        'name': 'blocktimes',
-        'host': 'localhost',
-        'tz_aware': True
-    },
-}
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
