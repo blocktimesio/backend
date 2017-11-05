@@ -1,4 +1,3 @@
-import re
 import logging
 from scrapy.http import HtmlResponse
 from ..base_spiders import BaseFeedSpider
