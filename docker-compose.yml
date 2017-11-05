@@ -99,3 +99,4 @@ services:
     volumes:
       - ./scrapyd/:/scrapyd
       - ./back/media:/var/lib/scrapyd
+      - ./crawlers/:/crawlers
