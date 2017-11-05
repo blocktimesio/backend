@@ -63,7 +63,7 @@ class BaseFeedSpider(scrapy.Spider):
         return ''
 
     def get_tags(self, entry: dict, response: HtmlResponse) -> str:
-        return ','.join([t['term'] for t in entry['tags']])
+        return ','.join([t.get('term', '') for t in entry.get('tags', [])])
 
     def get_pub_date(self, entry: dict, response: HtmlResponse) -> str:
         return str(parse(entry['published']))
