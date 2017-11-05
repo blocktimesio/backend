@@ -49,3 +49,7 @@ class BitNewsTodayItem(BaseItem):
 
 class InvestopediaItem(BaseItem):
     pass
+
+
+class MoneyAndStateItem(BaseItem):
+    pass

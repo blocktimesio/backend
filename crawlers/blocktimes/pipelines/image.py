@@ -35,3 +35,7 @@ class BitNewsTodayImagePipeline(BaseImagePipeline):
 
 class InvestopediaImagePipeline(BaseImagePipeline):
     pass
+
+
+class MoneyAndStateImagePipeline(BaseImagePipeline):
+    pass
