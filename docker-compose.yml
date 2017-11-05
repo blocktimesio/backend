@@ -97,7 +97,7 @@ services:
       CRAWLERS_DIR: /crawlers
       CRAWLERS_PROJECT_NAME: blocktimes
       CRAWLERS_BASE_URL: http://localhost:6800
-      SPIDERS_INTERVAL_SECONDS: 60
+      SPIDERS_INTERVAL_SECONDS: 600
     expose:
       - 6800
       - 27017
