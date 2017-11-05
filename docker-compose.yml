@@ -85,6 +85,7 @@ services:
     build: ./scrapyd/.
     restart: always
     working_dir: /scrapyd
+    command: ./docker-run.py
     depends_on:
       - mongo
     links:
@@ -93,6 +94,10 @@ services:
       MONGO_DATABASE: blocktimes
       IMAGES_STORE: /var/lib/scrapyd
       MONGO_URI: mongodb://mongo:27017/blocktimes
+      CRAWLERS_DIR: /crawlers
+      CRAWLERS_PROJECT_NAME: blocktimes
+      CRAWLERS_BASE_URL: http://localhost:6800
+      SPIDERS_INTERVAL_SECONDS: 60
     expose:
       - 6800
       - 27017
