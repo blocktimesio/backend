@@ -27,3 +27,7 @@ class EthereumWorldNewsMongoPipeline(BaseMongoPipeline):
 
 class NewsBitcoinMongoPipeline(BaseMongoPipeline):
     collection_name = 'newsbitcoin_items'
+
+
+class BitNewsTodayMongoPipeline(BaseMongoPipeline):
+    collection_name = 'bitnewstoday_items'

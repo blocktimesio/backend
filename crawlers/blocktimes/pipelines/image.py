@@ -27,3 +27,7 @@ class EthereumWorldNewsImagePipeline(BaseImagePipeline):
 
 class NewsBitcoinImagePipeline(BaseImagePipeline):
     pass
+
+
+class BitNewsTodayImagePipeline(BaseImagePipeline):
+    pass

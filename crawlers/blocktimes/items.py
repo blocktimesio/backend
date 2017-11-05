@@ -41,3 +41,7 @@ class EthereumWorldNewsItem(BaseItem):
 
 class NewsBitcoinWorldNewsItem(BaseItem):
     pass
+
+
+class BitNewsTodayItem(BaseItem):
+    pass
