@@ -1,12 +1,12 @@
-import os
 import re
-import scrapy
-import feedparser
+import logging
+from scrapy.http import HtmlResponse
 from ..items import BitcoinistItem
-from dateutil.parser import *
+from ..base_spiders import BaseFeedSpider
 
 
-class BitcoinistFeedSpider(scrapy.Spider):
+class BitcoinistFeedSpider(BaseFeedSpider):
+    item = BitcoinistItem
     name = 'bitcoinist_feed'
     start_urls = ['http://bitcoinist.com/feed/']
     custom_settings = {
@@ -16,38 +16,13 @@ class BitcoinistFeedSpider(scrapy.Spider):
         },
     }
 
-    def parse(self, response):
-        """ Load feed """
-        feed = feedparser.parse(response.body.decode())
-        for entry in feed.entries:
-            yield scrapy.Request(entry['link'], self.parse_article, meta={'entry': entry})
-
-    def parse_article(self, response):
-        entry = response.meta['entry']
-
-        text = ''.join([e.root for e in response.xpath('//article//p//span//text()')])
-
-        slug = response.url.split('/')[-2]
-
-        m = re.match('(.*)url\(\'(.*)\'\)', response.css('.post-header > div::attr("style")')[0].root)
-        if m:
-            image_url = m.group(2)
-            file_name = os.path.basename(image_url)
-            image_name = slug + os.path.splitext(file_name)[1]
-            image_file_path = os.path.join(self.name, image_name)
+    def get_image_url(self, entry: dict, response: HtmlResponse) -> str:
+        nodes = response.css('.post-header > div::attr("style")')
+        if len(nodes) > 0:
+            m = re.match('(.*)url\(\'(.*)\'\)', nodes[0].root)
+            if m:
+                return m.group(2)
         else:
-            image_url = ''
-            image_file_path = ''
-
-        yield BitcoinistItem(
-            url=response.url,
-            slug=slug,
-
-            title=entry['title'],
-            author=','.join([a['name'] for a in entry['authors']]),
-            text=text,
-            tags=','.join([t['term'] for t in entry['tags']]),
-            pub_date=str(parse(entry['published'])),
-            image_url=image_url,
-            image_file_path=image_file_path,
-        )
+            log_message = 'IMAGE NOT FOUND {}'.format(response.url)
+            self.log(log_message, logging.WARNING)
+        return ''
