@@ -102,6 +102,8 @@ if __name__ == '__main__':
     client.load_project()
 
     while True:
+        client._load_spiders_names()
+
         logger.debug('Run the spiders')
         jobs_ids = client.run_spiders()
 
