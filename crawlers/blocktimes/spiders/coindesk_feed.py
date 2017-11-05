@@ -1,10 +1,11 @@
-import os
-import scrapy
-import feedparser
+import logging
+from scrapy.http import HtmlResponse
+from ..base_spiders import BaseFeedSpider
 from ..items import CoindeskItem
 
 
-class CoindeskFeedSpider(scrapy.Spider):
+class CoindeskFeedSpider(BaseFeedSpider):
+    item = CoindeskItem
     name = 'coindesk_feed'
     start_urls = ['https://www.coindesk.com/feed/']
     custom_settings = {
@@ -14,39 +15,11 @@ class CoindeskFeedSpider(scrapy.Spider):
         },
     }
 
-    def parse(self, response):
-        """ Load feed """
-        feed = feedparser.parse(response.body.decode())
-        for entry in feed.entries:
-            yield scrapy.Request(entry['link'], self.parse_article, meta={'entry': entry})
-
-    def parse_article(self, response):
-        entry = response.meta['entry']
-
-        pub_date = response.css('.article-meta time::attr("datetime")')[0].root
-        pub_date = str(pub_date)
-
-        img_url = response.css('.article.article-featured .picture > img::attr("src")')[0].root
-
-        paragraphs = response.css(".article-content-container.noskimwords p::text").extract()
-        paragraphs = [p.strip() for p in paragraphs]
-        text = '\n'.join(paragraphs)
-
-        slug = response.url.split('/')[-2]
-
-        file_name = os.path.basename(img_url)
-        image_name = slug + os.path.splitext(file_name)[1]
-        image_file_path = os.path.join(self.name, image_name)
-
-        yield CoindeskItem(
-            url=response.url,
-            slug=slug,
-
-            title=entry['title'],
-            author=entry['author'],
-            text=text,
-            tags=','.join([t['term'] for t in entry['tags']]),
-            pub_date=pub_date,
-            image_url=img_url,
-            image_file_path=image_file_path,
-        )
+    def get_image_url(self, entry: dict, response: HtmlResponse) -> str:
+        nodes = response.css('.article.article-featured .picture > img::attr("src")')
+        if len(nodes):
+            return nodes[0].root
+        else:
+            log_message = 'IMAGE NOT FOUND {}'.format(response.url)
+            self.log(log_message, logging.WARNING)
+            return ''
