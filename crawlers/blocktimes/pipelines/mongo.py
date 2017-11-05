@@ -31,3 +31,7 @@ class NewsBitcoinMongoPipeline(BaseMongoPipeline):
 
 class BitNewsTodayMongoPipeline(BaseMongoPipeline):
     collection_name = 'bitnewstoday_items'
+
+
+class InvestopediaMongoPipeline(BaseMongoPipeline):
+    collection_name = 'investopedia'

@@ -45,3 +45,7 @@ class NewsBitcoinWorldNewsItem(BaseItem):
 
 class BitNewsTodayItem(BaseItem):
     pass
+
+
+class InvestopediaItem(BaseItem):
+    pass
