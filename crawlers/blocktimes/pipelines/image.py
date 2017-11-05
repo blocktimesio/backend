@@ -39,3 +39,7 @@ class InvestopediaImagePipeline(BaseImagePipeline):
 
 class MoneyAndStateImagePipeline(BaseImagePipeline):
     pass
+
+
+class BlogEthereumImagePipeline(BaseImagePipeline):
+    pass

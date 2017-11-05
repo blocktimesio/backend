@@ -53,3 +53,7 @@ class InvestopediaItem(BaseItem):
 
 class MoneyAndStateItem(BaseItem):
     pass
+
+
+class BlogEthereumItem(BaseItem):
+    pass
