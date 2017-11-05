@@ -19,13 +19,12 @@ back/media/
 back/static/
 
 nginx/logs/
+
 mongo/data/
 
 crawlers/setup.py
 crawlers/build/
 crawlers/*.egg-info/
 
-scrapyd/dbs/
-scrapyd/eggs/
 scrapyd/logs/
 scrapyd/twistd.pid
