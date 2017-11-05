@@ -1,4 +1,6 @@
+scrapyd-client
 pymongo
 Pillow
 python-dateutil
 feedparser
+scrapy
