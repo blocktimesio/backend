@@ -54,7 +54,7 @@ class BaseFeedSpider(scrapy.Spider):
         return entry.get('title', '')
 
     def get_authors(self, entry: dict, response: HtmlResponse) -> str:
-        return ','.join([a['name'] for a in entry['authors']])
+        return ','.join([a.get('name', '') for a in entry.get('authors', [])])
 
     def get_text(self, entry: dict, response: HtmlResponse) -> str:
         contents = entry.get('content', [])
@@ -66,7 +66,10 @@ class BaseFeedSpider(scrapy.Spider):
         return ','.join([t.get('term', '') for t in entry.get('tags', [])])
 
     def get_pub_date(self, entry: dict, response: HtmlResponse) -> str:
-        return str(parse(entry['published']))
+        published = entry.get('published')
+        if published:
+            return str(parse(published))
+        return ''
 
     def get_image_url(self, entry: dict, response: HtmlResponse) -> str:
         raise NotImplementedError()
