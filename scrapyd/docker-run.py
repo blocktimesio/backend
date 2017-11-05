@@ -4,6 +4,8 @@ import os
 import re
 import time
 import logging
+from datetime import datetime
+
 import requests
 import subprocess
 from uuid import uuid4
@@ -42,7 +44,8 @@ class ScrapydClient(object):
     def run_spiders(self) -> list:
         jobs_ids = []
         for name in self.spiders_names:
-            job_id = '{}_{}'.format(name, self.short_uuid)
+            cur_time = datetime.now().strftime('%Y_%m_%d-%H_%M_%S')
+            job_id = '{}_{}'.format(cur_time, self.short_uuid)
             data = {'project': PROJECT_NAME, 'spider': name, 'jobid': job_id}
             response_data = self.execute_method('schedule', method='post', **data)
             if response_data.get('status', '') == 'ok':
