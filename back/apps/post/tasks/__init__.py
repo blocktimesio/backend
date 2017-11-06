@@ -25,7 +25,7 @@ def run_site_crawlers():
         client.cancel_job(job_id)
 
 
-@periodic_task(run_every=timedelta(minutes=15))
+@periodic_task(run_every=timedelta(minutes=5))
 def crawl_social_latest():
     crawler = SocialCrawler()
     crawler.start()
