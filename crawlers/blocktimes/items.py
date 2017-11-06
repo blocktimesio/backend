@@ -2,6 +2,8 @@ import scrapy
 
 
 class BaseItem(scrapy.Item):
+    domain = scrapy.Field(serializer=str)
+
     url = scrapy.Field(serializer=str)
     slug = scrapy.Field(serializer=str)
 

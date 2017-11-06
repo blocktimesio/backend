@@ -6,6 +6,7 @@ from ..items import InvestopediaItem
 class InvestopediaSpider(BaseFeedSpider):
     item = InvestopediaItem
     name = 'investopedia_feed'
+    domain = 'investopedia.com'
     start_urls = ['http://www.investopedia.com/feedbuilder/feed/getfeed/?feedName=rss_headline']
     custom_settings = {
         'ITEM_PIPELINES': {

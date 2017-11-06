@@ -7,6 +7,7 @@ from ..items import NewsBtcItem
 class NewsBtcFeedSpider(BaseFeedSpider):
     item = NewsBtcItem
     name = 'newsbtc_feed'
+    domain = 'newsbtc.com'
     start_urls = ['http://www.newsbtc.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {

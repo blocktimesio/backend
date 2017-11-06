@@ -7,6 +7,7 @@ from scrapy.http import HtmlResponse
 
 class BaseFeedSpider(scrapy.Spider):
     name = None
+    domain = None
     start_urls = None
     item = None
     custom_settings = None
@@ -31,6 +32,8 @@ class BaseFeedSpider(scrapy.Spider):
             image_file_path = self.get_image_path(image_url, slug)
 
         yield self.item(
+            domain=self.domain,
+
             url=self.get_url(entry, response),
             slug=slug,
 

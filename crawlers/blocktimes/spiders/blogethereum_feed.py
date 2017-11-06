@@ -8,6 +8,8 @@ from ..base_spiders import BaseFeedSpider
 class BlogEthereumFeedSpider(BaseFeedSpider):
     item = BlogEthereumItem
     name = 'blogethereum_feed'
+    src_name = 'blogethereum'
+    domain = 'blog.ethereum.org'
     start_urls = ['https://blog.ethereum.org/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {

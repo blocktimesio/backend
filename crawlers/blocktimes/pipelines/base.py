@@ -5,6 +5,8 @@ from scrapy.pipelines.images import ImagesPipeline
 
 
 class BaseMongoPipeline(object):
+    collection_name = 'sites'
+
     def __init__(self, mongo_uri, mongo_db):
         self.mongo_db = mongo_db
         self.mongo_uri = mongo_uri

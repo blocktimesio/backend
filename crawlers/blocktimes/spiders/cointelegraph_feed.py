@@ -6,6 +6,7 @@ from ..items import CoinTelegraphItem
 class CoinTelegraphFeedSpider(BaseFeedSpider):
     item = CoinTelegraphItem
     name = 'cointelegraph_feed'
+    domain = 'cointelegraph.com'
     slug_level = -1
     start_urls = ['https://cointelegraph.com/rss']
     custom_settings = {

@@ -2,48 +2,48 @@ from .base import BaseMongoPipeline
 
 
 class CoindeskMongoPipeline(BaseMongoPipeline):
-    collection_name = 'coindesk_items'
+    pass
 
 
 class CoinTelegrapMongoPipeline(BaseMongoPipeline):
-    collection_name = 'cointelegrap_items'
+    pass
 
 
 class NewsBtcMongoPipeline(BaseMongoPipeline):
-    collection_name = 'newsbtc_items'
+    pass
 
 
 class BitcoinistMongoPipeline(BaseMongoPipeline):
-    collection_name = 'bitcoinist_items'
+    pass
 
 
 class TrustNodesMongoPipeline(BaseMongoPipeline):
-    collection_name = 'trustnodes_items'
+    pass
 
 
 class EthereumWorldNewsMongoPipeline(BaseMongoPipeline):
-    collection_name = 'ethereumworldnews_items'
+    pass
 
 
 class NewsBitcoinMongoPipeline(BaseMongoPipeline):
-    collection_name = 'newsbitcoin_items'
+    pass
 
 
 class BitNewsTodayMongoPipeline(BaseMongoPipeline):
-    collection_name = 'bitnewstoday_items'
+    pass
 
 
 class InvestopediaMongoPipeline(BaseMongoPipeline):
-    collection_name = 'investopedia'
+    pass
 
 
 class MoneyAndStateMongoPipeline(BaseMongoPipeline):
-    collection_name = 'moneyandstate'
+    pass
 
 
 class BlogEthereumMongoPipeline(BaseMongoPipeline):
-    collection_name = 'blogethereum'
+    pass
 
 
 class PrestonByrneMongoPipeline(BaseMongoPipeline):
-    collection_name = 'prestonbyrne'
+    pass

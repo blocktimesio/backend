@@ -8,6 +8,7 @@ from ..base_spiders import BaseFeedSpider
 class BitcoinistFeedSpider(BaseFeedSpider):
     item = BitcoinistItem
     name = 'bitcoinist_feed'
+    domain = 'bitcoinist.com'
     start_urls = ['http://bitcoinist.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {

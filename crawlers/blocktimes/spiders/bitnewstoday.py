@@ -55,6 +55,8 @@ class BitNewsTodaySpider(scrapy.Spider):
             self.log(log_message, logging.WARNING)
 
         yield BitNewsTodayItem(
+            domain='bitnewstoday.com',
+
             url=response.url,
             slug=slug,
 
