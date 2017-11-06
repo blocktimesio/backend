@@ -28,7 +28,7 @@ class BaseMongoPipeline(object):
 
     def process_item(self, item, spider):
         collections = self.db[self.collection_name]
-        count = collections.find({'slug': item['slug']}).count()
+        count = collections.find({'slug': item['slug'], 'domain': item['domain']}).count()
         data = dict(item)
         data['updated'] = datetime.now()
         if count:
