@@ -4,4 +4,3 @@ WORKDIR /scrapyd
 ADD . /scrapyd
 
 RUN pip install -r requirements.txt
-RUN chmod +x docker-run.py
