@@ -132,6 +132,18 @@ FIXTURE_DIRS = [
 
 AUTH_USER_MODEL = 'users.User'
 
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE 
+
+MONGODB_HOST = env('MONGODB_HOST', default='localhost')
+MONGODB_DB = env('MONGODB_DB', default='blocktimes')
+
+SOCIAL_CRAWLER_THREAD_COUNT = env('SOCIAL_CRAWLER_THREAD_COUNT', default=10, cast=int)
+
 include('settings_logger.py')
 
 if os.environ.get('LOAD_SETTINGS_LOCAL'):
