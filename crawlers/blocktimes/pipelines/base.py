@@ -1,11 +1,12 @@
 import os
 import pymongo
+from datetime import datetime
 from scrapy import Request
 from scrapy.pipelines.images import ImagesPipeline
 
 
 class BaseMongoPipeline(object):
-    collection_name = 'sites'
+    collection_name = 'posts'
 
     def __init__(self, mongo_uri, mongo_db):
         self.mongo_db = mongo_db
@@ -28,11 +29,13 @@ class BaseMongoPipeline(object):
     def process_item(self, item, spider):
         collections = self.db[self.collection_name]
         count = collections.find({'slug': item['slug']}).count()
+        data = dict(item)
+        data['updated'] = datetime.now()
         if count:
-            collections.update({'slug': item['slug']}, {'$set': dict(item)})
+            collections.update({'slug': item['slug']}, {'$set': data})
         else:
-            collections.insert_one(dict(item))
-
+            data['created'] = data['updated']
+            collections.insert_one(data)
         return item
 
 
