@@ -1,25 +1,18 @@
-#!/usr/bin/env python
-
 import os
 import re
-import time
 import logging
-from datetime import datetime
-
 import requests
 import subprocess
 from uuid import uuid4
+from datetime import datetime
 from requests import Response
 
 logger = logging.getLogger('crawlers')
 
 BASE_URL = os.environ.get('CRAWLERS_BASE_URL', 'http://localhost:6800')
-SCRAPYD_DIR = os.environ.get('SCRAPYD_DIR', '/scrapyd')
-CRAWLERS_DIR = os.environ.get('CRAWLERS_DIR', '/crawlers')
+CRAWLERS_DIR = os.environ.get('CRAWLERS_DIR', '/app/crawlers')
 PROJECT_NAME = os.environ.get('CRAWLERS_PROJECT_NAME', 'blocktimes')
-
 SPIDERS_PATH = os.path.join(CRAWLERS_DIR, PROJECT_NAME, 'spiders')
-SPIDERS_INTERVAL_SECONDS = int(os.environ.get('SPIDERS_INTERVAL_SECONDS', 600))
 
 
 class ScrapydClient(object):
@@ -88,26 +81,3 @@ class ScrapydClient(object):
     @property
     def short_uuid(self) -> str:
         return uuid4().hex[:8]
-
-
-if __name__ == '__main__':
-    os.system('cd /{} && scrapyd &'.format(SCRAPYD_DIR))  # Run scrapyd
-    os.system('cd /{}'.format(CRAWLERS_DIR))  # Run scrapyd
-
-    time.sleep(5)  # Sleep to wait the scrapyd will be up
-
-    client = ScrapydClient()
-
-    client.remove_projects()
-    client.load_project()
-
-    while True:
-        logger.debug('Run the spiders')
-        jobs_ids = client.run_spiders()
-
-        logger.debug('Sleep {}'.format(SPIDERS_INTERVAL_SECONDS))
-        time.sleep(SPIDERS_INTERVAL_SECONDS)
-
-        logger.debug('Stop all jobs')
-        for job_id in jobs_ids:
-            client.cancel_job(job_id)

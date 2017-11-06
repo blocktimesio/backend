@@ -25,9 +25,9 @@ nginx/logs/
 
 mongo/data/
 
-crawlers/setup.py
-crawlers/build/
-crawlers/*.egg-info/
+back/crawlers/setup.py
+back/crawlers/build/
+back/crawlers/*.egg-info/
 
 scrapyd/logs/
 scrapyd/twistd.pid

@@ -9,21 +9,19 @@ services:
       - ./back:/app
     links:
       - db:db
+      - redis:redis
       - mongo:mongo
     depends_on:
       - db
+      - redis
       - mongo
+      - celery
+      - celery-beat
     expose:
       - 5432
+      - 6379
       - 27017
-    environment:
-      PYTHONUNBUFFERED: 1
-      SECRET_KEY: xs(r1v@27my)yw$c+6aww0l+9h5q^dc&y%+jpiid0xbvr8jwd1
-      DATABASE_URL: postgres://blocktimes:Blockttt81@db/blocktimes
-      ALLOWED_HOSTS: back.blocktimes.io,localhost,127.0.0.1
-      BASE_URL: http://blocktimes.io/
-      NO_LOAD_ENV_FILE: 'yes'
-      NO_LOAD_SETTINGS_LOCAL: 'yes'
+    env_file: ./back/docker-env.ini
 
   db:
     image: 'postgres:9.6'
@@ -86,8 +84,6 @@ services:
   scrapyd:
     build: ./scrapyd/.
     restart: always
-    working_dir: /scrapyd
-    command: ./docker-run.py
     depends_on:
       - mongo
     links:
@@ -96,14 +92,60 @@ services:
       MONGO_DATABASE: blocktimes
       IMAGES_STORE: /var/lib/scrapyd
       MONGO_URI: mongodb://mongo:27017/blocktimes
-      CRAWLERS_DIR: /crawlers
-      CRAWLERS_PROJECT_NAME: blocktimes
-      CRAWLERS_BASE_URL: http://localhost:6800
-      SPIDERS_INTERVAL_SECONDS: 600
     expose:
       - 6800
       - 27017
     volumes:
       - ./scrapyd/:/scrapyd
       - ./back/media:/var/lib/scrapyd
-      - ./crawlers/:/crawlers
+
+  celery:
+    build:
+      context: ./back/
+      dockerfile: Dockerfile-celery
+    command: celery -A project worker -l info --pidfile="run/celery.pid" --logfile="logs/celery.log"
+    working_dir: /app/
+    volumes:
+      - ./back:/app
+      - ./crawler:/crawler
+    env_file: ./back/docker-env.ini
+    links:
+      - redis:redis
+      - mongo:mongo
+      - scrapyd:scrapyd
+    depends_on:
+      - redis
+      - mongo
+      - scrapyd
+    expose:
+      - 6379
+      - 27017
+      - 6800
+
+  celery-beat:
+    build:
+      context: ./back/
+      dockerfile: Dockerfile-celery
+    command: celery -A project beat -l info --logfile="logs/celery-beat.log" --pidfile="run/celery-beat.pid" --schedule="run/celerybeat-schedule"
+    working_dir: /app/
+    volumes:
+      - ./back:/app
+      - ./crawler:/crawler
+    env_file: ./back/docker-env.ini
+    links:
+      - redis:redis
+      - mongo:mongo
+      - scrapyd:scrapyd
+    depends_on:
+      - redis
+      - mongo
+      - scrapyd
+    expose:
+      - 6379
+      - 27017
+      - 6800
+
+  redis:
+    image: redis
+    expose:
+      - 6379
