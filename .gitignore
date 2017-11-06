@@ -18,6 +18,8 @@ back/run/
 back/media/
 back/static/
 
+db/data/
+
 nginx/logs/
 
 mongo/data/

@@ -34,6 +34,8 @@ services:
       POSTGRES_DB: blocktimes
       POSTGRES_USER: blocktimes
       POSTGRES_PASSWORD: Blockttt81
+    volumes:
+      - ./db/data:/var/lib/postgresql
 
   mongo:
     image: 'mongo:latest'
