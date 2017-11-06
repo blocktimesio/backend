@@ -43,3 +43,7 @@ class MoneyAndStateImagePipeline(BaseImagePipeline):
 
 class BlogEthereumImagePipeline(BaseImagePipeline):
     pass
+
+
+class PrestonByrneImagePipeline(BaseImagePipeline):
+    pass

@@ -9,6 +9,7 @@ from .mongo import BitNewsTodayMongoPipeline
 from .mongo import InvestopediaMongoPipeline
 from .mongo import MoneyAndStateMongoPipeline
 from .mongo import BlogEthereumMongoPipeline
+from .mongo import PrestonByrneMongoPipeline
 from .image import CoindeskImagePipeline
 from .image import CoinTelegrapImagePipeline
 from .image import NewsBtcImagePipeline
@@ -20,3 +21,4 @@ from .image import BitNewsTodayImagePipeline
 from .image import InvestopediaImagePipeline
 from .image import MoneyAndStateImagePipeline
 from .image import BlogEthereumImagePipeline
+from .image import PrestonByrneImagePipeline

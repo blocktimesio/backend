@@ -57,3 +57,7 @@ class MoneyAndStateItem(BaseItem):
 
 class BlogEthereumItem(BaseItem):
     pass
+
+
+class PrestonByrneItem(BaseItem):
+    pass

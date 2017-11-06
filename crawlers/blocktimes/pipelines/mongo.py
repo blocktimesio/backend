@@ -43,3 +43,7 @@ class MoneyAndStateMongoPipeline(BaseMongoPipeline):
 
 class BlogEthereumMongoPipeline(BaseMongoPipeline):
     collection_name = 'blogethereum'
+
+
+class PrestonByrneMongoPipeline(BaseMongoPipeline):
+    collection_name = 'prestonbyrne'
