@@ -68,6 +68,8 @@ class BitNewsTodaySpider(scrapy.Spider):
 
             image_url=image_url,
             image_file_path=image_file_path,
+
+            social={}
         )
 
     def _get_abs_url(self, path):

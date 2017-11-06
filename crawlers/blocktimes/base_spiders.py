@@ -45,6 +45,8 @@ class BaseFeedSpider(scrapy.Spider):
 
             image_url=image_url,
             image_file_path=image_file_path,
+
+            social={}
         )
 
     def get_url(self, entry: dict, response: HtmlResponse) -> str:

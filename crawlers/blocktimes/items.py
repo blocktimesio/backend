@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import scrapy
 
 
@@ -12,6 +14,8 @@ class BaseItem(scrapy.Item):
     text = scrapy.Field(serializer=str)
     tags = scrapy.Field(serializer=str)
     pub_date = scrapy.Field(serializer=str)
+
+    social = scrapy.Field(serializer=dict)
 
     image_url = scrapy.Field(serializer=str)
     image_file_path = scrapy.Field(serializer=str)
