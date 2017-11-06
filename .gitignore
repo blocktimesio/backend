@@ -15,6 +15,7 @@ back/.env
 back/project/settings_local.py
 
 back/run/
+back/logs/
 back/media/
 back/static/
 
