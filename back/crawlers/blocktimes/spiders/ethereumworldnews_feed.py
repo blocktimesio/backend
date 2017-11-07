@@ -8,7 +8,6 @@ from ..items import EthereumWorldNewsItem
 class EthereumWorldNewsFeedSpider(BaseFeedSpider):
     item = EthereumWorldNewsItem
     name = 'ethereumworldnews_feed'
-    domain = 'ethereumworldnews.com'
     start_urls = ['http://ethereumworldnews.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {

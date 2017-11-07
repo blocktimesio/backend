@@ -1,11 +1,28 @@
 import os
+import re
 import scrapy
 import feedparser
 from dateutil.parser import *
+from urllib.parse import (urlparse, ParseResult)
 from scrapy.http import HtmlResponse
 
 
-class BaseFeedSpider(scrapy.Spider):
+class SpiderUrlMixin(object):
+    def get_domain(self, url: str) -> str:
+        res = urlparse(url)  # type: ParseResult
+        return re.sub(':\d+$', '', res.netloc)  # Remove port
+
+    def get_url(self, url: str) -> str:
+        res = urlparse(url)  # type: ParseResult
+        return '{}{}'.format(res.netloc, res.path)
+
+    def get_slug(self, url: str) -> str:
+        res = urlparse(url)  # type: ParseResult
+        slug = re.sub('/$', '', res.path).split('/')[-1]  # type: str
+        return slug
+
+
+class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
     name = None
     domain = None
     start_urls = None
@@ -22,19 +39,19 @@ class BaseFeedSpider(scrapy.Spider):
     def parse_article(self, response):
         entry = response.meta['entry']
 
-        slug = self.get_slug(entry, response)
+        slug = self.get_slug(response.url)
 
         image_url = self.get_image_url(entry, response)
 
         image_file_path = ''
         if image_url:
-            slug = self.get_slug(entry, response)
+            slug = self.get_slug(response.url)
             image_file_path = self.get_image_path(image_url, slug)
 
         yield self.item(
-            domain=self.domain,
+            domain=self.get_domain(response.url),
 
-            url=self.get_url(entry, response),
+            url=self.get_url(response.url),
             slug=slug,
 
             title=self.get_title(entry, response),
@@ -48,12 +65,6 @@ class BaseFeedSpider(scrapy.Spider):
 
             social={}
         )
-
-    def get_url(self, entry: dict, response: HtmlResponse) -> str:
-        return response.url
-
-    def get_slug(self, entry: dict, response: HtmlResponse) -> str:
-        return response.url.split('/')[self.slug_level]
 
     def get_title(self, entry: dict, response: HtmlResponse) -> str:
         return entry.get('title', '')

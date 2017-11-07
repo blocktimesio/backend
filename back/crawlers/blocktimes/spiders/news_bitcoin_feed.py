@@ -8,7 +8,6 @@ from ..base_spiders import BaseFeedSpider
 class NewsBitcoinFeedSpider(BaseFeedSpider):
     item = NewsBitcoinWorldNewsItem
     name = 'newsbitcoin_feed'
-    domain = 'bitcoin.com'
     start_urls = ['https://news.bitcoin.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {

@@ -6,7 +6,6 @@ from ..items import PrestonByrneItem
 class PrestonByrneFeedSpider(BaseFeedSpider):
     item = PrestonByrneItem
     name = 'prestonbyrne_feed'
-    domain = 'prestonbyrne.com'
     start_urls = ['https://prestonbyrne.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {

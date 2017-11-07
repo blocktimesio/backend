@@ -7,7 +7,6 @@ from ..items import CoindeskItem
 class CoindeskFeedSpider(BaseFeedSpider):
     item = CoindeskItem
     name = 'coindesk_feed'
-    domain = 'coindesk.com'
     start_urls = ['https://www.coindesk.com/feed/']
     custom_settings = {
         'ITEM_PIPELINES': {

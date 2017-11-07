@@ -2,10 +2,11 @@ import os
 import re
 import logging
 import scrapy as scrapy
+from ..base_spiders import SpiderUrlMixin
 from ..items import BitNewsTodayItem
 
 
-class BitNewsTodaySpider(scrapy.Spider):
+class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
     name = 'bitnewstoday'
     start_urls = ['https://bitnewstoday.com/']
     custom_settings = {
@@ -28,7 +29,7 @@ class BitNewsTodaySpider(scrapy.Spider):
             yield scrapy.Request(url, callback=self.parse_article)
 
     def parse_article(self, response):
-        slug = response.url.split('/')[-2]
+        slug = self.get_slug(response.url)
 
         text = ''.join([n.root for n in response.xpath('//div[@class="contentNews"]//p//text()')])
         text = text.strip()
@@ -55,9 +56,9 @@ class BitNewsTodaySpider(scrapy.Spider):
             self.log(log_message, logging.WARNING)
 
         yield BitNewsTodayItem(
-            domain='bitnewstoday.com',
+            domain=self.get_domain(response.url),
 
-            url=response.url,
+            url=self.get_url(response.url),
             slug=slug,
 
             title=response.xpath('//h1/text()')[0].root,

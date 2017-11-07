@@ -5,10 +5,7 @@ from ..items import TrustNodesItem
 
 
 class TrustNodesFeedSpider(BaseFeedSpider):
-    slug_level = -1
-    src_name = 'trustnodes'
     item = TrustNodesItem
-    domain = 'trustnodes.com'
     start_urls = ['http://www.trustnodes.com/feed']
     custom_settings = {
         'ITEM_PIPELINES': {
