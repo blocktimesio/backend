@@ -22,7 +22,7 @@ IMAGES_URLS_FIELD = 'image_url'
 
 IMAGES_STORE = os.environ.get('IMAGES_STORE', None)
 if not IMAGES_STORE:
-    IMAGES_STORE = os.path.join(BASE_DIR, '/app/media')
+    IMAGES_STORE = os.path.join(BASE_DIR, '../media/')
 
 MONGO_DATABASE = os.environ.get('MONGO_DATABASE', 'blocktimes')
 
