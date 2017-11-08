@@ -78,13 +78,13 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
             return contents[0].get('value')
         return ''
 
-    def get_tags(self, entry: dict, response: HtmlResponse) -> str:
-        return ','.join([t.get('term', '') for t in entry.get('tags', [])])
+    def get_tags(self, entry: dict, response: HtmlResponse) -> list:
+        return [t.get('term', '') for t in entry.get('tags', [])]
 
     def get_pub_date(self, entry: dict, response: HtmlResponse) -> str:
         published = entry.get('published')
         if published:
-            return str(parse(published))
+            return parse(published)
         return ''
 
     def get_image_url(self, entry: dict, response: HtmlResponse) -> str:
