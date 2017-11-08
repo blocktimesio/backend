@@ -26,7 +26,7 @@ class SocialCrawler(object):
             self._thread_count = settings.SOCIAL_CRAWLER_THREAD_COUNT
 
         client = MongoClient(host=settings.MONGODB_HOST)
-        self._collection = client[settings.MONGODB_DB].posts
+        self._collection = client[settings.MONGODB_DB].news
 
     def start(self, count: int = None) -> None:
         for post in self._get_post_list():
