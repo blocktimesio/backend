@@ -1,5 +1,6 @@
 import os
 import environ
+import mongoengine
 from split_settings.tools import (optional, include)
 
 if not os.environ.get('NO_LOAD_SETTINGS_LOCAL'):
@@ -38,10 +39,13 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'django_extensions',
     'redactor',
+    'rest_framework',
+    'rest_framework_mongoengine',
     'solo',
     'templated_email',
 
     'apps.post',
+    'apps.news',
     'apps.users',
 ]
 
@@ -81,6 +85,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {'default': env.db()}
+
+MONGODB_DATABASES = {
+    'default': {
+        'name': 'blocktimes',
+        'host': env('MONGO_HOST', default='localhost'),
+        'port': 27017,
+        'tz_aware': True,
+    },
+}
+
+mongoengine.connect(
+    db=MONGODB_DATABASES['default']['name'],
+    host=MONGODB_DATABASES['default']['host']
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
