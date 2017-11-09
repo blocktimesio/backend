@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
 
     'admin_honeypot',
+    'corsheaders',
     'django_extensions',
     'redactor',
     'rest_framework',
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -150,6 +152,8 @@ FIXTURE_DIRS = [
 
 AUTH_USER_MODEL = 'users.User'
 
+BROKER_URL = env('CELERY_BROKER_URL', default='redis://localhost:6379')
+
 CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='redis://localhost:6379')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND_URL', default='redis://localhost:6379')
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -166,6 +170,12 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
 }
+
+CORS_ORIGIN_WHITELIST = (
+    'admin.blocktimes.io',
+    'blocktimes.io',
+    'localhost:8000',
+)
 
 include('settings_logger.py')
 

@@ -1,18 +1,10 @@
 from scrapy.http import HtmlResponse
 from ..base_spiders import BaseFeedSpider
-from ..items import CoinTelegraphItem
 
 
 class CoinTelegraphFeedSpider(BaseFeedSpider):
-    item = CoinTelegraphItem
     name = 'cointelegraph_feed'
     start_urls = ['https://cointelegraph.com/rss']
-    custom_settings = {
-        'ITEM_PIPELINES': {
-            'blocktimes.pipelines.CoinTelegrapImagePipeline': 1,
-            'blocktimes.pipelines.CoinTelegrapMongoPipeline': 2,
-        },
-    }
 
     def get_text(self, entry: dict, response: HtmlResponse) -> str:
         text = ''.join(

@@ -1,10 +1,12 @@
 import os
 import re
 import scrapy
+import logging
 import feedparser
 from dateutil.parser import *
 from urllib.parse import (urlparse, ParseResult)
 from scrapy.http import HtmlResponse
+from .items import NewsItem
 
 
 class SpiderUrlMixin(object):
@@ -26,9 +28,26 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
     name = None
     domain = None
     start_urls = None
-    item = None
-    custom_settings = None
-    slug_level = -2
+    item = NewsItem
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'crawlers.pipelines.ImagePipeline': 1,
+            'crawlers.pipelines.MongoPipeline': 2,
+        },
+
+        'MONGO_URI': os.environ.get('MONGO_URI', 'mongodb://localhost/blocktimes'),
+        'MONGO_DATABASE': os.environ.get('MONGO_DATABASE', 'blocktimes'),
+
+        'IMAGES_STORE': os.environ.get('IMAGES_STORE_PATH', 'media'),
+        'IMAGES_URLS_FIELD': 'image_url',
+
+        'ROBOTSTXT_OBEY': False,
+
+        'LOG_LEVEL': logging.WARNING,
+
+        'DOWNLOAD_DELAY': 2,
+        'CONCURRENT_REQUESTS': 32,
+    }
 
     def parse(self, response):
         """ Load feed """

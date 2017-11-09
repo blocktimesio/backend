@@ -2,19 +2,11 @@ import re
 import logging
 from scrapy.http import HtmlResponse
 from ..base_spiders import BaseFeedSpider
-from ..items import EthereumWorldNewsItem
 
 
 class EthereumWorldNewsFeedSpider(BaseFeedSpider):
-    item = EthereumWorldNewsItem
     name = 'ethereumworldnews_feed'
     start_urls = ['http://ethereumworldnews.com/feed/']
-    custom_settings = {
-        'ITEM_PIPELINES': {
-            'blocktimes.pipelines.EthereumWorldNewsImagePipeline': 1,
-            'blocktimes.pipelines.EthereumWorldNewsMongoPipeline': 2,
-        },
-    }
 
     def get_image_url(self, entry: dict, response: HtmlResponse):
         log_message = 'IMAGE NOT FOUND {}'.format(response.url)

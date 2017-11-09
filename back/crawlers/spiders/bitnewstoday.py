@@ -2,19 +2,13 @@ import os
 import re
 import logging
 import scrapy as scrapy
+from ..items import NewsItem
 from ..base_spiders import SpiderUrlMixin
-from ..items import BitNewsTodayItem
 
 
 class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
     name = 'bitnewstoday'
     start_urls = ['https://bitnewstoday.com/']
-    custom_settings = {
-        'ITEM_PIPELINES': {
-            'blocktimes.pipelines.BitNewsTodayImagePipeline': 1,
-            'blocktimes.pipelines.BitNewsTodayMongoPipeline': 2,
-        },
-    }
 
     def parse(self, response):
         path = '//ul[contains(@class, "cnAllMenu-items")]/li[position()<3]/ul[@class="sections"]/li/a/@href'
@@ -55,7 +49,7 @@ class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
             log_message = 'IMAGE NOT FOUND {}'.format(response.url)
             self.log(log_message, logging.WARNING)
 
-        yield BitNewsTodayItem(
+        yield NewsItem(
             domain=self.get_domain(response.url),
 
             url=self.get_url(response.url),

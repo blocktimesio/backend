@@ -5,7 +5,7 @@ from scrapy import Request
 from scrapy.pipelines.images import ImagesPipeline
 
 
-class BaseMongoPipeline(object):
+class MongoPipeline(object):
     collection_name = 'news'
 
     def __init__(self, mongo_uri, mongo_db):
@@ -32,14 +32,15 @@ class BaseMongoPipeline(object):
         data = dict(item)
         data['updated'] = datetime.now()
         if count:
-            collections.update({'slug': item['slug']}, {'$set': data})
+            del data['social']
+            collections.update({'slug': item['slug'], 'domain': item['domain']}, {'$set': data})
         else:
             data['created'] = data['updated']
             collections.insert_one(data)
         return item
 
 
-class BaseImagePipeline(ImagesPipeline):
+class ImagePipeline(ImagesPipeline):
     def file_path(self, request, response=None, info=None):
         return request.meta['image_file_path']
 

@@ -66,6 +66,8 @@ services:
     volumes:
       - ./back/run:/opt/run
 
+      - ./admin/dist:/var/www/html/admin
+
       - ./back/media:/var/www/html/media
       - ./back/static:/var/www/html/static
 
@@ -82,24 +84,6 @@ services:
       - 80:80
       - 443:443
 
-  scrapyd:
-    build: ./scrapyd/.
-    restart: always
-    depends_on:
-      - mongo
-    links:
-      - mongo:mongo
-    environment:
-      MONGO_DATABASE: blocktimes
-      IMAGES_STORE: /var/lib/scrapyd
-      MONGO_URI: mongodb://mongo:27017/blocktimes
-    expose:
-      - 6800
-      - 27017
-    volumes:
-      - ./scrapyd/:/scrapyd
-      - ./back/media:/var/lib/scrapyd
-
   celery:
     build:
       context: ./back/
@@ -113,15 +97,12 @@ services:
     links:
       - redis:redis
       - mongo:mongo
-      - scrapyd:scrapyd
     depends_on:
       - redis
       - mongo
-      - scrapyd
     expose:
       - 6379
       - 27017
-      - 6800
 
   celery-beat:
     build:
@@ -136,15 +117,12 @@ services:
     links:
       - redis:redis
       - mongo:mongo
-      - scrapyd:scrapyd
     depends_on:
       - redis
       - mongo
-      - scrapyd
     expose:
       - 6379
       - 27017
-      - 6800
 
   redis:
     image: redis

@@ -1,20 +1,12 @@
 import re
 import logging
 from scrapy.http import HtmlResponse
-from ..items import MoneyAndStateItem
 from ..base_spiders import BaseFeedSpider
 
 
 class MoneyAndStateFeedSpider(BaseFeedSpider):
-    item = MoneyAndStateItem
     name = 'moneyandstate_feed'
     start_urls = ['http://bitcoinist.com/feed/']
-    custom_settings = {
-        'ITEM_PIPELINES': {
-            'blocktimes.pipelines.MoneyAndStateImagePipeline': 1,
-            'blocktimes.pipelines.MoneyAndStateMongoPipeline': 2,
-        },
-    }
 
     def get_image_url(self, entry: dict, response: HtmlResponse) -> str:
         log_message = 'IMAGE NOT FOUND {}'.format(response.url)
