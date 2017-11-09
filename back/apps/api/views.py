@@ -8,4 +8,4 @@ class NewsViewSet(MongoModelViewSet):
     serializer_class = NewsSerializer
 
     def get_queryset(self):
-        return News.objects.all()
+        return sorted(News.objects.all(), key=lambda n: n.rank)
