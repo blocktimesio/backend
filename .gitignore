@@ -31,3 +31,5 @@ back/crawlers/*.egg-info/
 
 scrapyd/logs/
 scrapyd/twistd.pid
+
+admin/node_modules/
