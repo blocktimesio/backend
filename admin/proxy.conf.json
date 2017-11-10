@@ -1,0 +1,17 @@
+{
+    "/api": {
+        "target": "http://localhost:8000/api",
+        "secure": false,
+        "pathRewrite": {"^/api" : ""}
+    },
+    "/media": {
+        "target": "http://localhost:8000/media",
+        "secure": false,
+        "pathRewrite": {"^/media" : ""}
+    },
+    "/sitemap.xml": {
+        "target": "http://localhost:8000/sitempa.xml",
+        "secure": false,
+        "pathRewrite": {"^/sitemap.xml" : ""}
+    }
+}
