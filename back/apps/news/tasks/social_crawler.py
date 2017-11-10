@@ -49,8 +49,10 @@ class SocialCrawler(object):
             try:
                 post = self._get_post_detail(uid)
                 if post:
-                    data = self._process(post)
-                    self._update_post(post['_id'], **data)
+                    new_social_data = self._process(post)
+                    social_data = post['social'].copy()
+                    social_data.update(new_social_data)
+                    self._update_post(post['_id'], social=social_data)
                     # TODO: log
                 else:
                     pass  # TODO: log
@@ -73,11 +75,10 @@ class SocialCrawler(object):
         return self._collection.find_one({'_id': ObjectId(uid)})
 
     def _process(self, post: dict) -> dict:
-        social_data = socialshares.fetch(
-            post['url'],
+        return socialshares.fetch(
+            post['url_raw'],
             ['facebook', 'pinterest', 'linkedin', 'google', 'reddit']
         )
-        return {'social': social_data}
 
     def _update_post(self, uid, **kwargs):
         kwargs.update({'updated': timezone.now()})

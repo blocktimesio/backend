@@ -71,6 +71,7 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
             domain=self.get_domain(response.url),
 
             url=self.get_url(response.url),
+            url_raw=response.url,
             slug=slug,
 
             title=self.get_title(entry, response),
