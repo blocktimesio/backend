@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.template.defaultfilters import (striptags, truncatewords)
 from django.utils import timezone
 from mongoengine import (Document, fields)
 from solo.models import SingletonModel
@@ -73,9 +74,12 @@ class News(Document):
         rank += fb_shares * config.fb_shares
         rank += linkedin_shares * config.linkedin_shares
         rank += reddit_ups * config.reddit_up
-        # rank += fb_shares * 2
         # rank += views  * config.views
         # rank += comments * config.comments
         rank = float(rank)
         rank -= (datetime.now() - self.created).seconds / float(config.date_elapsed_seconds * config.date_coef)
         return rank
+
+    @property
+    def short_text(self):
+        return truncatewords(striptags(self.text), 30)
