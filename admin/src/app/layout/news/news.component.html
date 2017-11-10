@@ -1,5 +1,46 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'Parsed news'" [icon]="'fa-newspaper-o'"></app-page-header>
+    <app-page-header [heading]="'News list'" [icon]="'fa-newspaper-o'"></app-page-header>
+
+    <div class="row">
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount" >
+            <form>
+                <div class="form-group row">
+                    <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+                        <label for="ex2"><i class="fa fa-facebook"></i></label>
+                        <input class="form-control input-sm" id="ex1" type="number">
+                    </div>
+                    <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+                        <label for="ex2"><i class="fa fa-link"></i></label>
+                        <input class="form-control input-sm" id="ex2" type="number">
+                    </div>
+                    <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+                        <label for="ex3"><i class="fa fa-reddit"></i></label>
+                        <input class="form-control input-sm" id="ex3" type="number">
+                    </div>
+                    <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+                        <label for="ex3"><i class="fa fa-eye"></i></label>
+                        <input class="form-control input-sm" id="ex3" type="number">
+                    </div>
+                    <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+                        <label for="ex3"><i class="fa fa-comment"></i></label>
+                        <input class="form-control input-sm" id="ex3" type="number">
+                    </div>
+                    <div class="col-lg-1 col-sm-1 col-md-1 col-xs-1">
+                        <label for="ex3"><i class="fa fa-clock-o"></i></label>
+                        <input class="form-control input-sm" id="ex3" type="number">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                        <button class="btn btn-lg btn-success">Save config & update list</button>
+                    </div>
+                </div>
+            </form>
+
+            <hr>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount" >
             <ngb-pagination aria-label="Default pagination" (pageChange)="changePage($event)"
