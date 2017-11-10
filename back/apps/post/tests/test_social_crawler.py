@@ -1,5 +1,5 @@
 from unittest import TestCase
-from apps.post.tasks import SocialCrawler
+from apps.news.tasks import SocialCrawler
 
 
 class SocialCrawlerTest(TestCase):
