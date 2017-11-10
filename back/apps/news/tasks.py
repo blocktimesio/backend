@@ -9,7 +9,7 @@ logger = logging.getLogger('crawlers')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-from .social_crawler import SocialCrawler
+from .utils import SocialCrawler
 from crawlers.spiders.bitcoinist_feed import BitcoinistFeedSpider
 from crawlers.spiders.bitnewstoday import BitNewsTodaySpider
 from crawlers.spiders.blogethereum_feed import BlogEthereumFeedSpider

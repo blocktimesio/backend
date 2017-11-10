@@ -12,9 +12,10 @@ class SocialCrawler(object):
     _queue = Queue()
     _thread_count = 10
 
-    def __init__(self, day_gte: int= 2, day_lte: int = 0, thread_count: int = None):
+    def __init__(self, day_gte: int=2, day_lte: int=0, thread_count: int=None, is_all=False):
         self._day_gte = day_gte
         self._day_lte = day_lte
+        self.is_all = is_all
 
         if day_lte:
             if day_gte > day_lte:
@@ -65,11 +66,14 @@ class SocialCrawler(object):
                 break
 
     def _get_post_list(self) -> list:
-        day_gte = timezone.now() - timedelta(days=self._day_gte)
-        filter_params = {'$gte': day_gte}
-        if self._day_lte:
-            filter_params['$lte'] = timezone.now() - timedelta(days=self._day_lte)
-        return self._collection.find({'created': filter_params})
+        params = {}
+        if not self.is_all:
+            day_gte = timezone.now() - timedelta(days=self._day_gte)
+            filter_params = {'$gte': day_gte}
+            if self._day_lte:
+                filter_params['$lte'] = timezone.now() - timedelta(days=self._day_lte)
+            params = {'created': filter_params}
+        return self._collection.find(params)
 
     def _get_post_detail(self, uid: str) -> dict:
         return self._collection.find_one({'_id': ObjectId(uid)})
