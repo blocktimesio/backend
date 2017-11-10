@@ -167,8 +167,12 @@ MONGODB_DB = env('MONGODB_DB', default='blocktimes')
 SOCIAL_CRAWLER_THREAD_COUNT = env('SOCIAL_CRAWLER_THREAD_COUNT', default=10, cast=int)
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
 }
 
 CORS_ORIGIN_WHITELIST = (
@@ -177,7 +181,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
 )
 
-include('settings_logger.py')
+include('loggers.py')
 
 if os.environ.get('LOAD_SETTINGS_LOCAL'):
     include(
