@@ -14,7 +14,7 @@ export class NewsComponent implements OnInit {
     constructor(private http: Http) {}
 
     ngOnInit() {
-        this.http.get('/api/v1/news')
+        this.http.get('/api/v1/admin/news')
             .subscribe((data: Response) => {
                 this.newsList = data.json().results;
             });
