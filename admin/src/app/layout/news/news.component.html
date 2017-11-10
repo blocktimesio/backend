@@ -1,7 +1,11 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Parsed news'" [icon]="'fa-newspaper-o'"></app-page-header>
     <div class="row">
-        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12">
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount" >
+            <ngb-pagination aria-label="Default pagination" (pageChange)="changePage($event)"
+                            [collectionSize]="totalCount" [(page)]="currentPage" [maxSize]="pageSize"></ngb-pagination>
+        </div>
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="newsList.length">
             <div class="card" style="margin-bottom: 10px" *ngFor="let news of newsList">
                 <h6 class="card-header">
                     <a href="#">{{ news.title }}</a>
@@ -38,29 +42,33 @@
                     <div class="table-responsive">
                         <table class="table borderless">
                             <tbody>
-                                <tr>
-                                    <td><i class="fa fa-facebook"></i></td>
-                                    <td><i class="fa fa-linkedin"></i></td>
-                                    <td><i class="fa fa-reddit"></i></td>
-                                    <td><i class="fa fa-eye"></i></td>
-                                    <td><i class="fa fa-comment"></i></td>
-                                    <td><i class="fa fa-clock-o"></i></td>
-                                    <td><i class="fa fa-tasks"></i></td>
-                                </tr>
-                                <tr>
-                                    <td>{{ news.social_data.facebook.share_count }}</td>
-                                    <td>{{ news.social_data.linkedin }}</td>
-                                    <td>{{ news.social_data.reddit.ups }}</td>
-                                    <td>{{ news.social_data.views }}</td>
-                                    <td>{{ news.social_data.comments }}</td>
-                                    <td>{{ news.time_elapsed }}</td>
-                                    <td><b>{{ news.rank }}</b></td>
-                                </tr>
+                            <tr>
+                                <td><i class="fa fa-facebook"></i></td>
+                                <td><i class="fa fa-linkedin"></i></td>
+                                <td><i class="fa fa-reddit"></i></td>
+                                <td><i class="fa fa-eye"></i></td>
+                                <td><i class="fa fa-comment"></i></td>
+                                <td><i class="fa fa-clock-o"></i></td>
+                                <td><i class="fa fa-tasks"></i></td>
+                            </tr>
+                            <tr>
+                                <td>{{ news.social_data.facebook.share_count }}</td>
+                                <td>{{ news.social_data.linkedin }}</td>
+                                <td>{{ news.social_data.reddit.ups }}</td>
+                                <td>{{ news.social_data.views }}</td>
+                                <td>{{ news.social_data.comments }}</td>
+                                <td>{{ news.time_elapsed }}</td>
+                                <td><b>{{ news.rank }}</b></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount" >
+        <ngb-pagination aria-label="Default pagination"
+                        [collectionSize]="totalCount" [(page)]="currentPage" [maxSize]="pageSize"></ngb-pagination>
     </div>
 </div>
