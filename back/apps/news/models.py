@@ -27,6 +27,7 @@ class News(Document):
 
     domain = fields.StringField(required=True)
     url = fields.StringField(required=True)
+    url_raw = fields.StringField(required=False, null=True)
     slug = fields.StringField(required=True)
     title = fields.StringField(required=True)
     author = fields.StringField(required=True)
@@ -75,5 +76,6 @@ class News(Document):
         # rank += fb_shares * 2
         # rank += views  * config.views
         # rank += comments * config.comments
-        rank -= (datetime.now() - self.created).seconds / config.date_elapsed_seconds * config.date_coef
+        rank = float(rank)
+        rank -= (datetime.now() - self.created).seconds / float(config.date_elapsed_seconds * config.date_coef)
         return rank
