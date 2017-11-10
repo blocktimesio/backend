@@ -17,7 +17,7 @@ class NewsViewSet(MongoModelViewSet):
     serializer_class = NewsSerializer
 
     def get_queryset(self):
-        return sorted(News.objects.all(), key=lambda n: n.rank)
+        return sorted(News.objects.all(), key=lambda n: n.rank, reverse=True)
 
 
 class RankConfigView(APIView):
