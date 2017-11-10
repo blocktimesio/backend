@@ -1,5 +1,66 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Parsed news'" [icon]="'fa-newspaper-o'"></app-page-header>
     <div class="row">
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12">
+            <div class="card" style="margin-bottom: 10px" *ngFor="let news of newsList">
+                <h6 class="card-header">
+                    <a href="#">{{ news.title }}</a>
+                </h6>
+                <div class="card-block">
+                    <p class="card-text">
+                        {{ news.short_text }}
+                    </p>
+                    <p class="card-text">
+                        <i class="fa fa-user"></i> {{ news.author }}
+                    </p>
+                    <p class="card-text" *ngIf="news.tags.length">
+                        <i class="fa fa-tags"></i>
+                        <span *ngFor="let tag of news.tags; let last = last;">
+                            <a href="#">
+                                {{ tag }}
+                            </a>
+                            <span *ngIf="!last"> | </span>
+                        </span>
+                    </p>
+                </div>
+                <div class="card-footer text-muted">
+                    <button class="btn btn-sm btn-success card-link">
+                        Quick view <i class="fa fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger card-link">
+                        Archive <i class="fa fa-archive"></i>
+                    </button>
+                    <a [href]="news.url_raw" class="card-link pull-right" target="_blank">
+                        Original
+                        <i class="fa fa-link"></i>
+                    </a>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table borderless">
+                            <tbody>
+                                <tr>
+                                    <td><i class="fa fa-facebook"></i></td>
+                                    <td><i class="fa fa-linkedin"></i></td>
+                                    <td><i class="fa fa-reddit"></i></td>
+                                    <td><i class="fa fa-eye"></i></td>
+                                    <td><i class="fa fa-comment"></i></td>
+                                    <td><i class="fa fa-clock-o"></i></td>
+                                    <td><i class="fa fa-tasks"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>{{ news.social_data.facebook.share_count }}</td>
+                                    <td>{{ news.social_data.linkedin }}</td>
+                                    <td>{{ news.social_data.reddit.ups }}</td>
+                                    <td>{{ news.social_data.views }}</td>
+                                    <td>{{ news.social_data.comments }}</td>
+                                    <td>{{ news.time_elapsed }}</td>
+                                    <td><b>{{ news.rank }}</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,0 +1,11 @@
+.borderless td, .borderless th {
+    border: none;
+}
+.table {
+    margin-bottom: 0;
+
+    td {
+        padding-bottom: 0;
+        text-align: center;
+    }
+}
