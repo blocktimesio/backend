@@ -33,5 +33,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False
         },
+        'crawlers': {
+            'handlers': ['console', ],
+            'level': 'INFO',
+            'propagate': False
+        }
     },
 }
