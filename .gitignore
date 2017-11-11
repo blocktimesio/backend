@@ -29,7 +29,4 @@ back/crawlers/setup.py
 back/crawlers/build/
 back/crawlers/*.egg-info/
 
-scrapyd/logs/
-scrapyd/twistd.pid
-
 admin/node_modules/

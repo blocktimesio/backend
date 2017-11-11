@@ -1,0 +1,16 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <ul class="list-group">
+        <li>
+            <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="fa fa-fw fa-dashboard"></i> Dashboard
+            </a>
+            <a routerLink="/news" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                <i class="fa fa-fw fa-newspaper-o"></i> News
+            </a>
+            <hr>
+            <a [routerLink]="['/login']" (click)="onLoggedout()" class="list-group-item">
+                <i class="fa fa-fw fa-power-off"></i> Log Out
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -159,7 +159,7 @@ CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND_URL', default='redis://localh
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = TIME_ZONE 
+CELERY_TIMEZONE = TIME_ZONE
 
 MONGODB_HOST = env('MONGODB_HOST', default='localhost')
 MONGODB_DB = env('MONGODB_DB', default='blocktimes')
@@ -167,8 +167,17 @@ MONGODB_DB = env('MONGODB_DB', default='blocktimes')
 SOCIAL_CRAWLER_THREAD_COUNT = env('SOCIAL_CRAWLER_THREAD_COUNT', default=10, cast=int)
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
 }
 
 CORS_ORIGIN_WHITELIST = (
@@ -177,7 +186,7 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
 )
 
-include('settings_logger.py')
+include('loggers.py')
 
 if os.environ.get('LOAD_SETTINGS_LOCAL'):
     include(
