@@ -35,8 +35,8 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
             'crawlers.pipelines.MongoPipeline': 2,
         },
 
-        'MONGO_URI': os.environ.get('MONGO_URI', 'mongodb://localhost/blocktimes'),
-        'MONGO_DATABASE': os.environ.get('MONGO_DATABASE', 'blocktimes'),
+        'MONGODB_URI': os.environ.get('MONGO_URI', 'mongodb://localhost/blocktimes'),
+        'MONGODB_DATABASE': os.environ.get('MONGO_DATABASE', 'blocktimes'),
 
         'IMAGES_STORE': os.environ.get('IMAGES_STORE_PATH', 'media'),
         'IMAGES_URLS_FIELD': 'image_url',

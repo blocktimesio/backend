@@ -67,6 +67,8 @@ services:
       - ./mongo/data:/data/db
     environment:
       MONGO_DATA_DIR: /data/db
+      MONGO_USER: blocktimes
+      MONGO_PASSWORD: 1Y4ZxSLoF9
 
   mongo_admin:
     image: mongo-express

@@ -20,7 +20,7 @@ from crawlers.spiders.trustnodes_feed import TrustNodesFeedSpider
 logger = logging.getLogger('crawlers')
 
 
-@periodic_task(run_every=timedelta(minutes=10))
+@periodic_task(run_every=timedelta(hours=10))
 def run_sites_crawlers():
     runner = CrawlerRunner()
     spiders = [
@@ -51,7 +51,7 @@ def run_sites_crawlers():
         logger.error('', exc_info=True)
 
 
-@periodic_task(run_every=timedelta(minutes=5))
+@periodic_task(run_every=timedelta(hours=5))
 def crawl_social_latest():
     crawler = SocialCrawler()
     crawler.start()
