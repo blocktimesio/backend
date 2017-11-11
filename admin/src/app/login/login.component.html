@@ -1,21 +1,21 @@
 <div class="login-page" [@routerTransition]>
     <div class="row">
         <div class="col-md-4 push-md-4">
-            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-            <h1>SB Admin BS4 Angular4</h1>
-            <form role="form">
+            <i class="fa fa-newspaper-o fa-4x"></i>
+            <h1>BlockTimes.io Admin Panel</h1>
+            <form role="form" [formGroup]="signInForm" (ngSubmit)="signIn()">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="Email">
+                        <input type="text" class="form-control input-underline input-lg"
+                               placeholder="Username" formControlName="username">
                     </div>
 
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Password">
+                        <input type="password" class="form-control input-underline input-lg"
+                               placeholder="Password" formControlName="password">
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Log in </a>
-                &nbsp;
-                <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
+                <button class="btn rounded-btn" type="submit" [disabled]="!signInForm.valid">Sign In</button>
             </form>
         </div>
     </div>

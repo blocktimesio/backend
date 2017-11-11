@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
+import { Http, Response } from '@angular/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-login',
@@ -8,16 +10,26 @@ import { routerTransition } from '../router.animations';
     styleUrls: ['./login.component.scss'],
     animations: [routerTransition()]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+    public signInForm: FormGroup;
 
-    constructor(public router: Router) {
+    constructor(private http: Http, public router: Router, private fb: FormBuilder) {
+        this.signInForm = fb.group({
+            'username' : [null, Validators.required],
+            'password' : [null, Validators.required],
+        });
     }
 
-    ngOnInit() {
-    }
-
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
+    signIn() {
+        const data = this.signInForm.value;
+        this.http.post('/api/v1/sign-in', data)
+            .subscribe((response: Response) => {
+                localStorage.setItem('sessionId', response.json()['sessionid']);
+                localStorage.setItem('isSignIn', 'true');
+                this.router.navigate(['/dashboard']);
+            }, (error) => {
+                console.log('err');
+            });
     }
 
 }
