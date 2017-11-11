@@ -22,7 +22,6 @@ logger = logging.getLogger('crawlers')
 
 @periodic_task(run_every=timedelta(minutes=10))
 def run_sites_crawlers():
-    runner = CrawlerRunner()
     spiders = [
         BitcoinistFeedSpider,
         BitNewsTodaySpider,
@@ -37,8 +36,6 @@ def run_sites_crawlers():
         PrestonByrneFeedSpider,
         TrustNodesFeedSpider,
     ]
-    for spider in spiders:
-        runner.crawl(spider)
 
     try:
         runner = CrawlerRunner()

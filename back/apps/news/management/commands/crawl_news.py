@@ -19,7 +19,6 @@ class Command(BaseCommand):
     help = 'Crawl news'
 
     def handle(self, *args, **options):
-        runner = CrawlerRunner()
         spiders = [
             BitcoinistFeedSpider,
             BitNewsTodaySpider,
@@ -34,8 +33,6 @@ class Command(BaseCommand):
             PrestonByrneFeedSpider,
             TrustNodesFeedSpider,
         ]
-        for spider in spiders:
-            runner.crawl(spider)
 
         runner = CrawlerRunner()
         for spider in spiders:

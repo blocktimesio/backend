@@ -25,9 +25,6 @@ class SpiderUrlMixin(object):
 
 
 class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
-    name = None
-    domain = None
-    start_urls = None
     item = NewsItem
     custom_settings = {
         'ITEM_PIPELINES': {
@@ -36,7 +33,7 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
         },
 
         'MONGODB_URI': os.environ.get('MONGO_URI', 'mongodb://localhost/blocktimes'),
-        'MONGODB_DATABASE': os.environ.get('MONGO_DATABASE', 'blocktimes'),
+        'MONGODB_DB': os.environ.get('MONGODB_DB', 'blocktimes'),
 
         'IMAGES_STORE': os.environ.get('IMAGES_STORE_PATH', 'media'),
         'IMAGES_URLS_FIELD': 'image_url',

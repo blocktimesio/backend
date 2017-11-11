@@ -4,6 +4,7 @@ from ..base_spiders import BaseFeedSpider
 
 
 class TrustNodesFeedSpider(BaseFeedSpider):
+    name = 'trustnodes_feed'
     start_urls = ['http://www.trustnodes.com/feed']
 
     def get_text(self, entry: dict, response: HtmlResponse):
