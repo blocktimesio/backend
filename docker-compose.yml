@@ -22,6 +22,30 @@ services:
       - 6379
       - 27017
 
+  celery:
+    build:
+      context: ./back/
+      dockerfile: Dockerfile-celery
+    command: sh docker-run-celery.sh
+    env_file: ./back/docker-env.ini
+    working_dir: /app/
+    volumes:
+      - ./back:/app
+    links:
+      - redis:redis
+      - mongo:mongo
+    depends_on:
+      - redis
+      - mongo
+    expose:
+      - 6379
+      - 27017
+
+  redis:
+    image: redis
+    expose:
+      - 6379
+
   db:
     image: 'postgres:9.6'
     restart: always
@@ -86,29 +110,5 @@ services:
     depends_on:
       - back
     ports:
-      - 80:80
+      - 8080:80
       - 443:443
-
-  celery:
-    build:
-      context: ./back/
-      dockerfile: Dockerfile-celery
-    command: sh docker-run-celery.sh
-    env_file: ./back/docker-env.ini
-    working_dir: /app/
-    volumes:
-      - ./back:/app
-    links:
-      - redis:redis
-      - mongo:mongo
-    depends_on:
-      - redis
-      - mongo
-    expose:
-      - 6379
-      - 27017
-
-  redis:
-    image: redis
-    expose:
-      - 6379
