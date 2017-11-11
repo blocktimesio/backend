@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
     public signInForm: FormGroup;
+    public errorMessage: string = null;
 
     constructor(private http: Http, public router: Router, private fb: FormBuilder) {
         this.signInForm = fb.group({
@@ -28,7 +29,8 @@ export class LoginComponent {
                 localStorage.setItem('isSignIn', 'true');
                 this.router.navigate(['/dashboard']);
             }, (error) => {
-                console.log('err');
+                this.errorMessage = 'Username or password is wrong';
+                setTimeout(() => this.errorMessage = null, 20000);
             });
     }
 

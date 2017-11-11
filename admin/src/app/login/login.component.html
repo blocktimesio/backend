@@ -17,6 +17,7 @@
                 </div>
                 <button class="btn rounded-btn" type="submit" [disabled]="!signInForm.valid">Sign In</button>
             </form>
+            <ngb-alert type="warning" (close)="errorMessage = null" *ngIf="errorMessage">{{ errorMessage }}</ngb-alert>
         </div>
     </div>
 </div>
