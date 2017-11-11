@@ -5,4 +5,3 @@ ADD . /app/
 
 USER root
 RUN pip install -r requirements.txt
-RUN pip install -r crawlers/requirements.txt
