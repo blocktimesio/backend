@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
+import { CookieXSRFStrategy, HttpModule, XSRFStrategy } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +18,13 @@ import { AuthGuard } from './shared';
         HttpModule,
         AppRoutingModule,
     ],
-    providers: [AuthGuard],
+    providers: [
+        AuthGuard,
+        {
+            provide: XSRFStrategy,
+            useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRFToken')
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
