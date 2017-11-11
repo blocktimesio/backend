@@ -26,7 +26,7 @@ class NewsViewSet(MongoModelViewSet):
 
 class RankConfigView(APIView):
     model = RankConfig
-    permission_classes = [IsSuperuser]
+    permission_classes = []
 
     def get(self, request, format=None):
         obj = self.model.get_solo()

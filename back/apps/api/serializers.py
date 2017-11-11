@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework_mongoengine import serializers as mongoserializers
 from apps.news.models import (News, RankConfig)
@@ -26,22 +27,7 @@ class NewsSerializer(mongoserializers.DocumentSerializer):
         return round((datetime.now() - obj.created).seconds / 60, 0)
 
     def get_social_data(self, obj: News):
-        default = {
-            'google': 0,
-            'facebook': {
-                'comment_count': 0,
-                'share_count': 0
-            },
-            'linkedin': 0,
-            'pinterest': 0,
-            'reddit': {
-                'ups': 0,
-                'downs': 0
-            },
-
-            'views': 0,
-            'comments': 0,
-        }
+        default = settings.DEFAULT_SOCIAL_NEWS.clone()
         default.update(obj.social)
         return default
 

@@ -185,6 +185,23 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
 )
 
+DEFAULT_SOCIAL_NEWS = {
+    'google': 0,
+    'facebook': {
+        'comment_count': 0,
+        'share_count': 0
+    },
+    'linkedin': 0,
+    'pinterest': 0,
+    'reddit': {
+        'ups': 0,
+        'downs': 0
+    },
+
+    'views': 0,
+    'comments': 0,
+}
+
 include('loggers.py')
 
 if os.environ.get('LOAD_SETTINGS_LOCAL'):
