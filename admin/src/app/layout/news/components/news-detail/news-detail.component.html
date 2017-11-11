@@ -1,0 +1,8 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'News detail'" [icon]="'fa-newspaper-o'"></app-page-header>
+
+    <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="news">
+        <h3>{{ news.title }}</h3>
+        <div [froalaEditor] [(ngModel)]="news.text"></div>
+    </div>
+</div>

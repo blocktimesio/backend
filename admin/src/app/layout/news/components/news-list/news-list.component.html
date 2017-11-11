@@ -78,7 +78,7 @@
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="newsList.length">
             <div class="card" *ngFor="let news of newsList">
                 <h6 class="card-header">
-                    <a href="#">{{ news.title }}</a>
+                    <a [routerLink]="['/news', news.id]">{{ news.title }}</a>
                 </h6>
                 <div class="card-block">
                     <p class="card-text">
