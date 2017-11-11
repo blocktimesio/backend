@@ -24,8 +24,8 @@ from crawlers.spiders.prestonbyrne_feed import PrestonByrneFeedSpider
 from crawlers.spiders.trustnodes_feed import TrustNodesFeedSpider
 
 
-@periodic_task(run_every=timedelta(minutes=2))
-def run_site_crawlers():
+@periodic_task(run_every=timedelta(minutes=10))
+def run_sites_crawlers():
     runner = CrawlerRunner()
     spiders = [
         BitcoinistFeedSpider,
@@ -55,7 +55,7 @@ def run_site_crawlers():
         logger.error('', exc_info=True)
 
 
-@periodic_task(run_every=timedelta(minutes=1))
+@periodic_task(run_every=timedelta(minutes=5))
 def crawl_social_latest():
     crawler = SocialCrawler()
     crawler.start()
