@@ -47,7 +47,8 @@ export class NewsComponent {
 
     private loadNews(): void {
         // /api/v1/news/?limit=10&offset=50
-        const url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${this.pageSize as number}`;
+        const offset = Number(this.pageSize) * Number(this.currentPage);
+        const url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${offset}`;
         this.http.get(url)
             .subscribe((response: Response) => {
                 const data = response.json();
