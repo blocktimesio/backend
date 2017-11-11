@@ -22,6 +22,7 @@ export class LoginComponent {
     }
 
     signIn() {
+        this.errorMessage = null;
         const data = this.signInForm.value;
         this.http.post('/api/v1/sign-in', data)
             .subscribe((response: Response) => {
