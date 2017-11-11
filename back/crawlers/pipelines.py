@@ -29,17 +29,17 @@ class MongoPipeline(object):
         self.client.close()
 
     def process_item(self, item, spider):
-        collections = self.db[self.collection_name]
-        count = collections.find({'slug': item['slug'], 'domain': item['domain']}).count()
+        collection = self.db[self.collection_name]
+        count = collection.find({'slug': item['slug'], 'domain': item['domain']}).count()
         data = dict(item)
         data['updated'] = datetime.now()
         if count:
             del data['social']
-            collections.update({'slug': item['slug'], 'domain': item['domain']}, {'$set': data})
+            collection.update({'slug': item['slug'], 'domain': item['domain']}, {'$set': data})
         else:
             data['social'] = deepcopy(settings.DEFAULT_SOCIAL_NEWS)
             data['created'] = data['updated']
-            collections.insert_one(data)
+            collection.insert_one(data)
         return item
 
 
