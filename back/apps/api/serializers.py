@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import datetime
 from django.conf import settings
 from rest_framework import serializers
@@ -27,7 +28,7 @@ class NewsSerializer(mongoserializers.DocumentSerializer):
         return round((datetime.now() - obj.created).seconds / 60, 0)
 
     def get_social_data(self, obj: News):
-        default = settings.DEFAULT_SOCIAL_NEWS.clone()
+        default = deepcopy(settings.DEFAULT_SOCIAL_NEWS)
         default.update(obj.social)
         return default
 

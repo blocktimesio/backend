@@ -1,5 +1,6 @@
 import os
 import pymongo
+from copy import deepcopy
 from datetime import datetime
 from django.conf import settings
 from scrapy import Request
@@ -36,7 +37,7 @@ class MongoPipeline(object):
             del data['social']
             collections.update({'slug': item['slug'], 'domain': item['domain']}, {'$set': data})
         else:
-            data['social'] = settings.DEFAULT_SOCIAL_NEWS.clone()
+            data['social'] = deepcopy(settings.DEFAULT_SOCIAL_NEWS)
             data['created'] = data['updated']
             collections.insert_one(data)
         return item
