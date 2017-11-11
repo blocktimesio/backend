@@ -18,4 +18,9 @@ export class SidebarComponent {
             this.showMenu = element;
         }
     }
+
+    onLoggedout() {
+        localStorage.removeItem('isSignIn');
+        localStorage.removeItem('sessionId');
+    }
 }
