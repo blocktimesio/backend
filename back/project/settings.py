@@ -91,8 +91,6 @@ MONGODB_DATABASES = {
     'default': {
         'name': 'blocktimes',
         'host': env('MONGODB_HOST', default='localhost'),
-        'username': env('MONGODB_USERNAME', default='blocktimes'),
-        'password': env('MONGODB_PASSWORD', default='blocktimes'),
         'port': 27017,
         'tz_aware': True,
     },
