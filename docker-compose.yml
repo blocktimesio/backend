@@ -66,18 +66,24 @@ services:
     volumes:
       - ./back/run:/opt/run
 
+      # Statics
       - ./admin/dist:/var/www/html/admin
-
+      - ./front/dist:/var/www/html/front
       - ./back/media:/var/www/html/media
       - ./back/static:/var/www/html/static
 
+      # Service
       - ./nginx/logs:/var/log/nginx
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/proxy_params:/etc/nginx/proxy_params
-      - ./nginx/static_params:/etc/nginx/static_params
-      - ./nginx/main.conf:/etc/nginx/sites-enabled/main.conf
-
       - ./nginx/certs:/etc/nginx/certs
+
+      # Configs
+      - ./nginx/confs/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/confs/proxy_params:/etc/nginx/proxy_params
+      - ./nginx/confs/static_params:/etc/nginx/static_params
+
+      # Sites
+      - ./nginx/sites-enabled/main.conf:/etc/nginx/sites-enabled/main.conf
+      - ./nginx/sites-enabled/admin.conf:/etc/nginx/sites-enabled/admin.conf
     depends_on:
       - back
     ports:
