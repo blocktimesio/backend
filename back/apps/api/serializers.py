@@ -1,8 +1,12 @@
 from datetime import datetime
-
 from rest_framework import serializers
 from rest_framework_mongoengine import serializers as mongoserializers
 from apps.news.models import (News, RankConfig)
+
+
+class SignInSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
 
 
 class NewsSerializer(mongoserializers.DocumentSerializer):
