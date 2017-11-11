@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
 
-    'admin_honeypot',
     'corsheaders',
     'django_extensions',
     'redactor',
