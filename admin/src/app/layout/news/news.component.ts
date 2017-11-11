@@ -13,6 +13,7 @@ export class NewsComponent {
     public newsList: Array<any> = [];
 
     public rankConfigForm: FormGroup;
+    public isRankFormCollapsed: Boolean = false;
 
     public pageSize: Number = 10;
     public totalCount: Number = 0;

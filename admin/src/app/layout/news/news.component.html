@@ -3,60 +3,70 @@
 
     <div class="row">
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount" >
-            <form [formGroup]="rankConfigForm" (ngSubmit)="submitRankConfig()">
-                <div class="form-group row">
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_fb_shares"><i class="fa fa-facebook"></i></label>
-                        <input class="form-control input-xs" id="id_fb_shares"
-                               type="number" step=".01" formControlName="fb_shares" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_linkedin_shares"><i class="fa fa-link"></i></label>
-                        <input class="form-control input-xs" id="id_linkedin_shares"
-                               type="number" formControlName="linkedin_shares" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_reddit_up"><i class="fa fa-reddit"></i></label>
-                        <input class="form-control input-xs" id="id_reddit_up"
-                               type="number" step=".01" formControlName="reddit_up" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_twitter_shares"><i class="fa fa-twitter"></i></label>
-                        <input class="form-control input-xs" id="id_twitter_shares"
-                               type="number" step=".01" formControlName="twitter_shares" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_views"><i class="fa fa-eye"></i></label>
-                        <input class="form-control input-xs" id="id_views"
-                               type="number" step=".01" formControlName="views" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_comments"><i class="fa fa-clock-o"></i></label>
-                        <input class="form-control input-xs" id="id_comments"
-                               type="number" step=".01" formControlName="comments" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_date_elapsed_seconds"><i class="fa fa-clock-o"></i></label>
-                        <input class="form-control input-xs" id="id_date_elapsed_seconds"
-                               type="number" step=".01" formControlName="date_elapsed_seconds" />
-                    </div>
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <label for="id_date_coef"><i class="fa fa-calendar"></i></label>
-                        <input class="form-control input-xs" id="id_date_coef"
-                               type="number" step=".01" formControlName="date_coef" />
-                    </div>
+            <div class="card form-rank">
+                <h5 class="card-header" (click)="isRankFormCollapsed = !isRankFormCollapsed">
+                    Coefficients form
+                    <i class="fa pull-right"
+                       [ngClass]="{'fa-chevron-down': isRankFormCollapsed, 'fa-chevron-up': !isRankFormCollapsed}"></i>
+                </h5>
+                <div class="card-block" [ngbCollapse]="isRankFormCollapsed">
+                    <form [formGroup]="rankConfigForm" (ngSubmit)="submitRankConfig()">
+                        <div class="form-group row">
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_fb_shares"><i class="fa fa-facebook"></i></label>
+                                <input class="form-control input-xs" id="id_fb_shares"
+                                       type="number" step=".01" formControlName="fb_shares" />
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_linkedin_shares"><i class="fa fa-link"></i></label>
+                                <input class="form-control input-xs" id="id_linkedin_shares"
+                                       type="number" formControlName="linkedin_shares" />
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_reddit_up"><i class="fa fa-reddit"></i></label>
+                                <input class="form-control input-xs" id="id_reddit_up"
+                                       type="number" step=".01" formControlName="reddit_up" />
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_twitter_shares"><i class="fa fa-twitter"></i></label>
+                                <input class="form-control input-xs" id="id_twitter_shares"
+                                       type="number" step=".01" formControlName="twitter_shares" />
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_views"><i class="fa fa-eye"></i></label>
+                                <input class="form-control input-xs" id="id_views"
+                                       type="number" step=".01" formControlName="views" />
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_comments"><i class="fa fa-clock-o"></i></label>
+                                <input class="form-control input-xs" id="id_comments"
+                                       type="number" step=".01" formControlName="comments" />
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_date_elapsed_seconds"><i class="fa fa-clock-o"></i></label>
+                                <input class="form-control input-xs" id="id_date_elapsed_seconds"
+                                       type="number" step=".01" formControlName="date_elapsed_seconds" />
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <label for="id_date_coef"><i class="fa fa-calendar"></i></label>
+                                <input class="form-control input-xs" id="id_date_coef"
+                                       type="number" step=".01" formControlName="date_coef" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                <button class="btn btn-xs btn-success" [disabled]="!rankConfigForm.valid">
+                                    <i class="fa fa-save"></i>
+                                    <b>Save config & update list</b>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group row">
-                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                        <button class="btn btn-xs btn-success" [disabled]="!rankConfigForm.valid">
-                            <i class="fa fa-save"></i>
-                            <b>Save config & update list</b>
-                        </button>
-                    </div>
+                <div class="card-block" *ngIf="isRankFormCollapsed">
+                    <h5 align="center">...</h5>
                 </div>
-            </form>
-
-            <hr>
+            </div>
         </div>
     </div>
 
@@ -66,7 +76,7 @@
                             [collectionSize]="totalCount" [(page)]="currentPage" [maxSize]="pageSize"></ngb-pagination>
         </div>
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="newsList.length">
-            <div class="card" style="margin-bottom: 10px" *ngFor="let news of newsList">
+            <div class="card" *ngFor="let news of newsList">
                 <h6 class="card-header">
                     <a href="#">{{ news.title }}</a>
                 </h6>
