@@ -18,3 +18,9 @@ class CoinTelegraphFeedSpider(BaseFeedSpider):
             return media_content[0]['url']
         else:
             return ''
+
+    def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
+        nodes = response.css('.total-views .total-qty')
+        if nodes:
+            return nodes[0].root.text
+        return 0
