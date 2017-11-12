@@ -1,6 +1,7 @@
 import os
 import re
 import logging
+import requests
 import scrapy as scrapy
 from ..items import NewsItem
 from ..base_spiders import SpiderUrlMixin
@@ -49,6 +50,20 @@ class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
             log_message = 'IMAGE NOT FOUND {}'.format(response.url)
             self.log(log_message, logging.WARNING)
 
+        comments = 0
+        try:
+            news_id = re.search('news\d+', response.body.decode())
+            if news_id:
+                url = 'https://bitnewstoday.com/ajax/comments/get.php'
+                response = requests.post(url, data={'resource': news_id[0], 'showMore': False})
+                data = response.json()
+                total = data.get('total', '')
+                total = re.match('\d+', data.get('total', ''))
+                if total:
+                    comments = total[0]
+        except Exception as e:
+            logging.error('Error at getting comment', exc_info=True)
+
         yield NewsItem(
             domain=self.get_domain(response.url),
 
@@ -64,7 +79,10 @@ class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
             image_url=image_url,
             image_file_path=image_file_path,
 
-            social={}
+            social={
+                'views': 0,
+                'comments': comments,
+            }
         )
 
     def _get_abs_url(self, path):
