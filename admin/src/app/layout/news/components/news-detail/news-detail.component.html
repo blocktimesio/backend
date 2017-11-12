@@ -1,8 +1,20 @@
 <div [@routerTransition]>
-    <app-page-header [heading]="'News detail'" [icon]="'fa-newspaper-o'"></app-page-header>
+    <div class="row">
+        <div class="col-xl-12">
+            <h2 class="page-header">{{ news.title }}</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <i class="fa fa-dashboard"></i> <a href="Javascript:void(0)" [routerLink]="['/dashboard']">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <i class="fa fa-list"></i> <a href="Javascript:void(0)" [routerLink]="['/news']">News list</a>
+                </li>
+                <li class="breadcrumb-item active"><i class="fa {{icon}}"></i> {{ news.title | slice:0:32 }}</li>
+            </ol>
+        </div>
+    </div>
 
-    <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="news">
-        <h3>{{ news.title }}</h3>
+    <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="news">
         <div [froalaEditor] [(ngModel)]="news.text"></div>
     </div>
 </div>
