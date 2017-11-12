@@ -22,5 +22,7 @@ class TrustNodesFeedSpider(BaseFeedSpider):
     def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.css('.comments-count ::text')
         if nodes:
-            return nodes[0].root
+            comments = nodes[0].root
+            if comments.isdigit():
+                return int(comments)
         return 0

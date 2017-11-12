@@ -20,11 +20,15 @@ class NewsBitcoinFeedSpider(BaseFeedSpider):
     def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.css('.td-post-views span')
         if nodes:
-            return nodes[0].root.text
+            comments = nodes[0].root.text
+            if comments.isdigit():
+                return int(comments)
         return 0
 
     def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.xpath('//div[@class="td-post-comments"]//a//text()')
         if nodes:
-            return nodes[0].root
+            comments = nodes[0].root
+            if comments.isdigit():
+                return int(comments)
         return 0

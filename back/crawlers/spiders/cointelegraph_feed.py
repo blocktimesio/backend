@@ -22,5 +22,7 @@ class CoinTelegraphFeedSpider(BaseFeedSpider):
     def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.css('.total-views .total-qty')
         if nodes:
-            return nodes[0].root.text
+            comments = nodes[0].root.text
+            if comments.isdigit():
+                return int(comments)
         return 0

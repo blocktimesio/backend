@@ -24,5 +24,7 @@ class MoneyAndStateFeedSpider(BaseFeedSpider):
     def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.xpath('//div[@class="post-header"]//div[@class="info"]//div[1]//span//text()')
         if nodes:
-            return nodes[0].root
+            comments = nodes[0].root
+            if comments.isdigit():
+                return int(comments)
         return 0
