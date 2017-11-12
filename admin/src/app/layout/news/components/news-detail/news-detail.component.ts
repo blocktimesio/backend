@@ -27,7 +27,7 @@ export class NewsDetailComponent {
                 });
         });
 
-        setTimeout(() => $('.fr-wrapper > div > a').remove(), 2300);
+        setTimeout(() => $('.fr-wrapper > div > a').remove(), 1000);
     }
 
     public editorEdit = {
