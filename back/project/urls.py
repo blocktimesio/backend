@@ -1,12 +1,15 @@
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls import (url, include)
+from apps.common import views
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 urlpatterns = [
+    url(r'^$', views.HomePageView.as_view(), name='home'),
+    url(r'^favicon\.ico$', views.FaviconRedirectView.as_view(), name='favicon'),
+
     url(r'^api/v1/', include('apps.api.urls', namespace='api_v1')),
-    # url(r'^favicon\.ico$', views.FaviconRedirectView.as_view(), name='favicon'),
     # url(r'^robots\.txt$', views.TemplateView.as_view(template_name='robots.txt')),
     # url(r'^sitemap\.xml', views.TemplateView.as_view(template_name='sitempa.xml')),
 
