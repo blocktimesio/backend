@@ -16,3 +16,15 @@ class NewsBitcoinFeedSpider(BaseFeedSpider):
             log_message = 'IMAGE NOT FOUND {}'.format(response.url)
             self.log(log_message, logging.WARNING)
             return ''
+
+    def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
+        nodes = response.css('.td-post-views span')
+        if nodes:
+            return nodes[0].root.text
+        return 0
+
+    def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
+        nodes = response.xpath('//div[@class="td-post-comments"]//a//text()')
+        if nodes:
+            return nodes[0].root
+        return 0
