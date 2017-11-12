@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { routerTransition } from '../../../../router.animations';
+import * as $ from 'jquery/dist/jquery.min.js';
 
 @Component({
     moduleId: module.id,
@@ -25,6 +26,8 @@ export class NewsDetailComponent {
                     this.router.navigate(['/not-found']);
                 });
         });
+
+        setTimeout(() => $('.fr-wrapper > div > a').remove(), 2300);
     }
 
     public editorEdit = {
