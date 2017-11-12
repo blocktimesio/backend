@@ -22,3 +22,9 @@ class EthereumWorldNewsFeedSpider(BaseFeedSpider):
         else:
             self.log(log_message, logging.WARNING)
         return ''
+
+    def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
+        nodes = response.css('.post-share-btn-views .number')
+        if nodes:
+            return nodes[1].root.replace(',', '')
+        return 0
