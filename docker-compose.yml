@@ -93,7 +93,6 @@ services:
 
       # Statics
       - ./admin/dist:/var/www/html/admin
-      - ./front/dist:/var/www/html/front
       - ./back/media:/var/www/html/media
       - ./back/static:/var/www/html/static
 
