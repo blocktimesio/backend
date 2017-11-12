@@ -102,9 +102,12 @@
                     <button class="btn btn-sm btn-danger card-link">
                         Archive <i class="fa fa-archive"></i>
                     </button>
-                    <a [href]="news.url_raw" class="card-link pull-right" target="_blank">
+                    <a [href]="news.url_raw" class="card-link" target="_blank">
                         Original
                         <i class="fa fa-link"></i>
+                    </a>
+                    <a [href]="news.domain" class="card-link" target="_blank">
+                        {{ news.domain }}
                     </a>
                     <hr>
                     <div class="table-responsive">
