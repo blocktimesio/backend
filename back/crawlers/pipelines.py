@@ -30,7 +30,7 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         collection = self.db[self.collection_name]
-        count = collection.find({'slug': item['slug'], 'domain': item['domain']}).count()
+        count = collection.find({'url': item['url']}).count()
         data = dict(item)
         data['updated'] = datetime.now()
         if count:
