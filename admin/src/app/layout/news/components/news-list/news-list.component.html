@@ -90,9 +90,7 @@
                     <p class="card-text" *ngIf="news.tags.length">
                         <i class="fa fa-tags"></i>
                         <span *ngFor="let tag of news.tags; let last = last;">
-                            <a href="#">
-                                {{ tag }}
-                            </a>
+                            {{ tag }}
                             <span *ngIf="!last"> | </span>
                         </span>
                     </p>
