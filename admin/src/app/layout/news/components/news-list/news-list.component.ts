@@ -54,7 +54,7 @@ export class NewsListComponent {
             .subscribe((response: Response) => {
                 const data = response.json();
                 this.newsList = data['results'];
-                this.totalCount = data['count'] - 1;
+                this.totalCount = Number(data['count']) - Number(this.pageSize);
             });
     }
 
