@@ -197,9 +197,6 @@ DEFAULT_SOCIAL_NEWS = {
         'ups': 0,
         'downs': 0
     },
-
-    'views': 0,
-    'comments': 0,
 }
 
 include('loggers.py')
