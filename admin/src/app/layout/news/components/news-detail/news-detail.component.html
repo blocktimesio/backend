@@ -12,6 +12,10 @@
                 <li class="breadcrumb-item active"><i class="fa {{icon}}"></i> {{ news.title | slice:0:32 }}</li>
             </ol>
         </div>
+
+        <div style="position: absolute; left: 1em; top: 1em; z-index: 999;" *ngIf="alerts.length">
+            <ngb-alert *ngFor="let alert of alerts" [type]="alert.type" (close)="closeAlert(alert)">{{ alert.message }}</ngb-alert>
+        </div>
     </div>
 
     <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="news">
@@ -78,6 +82,28 @@
             </div>
         </div>
 
+        <div class="card" style="margin-bottom: 10px">
+            <div class="card-block">
+                <button class="btn btn-success card-link" (click)="saveNews()">
+                    <i class="fa fa-save"></i> Save
+                </button>
+                <button class="btn btn-danger card-link" (click)="removeNews()">
+                    <i class="fa fa-trash-o"></i> Remove
+                </button>
+            </div>
+        </div>
+
         <div [froalaEditor]="editorEdit" [(ngModel)]="news.text"></div>
+
+        <div class="card" style="margin-top: 10px">
+            <div class="card-block">
+                <button class="btn btn-success card-link" (click)="saveNews()">
+                    <i class="fa fa-save"></i> Save
+                </button>
+                <button class="btn btn-danger card-link" (click)="removeNews()">
+                    <i class="fa fa-trash-o"></i> Remove
+                </button>
+            </div>
+        </div>
     </div>
 </div>
