@@ -37,6 +37,8 @@ class News(Document):
     pub_date = fields.StringField(required=True)
 
     social = fields.DictField(required=False, null=True)
+    views = fields.IntField(required=False, null=True, default=0)
+    comments = fields.IntField(required=False, null=True, default=0)
 
     image_url = fields.StringField(required=False)
     image_file_path = fields.StringField(required=False)
@@ -74,8 +76,8 @@ class News(Document):
         rank += fb_shares * config.fb_shares
         rank += linkedin_shares * config.linkedin_shares
         rank += reddit_ups * config.reddit_up
-        # rank += views  * config.views
-        # rank += comments * config.comments
+        rank += self.views * config.views
+        rank += self.comments * config.comments
         rank = float(rank)
         rank -= (datetime.now() - self.created).seconds / float(config.date_elapsed_seconds * config.date_coef)
         return rank
