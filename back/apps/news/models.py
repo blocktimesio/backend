@@ -76,8 +76,8 @@ class News(Document):
         rank += fb_shares * config.fb_shares
         rank += linkedin_shares * config.linkedin_shares
         rank += reddit_ups * config.reddit_up
-        rank += self.views * config.views
-        rank += self.comments * config.comments
+        rank += self.views or 0 * config.views
+        rank += self.comments or 0 * config.comments
         rank = float(rank)
         rank -= (datetime.now() - self.created).seconds / float(config.date_elapsed_seconds * config.date_coef)
         return rank
