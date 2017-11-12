@@ -15,6 +15,7 @@ export class NewsListComponent {
 
     public rankConfigForm: FormGroup;
     public isRankFormCollapsed: Boolean = false;
+    public isNewsCardsCollapsed: Boolean = false;
 
     public pageSize: Number = 10;
     public totalCount: Number = 0;
@@ -38,6 +39,14 @@ export class NewsListComponent {
         if (isRankFormCollapsed && isRankFormCollapsed === '1') {
             this.isRankFormCollapsed = true;
         }
+
+        const isNewsCardsCollapsed = localStorage.getItem('isNewsCardsCollapsed');
+        if (isNewsCardsCollapsed && isNewsCardsCollapsed === '1') {
+            this.isNewsCardsCollapsed = true;
+        }
+        this.newsList.forEach(function(news) {
+            news.isCollapsed = !this.isNewsCardsCollapsed;
+        });
     }
 
     public changePage(selectedPage: number): void {
@@ -71,13 +80,29 @@ export class NewsListComponent {
             });
     }
 
-    public collapse(): void {
+    public collapseRankForm(): void {
         this.isRankFormCollapsed = !this.isRankFormCollapsed;
+
         if (this.isRankFormCollapsed) {
             localStorage.setItem('isRankFormCollapsed', '1');
         }
         else {
             localStorage.setItem('isRankFormCollapsed', '0');
+        }
+    }
+
+    public collapseNewsCards(): void {
+        this.isNewsCardsCollapsed = !this.isNewsCardsCollapsed;
+
+        this.newsList.forEach(function(news) {
+            news.isCollapsed = !news.isCollapsed;
+        });
+
+        if (this.isNewsCardsCollapsed) {
+            localStorage.setItem('isNewsCardsCollapsed', '1');
+        }
+        else {
+            localStorage.setItem('isNewsCardsCollapsed', '0');
         }
     }
 }

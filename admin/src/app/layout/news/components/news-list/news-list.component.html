@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center">
             <div class="card form-rank">
-                <h5 class="card-header" (click)="collapse()">
+                <h5 class="card-header" (click)="collapseRankForm()">
                     Coefficients form
                     <i class="fa pull-right"
                        [ngClass]="{'fa-chevron-down': isRankFormCollapsed, 'fa-chevron-up': !isRankFormCollapsed}"></i>
@@ -68,19 +68,40 @@
                 </div>
             </div>
         </div>
+
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="totalCount">
+            <div class="card">
+                <h5 class="card-header">Filter form</h5>
+                <div class="card-block">
+                    <p class="card-text">
+                        <button class="btn btn-sm btn-info card-link" (click)="collapseNewsCards()">
+                            <span *ngIf="isNewsCardsCollapsed">
+                                Show all news card <i class="fa fa-chevron-down"></i>
+                            </span>
+                            <span *ngIf="!isNewsCardsCollapsed">
+                                Hide all news card <i class="fa fa-chevron-up"></i>
+                            </span>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row">
-        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount" >
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount">
             <ngb-pagination aria-label="Default pagination" (pageChange)="changePage($event)"
                             [collectionSize]="totalCount" [(page)]="currentPage" [maxSize]="pageSize"></ngb-pagination>
         </div>
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="newsList.length">
             <div class="card" *ngFor="let news of newsList">
                 <h6 class="card-header">
-                    <a [routerLink]="['/news', news.id]">{{ news.title }}</a>
+                    <a [routerLink]="['/news', news.id]">{{ news.title|slice:0:64 }}</a>
+
+                    <i class="fa pull-right" (click)="news.isCollapsed = !news.isCollapsed"
+                       [ngClass]="{'fa-chevron-down': news.isCollapsed, 'fa-chevron-up': !news.isCollapsed}"></i>
                 </h6>
-                <div class="card-block">
+                <div class="card-block" [ngbCollapse]="!news.isCollapsed">
                     <p class="card-text">
                         {{ news.short_text }}
                     </p>
@@ -88,39 +109,45 @@
                         <i class="fa fa-user"></i> {{ news.author }}
                     </p>
                     <p class="card-text" *ngIf="news.tags.length">
+                        <i class="fa fa-tags"></i>
                         <span *ngFor="let tag of news.tags; let last = last;">
                             {{ tag }}
                             <span *ngIf="!last">, </span>
                         </span>
                     </p>
-                    <p class="card-text">
-                    <span class="card-link">
-                        <i class="fa fa-clock-o"></i>
-                        Publicated: {{ news.pub_date | date:'d MMM h:mm' }}
-                    </span>
-                        <span class="card-link">
-                        <i class="fa fa-clock-o"></i>
-                        Created: {{ news.created | date:'d MMM h:mm' }}
-                    </span>
-                        <span class="card-link">
-                        <i class="fa fa-clock-o"></i>
-                        Updated: {{ news.updated | date:'d MMM h:mm' }}
-                    </span>
-                    </p>
+                </div>
+                <div class="card-block text-center news-data-stub" *ngIf="!news.isCollapsed">
+                    ...
                 </div>
                 <div class="card-footer text-muted">
-                    <button class="btn btn-sm btn-info card-link">
-                        Quick view <i class="fa fa-eye"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger card-link">
-                        Archive <i class="fa fa-archive"></i>
-                    </button>
-                    <span class="card-link">{{ news.domain }}</span>
-                    <a [href]="news.url_raw" class="card-link" target="_blank">
-                        Original
-                        <i class="fa fa-link"></i>
-                    </a>
+                    <p class="card-text">
+                        <button class="btn btn-sm btn-info card-link">
+                            Quick view <i class="fa fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger card-link">
+                            Archive <i class="fa fa-archive"></i>
+                        </button>
+                        <span class="card-link">{{ news.domain }}</span>
+                        <a [href]="news.url_raw" class="card-link" target="_blank">
+                            Original
+                            <i class="fa fa-link"></i>
+                        </a>
+                    </p>
                     <hr>
+                    <p class="card-text text-center">
+                        <span class="card-link">
+                            <i class="fa fa-clock-o"></i>
+                            Publicated: {{ news.pub_date | date:'d MMM h:mm' }}
+                        </span>
+                        <span class="card-link">
+                            <i class="fa fa-clock-o"></i>
+                            Created: {{ news.created | date:'d MMM h:mm' }}
+                        </span>
+                        <span class="card-link">
+                            <i class="fa fa-clock-o"></i>
+                            Updated: {{ news.updated | date:'d MMM h:mm' }}
+                        </span>
+                    </p>
                     <div class="table-responsive">
                         <table class="table borderless">
                             <tbody>
