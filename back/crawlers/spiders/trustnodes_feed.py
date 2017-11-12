@@ -18,3 +18,9 @@ class TrustNodesFeedSpider(BaseFeedSpider):
             log_message = 'IMAGE NOT FOUND {}'.format(response.url)
             self.log(log_message, logging.WARNING)
         return ''
+
+    def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
+        nodes = response.css('.comments-count ::text')
+        if nodes:
+            return nodes[0].root
+        return 0
