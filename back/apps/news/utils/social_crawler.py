@@ -49,21 +49,18 @@ class SocialCrawler(object):
             uid = self._queue.get()
             try:
                 post = self._get_post_detail(uid)
-                if post:
-                    new_social_data = self._process(post)
-                    social_data = post['social'].copy()
-                    social_data.update(new_social_data)
+                new_social_data = self._process(post)
+                social_data = post['social'].copy()
+                social_data.update(new_social_data)
 
-                    kwargs = dict(social=social_data)
-                    if post.get('views') is None:
-                        kwargs['views'] = 0
-                    if post.get('comments') is None:
-                        kwargs['comments'] = 0
+                kwargs = dict(social=social_data)
+                if post.get('views') is None:
+                    kwargs['views'] = 0
+                if post.get('comments') is None:
+                    kwargs['comments'] = 0
 
-                    self._update_post(post['_id'], **kwargs)
-                    # TODO: log
-                else:
-                    pass  # TODO: log
+                self._update_post(post['_id'], **kwargs)
+                # TODO: log
             except Exception as e:
                 pass  # TODO: log
             finally:
