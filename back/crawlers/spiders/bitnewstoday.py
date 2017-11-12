@@ -57,10 +57,9 @@ class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
                 url = 'https://bitnewstoday.com/ajax/comments/get.php'
                 response = requests.post(url, data={'resource': news_id[0], 'showMore': False})
                 data = response.json()
-                total = data.get('total', '')
                 total = re.match('\d+', data.get('total', ''))
                 if total:
-                    comments = total[0]
+                    comments = int(total[0])
         except Exception as e:
             logging.error('Error at getting comment', exc_info=True)
 
@@ -79,10 +78,8 @@ class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
             image_url=image_url,
             image_file_path=image_file_path,
 
-            social={
-                'views': 0,
-                'comments': comments,
-            }
+            views=0,
+            comments=comments,
         )
 
     def _get_abs_url(self, path):
