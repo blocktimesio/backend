@@ -40,8 +40,8 @@ class News(Document):
     views = fields.IntField(required=False, null=True, default=0)
     comments = fields.IntField(required=False, null=True, default=0)
 
-    image_url = fields.StringField(required=False)
-    image_file_path = fields.StringField(required=False)
+    image_url = fields.StringField(required=False, null=True)
+    image_file_path = fields.StringField(required=False, null=True)
 
     created = fields.DateTimeField(default=timezone.now)
     updated = fields.DateTimeField(default=timezone.now)
