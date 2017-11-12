@@ -125,8 +125,8 @@
                                 <td>{{ news.social_data.facebook.share_count }}</td>
                                 <td>{{ news.social_data.linkedin }}</td>
                                 <td>{{ news.social_data.reddit.ups }}</td>
-                                <td>{{ news.social_data.views }}</td>
-                                <td>{{ news.social_data.comments }}</td>
+                                <td>{{ news.views || 0 }}</td>
+                                <td>{{ news.comments || 0 }}</td>
                                 <td>{{ news.time_elapsed }}</td>
                                 <td><b>{{ news.rank }}</b></td>
                             </tr>
