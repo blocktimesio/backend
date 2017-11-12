@@ -1,7 +1,9 @@
+import os
 import logging
-
 from bson import ObjectId
 from django.conf import settings
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,8 +13,9 @@ from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSe
 from .serializers import (NewsSerializer, RankConfigSerializer, SignInSerializer)
 from apps.news.models import (News, RankConfig)
 from django.contrib.auth import (
-    login as django_login,
-    authenticate)
+    authenticate,
+    login as django_login
+)
 
 logger = logging.getLogger('django.request')
 
@@ -103,3 +106,12 @@ class SignInView(APIView):
 
     def patch(self, request, format=None):
         return self.post(request, format)
+
+
+class UploadImageView(APIView):
+    def post(self, request, format=None):
+        image_path = 'news/{}'.format(request.FILES['file'].name)
+        content = request.FILES['file'].file.read()
+        uploaded_path = default_storage.save(image_path, ContentFile(content))
+        link = os.path.join(settings.MEDIA_URL, uploaded_path)
+        return Response({'link': link})

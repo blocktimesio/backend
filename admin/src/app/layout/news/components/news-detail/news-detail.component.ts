@@ -25,4 +25,11 @@ export class NewsDetailComponent {
                 });
         });
     }
+
+    public editorEdit = {
+        imageUploadURL: '/api/v1/admin/upload-image',
+        imageUploadMethod: 'POST',
+        imageMaxSize: 30 * 1024 * 1024,
+        imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+    };
 }
