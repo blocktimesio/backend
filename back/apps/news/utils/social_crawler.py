@@ -53,7 +53,14 @@ class SocialCrawler(object):
                     new_social_data = self._process(post)
                     social_data = post['social'].copy()
                     social_data.update(new_social_data)
-                    self._update_post(post['_id'], social=social_data)
+
+                    kwargs = dict(social=social_data)
+                    if post.get('views') is None:
+                        kwargs['views'] = 0
+                    if post.get('comments') is None:
+                        kwargs['comments'] = 0
+
+                    self._update_post(post['_id'], **kwargs)
                     # TODO: log
                 else:
                     pass  # TODO: log

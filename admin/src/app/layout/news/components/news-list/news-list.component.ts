@@ -33,6 +33,11 @@ export class NewsListComponent {
         });
         this.loadRankConfigForm();
         this.loadNews();
+
+        const isRankFormCollapsed = localStorage.getItem('isRankFormCollapsed');
+        if (isRankFormCollapsed && isRankFormCollapsed === '1') {
+            this.isRankFormCollapsed = true;
+        }
     }
 
     public changePage(selectedPage: number): void {
@@ -64,5 +69,15 @@ export class NewsListComponent {
                 const data = response.json();
                 this.rankConfigForm.reset(data);
             });
+    }
+
+    public collapse(): void {
+        this.isRankFormCollapsed = !this.isRankFormCollapsed;
+        if (this.isRankFormCollapsed) {
+            localStorage.setItem('isRankFormCollapsed', '1');
+        }
+        else {
+            localStorage.setItem('isRankFormCollapsed', '0');
+        }
     }
 }

@@ -20,7 +20,6 @@ export class NewsDetailComponent {
             this.http.get(`/api/v1/admin/news/${params['id']}`)
                 .subscribe((data: Response) => {
                     this.news = data.json();
-                    console.log(this.news);
                 }, (error) => {
                     this.router.navigate(['/not-found']);
                 });

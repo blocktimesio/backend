@@ -1,6 +1,6 @@
 <div [@routerTransition]>
     <div class="row">
-        <div class="col-xl-12">
+        <div class="col-xl-12" *ngIf="news">
             <h2 class="page-header">{{ news.title }}</h2>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
@@ -15,6 +15,69 @@
     </div>
 
     <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="news">
+        <div class="card" style="margin-bottom: 10px">
+            <div class="card-block">
+                <p class="card-text">
+                    <i class="fa fa-user"></i> {{ news.author }}
+                </p>
+                <p class="card-text" *ngIf="news.tags.length">
+                    <i class="fa fa-tags"></i>
+                    <span *ngFor="let tag of news.tags; let last = last;">
+                        {{ tag }}
+                        <span *ngIf="!last">, </span>
+                    </span>
+                </p>
+                <p class="card-text">
+                    <span class="card-link">
+                        <i class="fa fa-clock-o"></i>
+                        Publicated: {{ news.pub_date | date:'d MMM h:mm' }}
+                    </span>
+                    <span class="card-link">
+                        <i class="fa fa-clock-o"></i>
+                        Created: {{ news.created | date:'d MMM h:mm' }}
+                    </span>
+                    <span class="card-link">
+                        <i class="fa fa-clock-o"></i>
+                        Updated: {{ news.updated | date:'d MMM h:mm' }}
+                    </span>
+                </p>
+            </div>
+            <div class="card-footer text-muted">
+                <span class="card-link">{{ news.domain }}</span>
+                <a [href]="news.url_raw" class="card-link" target="_blank">
+                    Original
+                    <i class="fa fa-link"></i>
+                </a>
+
+                <hr>
+
+                <div class="table-responsive">
+                    <table class="table borderless">
+                        <tbody>
+                        <tr>
+                            <td><i class="fa fa-facebook"></i></td>
+                            <td><i class="fa fa-linkedin"></i></td>
+                            <td><i class="fa fa-reddit"></i></td>
+                            <td><i class="fa fa-eye"></i></td>
+                            <td><i class="fa fa-comment"></i></td>
+                            <td><i class="fa fa-clock-o"></i></td>
+                            <td><i class="fa fa-tasks"></i></td>
+                        </tr>
+                        <tr>
+                            <td>{{ news.social_data.facebook.share_count }}</td>
+                            <td>{{ news.social_data.linkedin }}</td>
+                            <td>{{ news.social_data.reddit.ups }}</td>
+                            <td>{{ news.views || 0 }}</td>
+                            <td>{{ news.comments || 0 }}</td>
+                            <td>{{ news.time_elapsed }}</td>
+                            <td><b>{{ news.rank }}</b></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <div [froalaEditor] [(ngModel)]="news.text"></div>
     </div>
 </div>
