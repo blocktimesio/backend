@@ -80,10 +80,8 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
             image_url=image_url,
             image_file_path=image_file_path,
 
-            social={
-                'views': self.get_total_views(entry, response),
-                'comments': self.get_total_comments(entry, response),
-            }
+            views=self.get_total_views(entry, response),
+            comments=self.get_total_views(entry, response),
         )
 
     def get_title(self, entry: dict, response: HtmlResponse) -> str:

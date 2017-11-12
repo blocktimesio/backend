@@ -15,6 +15,8 @@ class NewsItem(scrapy.Item):
     pub_date = scrapy.Field(serializer=str)
 
     social = scrapy.Field(serializer=dict)
+    views = scrapy.Field(serializer=int)
+    comments = scrapy.Field(serializer=int)
 
     image_url = scrapy.Field(serializer=str)
     image_file_path = scrapy.Field(serializer=str)
