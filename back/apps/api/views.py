@@ -7,8 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from rest_framework_mongoengine.generics import get_object_or_404
-from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet, GenericViewSet
-from apps.api.permissions import IsSuperuser
+from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet
 from .serializers import (NewsSerializer, RankConfigSerializer, SignInSerializer)
 from apps.news.models import (News, RankConfig)
 from django.contrib.auth import (
@@ -23,10 +22,22 @@ class NewsViewSet(MongoModelViewSet):
     serializer_class = NewsSerializer
 
     def get_queryset(self):
-        return sorted(News.objects.all(), key=lambda n: n.rank, reverse=True)
+        return News.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = sorted(queryset, key=lambda n: n.rank, reverse=True)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
     def get_object(self):
-        queryset = self.filter_queryset(News.objects.all())
+        queryset = self.filter_queryset(self.get_queryset())
         lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
 
         assert lookup_url_kwarg in self.kwargs, (
@@ -42,6 +53,12 @@ class NewsViewSet(MongoModelViewSet):
         obj = get_object_or_404(queryset, **filter_kwargs)
         self.check_object_permissions(self.request, obj)
         return obj
+
+    def filter_queryset(self, queryset):
+        domains = [d for d in self.request.GET.get('domains', '').split(',') if d]
+        if domains:
+            queryset = queryset.filter(domain__in=domains)
+        return queryset
 
 
 class RankConfigView(APIView):

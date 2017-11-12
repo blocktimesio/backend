@@ -69,10 +69,34 @@
             </div>
         </div>
 
-        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="totalCount">
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12">
             <div class="card">
                 <h5 class="card-header">Filter form</h5>
-                <div class="card-block">
+                <div class="card-block" style="padding-bottom: 0;">
+                    <form [formGroup]="filterForm" (ngSubmit)="submitFilterForm()">
+                        <div class="form-group">
+                            <label for="id_domain">Domain</label>
+                            <select multiple class="form-control" id="id_domain" size="11" formControlName="domains">
+                                <option value="bitcoinist.com">bitcoinist.com</option>
+                                <option value="bitnewstoday.com">bitnewstoday.com</option>
+                                <option value="blog.ethereum.org">blog.ethereum.org</option>
+                                <option value="www.coindesk.com">coindesk.com</option>
+                                <option value="cointelegraph.com">cointelegraph.com</option>
+                                <option value="ethereumworldnews.com">ethereumworldnews.com</option>
+                                <option value="moneyandstate.com">moneyandstate.com</option>
+                                <option value="news.bitcoin.com">news.bitcoin.com</option>
+                                <option value="newsbtc.com">newsbtc.com</option>
+                                <option value="prestonbyrne.com">prestonbyrne.com</option>
+                                <option value="www.trustnodes.com">trustnodes.com</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%">
+                            Filter news <i class="fa fa-filter"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="card-block" style="padding-top: 0">
+                    <hr>
                     <p class="card-text">
                         <button class="btn btn-sm btn-info card-link" (click)="collapseNewsCards()">
                             <span *ngIf="isNewsCardsCollapsed">
@@ -121,12 +145,6 @@
                 </div>
                 <div class="card-footer text-muted">
                     <p class="card-text">
-                        <button class="btn btn-sm btn-info card-link">
-                            Quick view <i class="fa fa-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger card-link">
-                            Archive <i class="fa fa-archive"></i>
-                        </button>
                         <span class="card-link">{{ news.domain }}</span>
                         <a [href]="news.url_raw" class="card-link" target="_blank">
                             Original

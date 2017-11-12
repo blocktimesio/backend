@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NewsListComponent {
     public newsList: Array<any> = [];
 
+    public filterForm: FormGroup;
     public rankConfigForm: FormGroup;
     public isRankFormCollapsed: Boolean = false;
     public isNewsCardsCollapsed: Boolean = false;
@@ -22,6 +23,10 @@ export class NewsListComponent {
     public currentPage: Number = 1;
 
     constructor(private http: Http, private fb: FormBuilder) {
+        this.filterForm = fb.group({
+            'domains' : [null, ],
+        });
+
         this.rankConfigForm = fb.group({
             'fb_shares' : [null, Validators.required],
             'linkedin_shares' : [null, Validators.required],
@@ -33,6 +38,7 @@ export class NewsListComponent {
             'date_coef' : [null, Validators.required],
         });
         this.loadRankConfigForm();
+
         this.loadNews();
 
         const isRankFormCollapsed = localStorage.getItem('isRankFormCollapsed');
@@ -54,6 +60,11 @@ export class NewsListComponent {
         this.loadNews();
     }
 
+    public submitFilterForm(): void {
+        this.currentPage = 1;
+        this.loadNews();
+    }
+
     public submitRankConfig(): void {
         const data = this.rankConfigForm.value;
         this.http.post('/api/v1/admin/config/rank', data)
@@ -63,7 +74,11 @@ export class NewsListComponent {
     private loadNews(): void {
         // /api/v1/news/?limit=10&offset=50
         const offset = Number(this.pageSize) * Number(this.currentPage);
-        const url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${offset}`;
+        let url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${offset}`;
+        if (this.filterForm.value['domains']) {
+            const domains = this.filterForm.value['domains'].join();
+            url += `&domains=${domains}`;
+        }
         this.http.get(url)
             .subscribe((response: Response) => {
                 const data = response.json();
