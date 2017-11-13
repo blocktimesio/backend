@@ -77,17 +77,7 @@
                         <div class="form-group">
                             <label for="id_domain">Domain</label>
                             <select multiple class="form-control" id="id_domain" size="11" formControlName="domains">
-                                <option value="bitcoinist.com">bitcoinist.com</option>
-                                <option value="bitnewstoday.com">bitnewstoday.com</option>
-                                <option value="blog.ethereum.org">blog.ethereum.org</option>
-                                <option value="www.coindesk.com">coindesk.com</option>
-                                <option value="cointelegraph.com">cointelegraph.com</option>
-                                <option value="ethereumworldnews.com">ethereumworldnews.com</option>
-                                <option value="moneyandstate.com">moneyandstate.com</option>
-                                <option value="news.bitcoin.com">news.bitcoin.com</option>
-                                <option value="newsbtc.com">newsbtc.com</option>
-                                <option value="prestonbyrne.com">prestonbyrne.com</option>
-                                <option value="www.trustnodes.com">trustnodes.com</option>
+                                <option *ngFor="let domain of domainsList" [value]="domain.id">{{ domain.name }}</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%">

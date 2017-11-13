@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class NewsListComponent {
     public newsList: Array<any> = [];
+    public domainsList: Array<any> = [];
 
     public filterForm: FormGroup;
     public rankConfigForm: FormGroup;
@@ -53,6 +54,8 @@ export class NewsListComponent {
         this.newsList.forEach(function(news) {
             news.isCollapsed = !this.isNewsCardsCollapsed;
         });
+
+        this.loadDomains();
     }
 
     public changePage(selectedPage: number): void {
@@ -77,7 +80,7 @@ export class NewsListComponent {
         let url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${offset}`;
         if (this.filterForm.value['domains']) {
             const domains = this.filterForm.value['domains'].join();
-            url += `&domains=${domains}`;
+            url += `&domain__in=${domains}`;
         }
         this.http.get(url)
             .subscribe((response: Response) => {
@@ -119,5 +122,13 @@ export class NewsListComponent {
         else {
             localStorage.setItem('isNewsCardsCollapsed', '0');
         }
+    }
+
+    private loadDomains(): void {
+        this.http.get('/api/v1/admin/domain')
+            .subscribe((response: Response) => {
+                const data = response.json();
+                this.domainsList = data.results;
+            });
     }
 }
