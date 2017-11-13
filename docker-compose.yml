@@ -11,11 +11,9 @@ services:
     links:
       - db:db
       - redis:redis
-      - mongo:mongo
     depends_on:
       - db
       - redis
-      - mongo
       - celery
     expose:
       - 5432
@@ -33,10 +31,8 @@ services:
       - ./back:/app
     links:
       - redis:redis
-      - mongo:mongo
     depends_on:
       - redis
-      - mongo
     expose:
       - 6379
       - 27017

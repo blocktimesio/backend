@@ -1,6 +1,5 @@
 import os
 import environ
-import mongoengine
 from split_settings.tools import (optional, include)
 
 if not os.environ.get('NO_LOAD_SETTINGS_LOCAL'):
@@ -40,7 +39,6 @@ INSTALLED_APPS = [
     'django_extensions',
     'redactor',
     'rest_framework',
-    'rest_framework_mongoengine',
     'solo',
     'templated_email',
 
@@ -86,20 +84,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {'default': env.db()}
-
-MONGODB_DATABASES = {
-    'default': {
-        'name': 'blocktimes',
-        'host': env('MONGODB_HOST', default='localhost'),
-        'port': 27017,
-        'tz_aware': True,
-    },
-}
-
-mongoengine.connect(
-    db=MONGODB_DATABASES['default']['name'],
-    host=MONGODB_DATABASES['default']['host']
-)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -159,9 +143,6 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
-
-MONGODB_HOST = env('MONGODB_HOST', default='localhost')
-MONGODB_DB = env('MONGODB_DB', default='blocktimes')
 
 SOCIAL_CRAWLER_THREAD_COUNT = env('SOCIAL_CRAWLER_THREAD_COUNT', default=10, cast=int)
 

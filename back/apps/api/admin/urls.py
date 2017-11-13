@@ -1,9 +1,8 @@
 from django.conf.urls import include, url
-from rest_framework_mongoengine.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter
 from .views import (NewsViewSet, RankConfigView, SignInView, load_image)
 
 router = DefaultRouter()
-
 router.register(r'news', NewsViewSet, r'news')
 
 urlpatterns = [
