@@ -74,7 +74,7 @@
                 <h5 class="card-header">Filter form</h5>
                 <div class="card-block" style="padding-bottom: 0;">
                     <form [formGroup]="filterForm" (ngSubmit)="submitFilterForm()">
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="domainsList.length">
                             <label for="id_domain">Domain</label>
                             <select multiple class="form-control" id="id_domain" size="11" formControlName="domains">
                                 <option *ngFor="let domain of domainsList" [value]="domain.id">{{ domain.name }}</option>
