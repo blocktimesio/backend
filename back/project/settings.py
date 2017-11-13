@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
 
-    'corsheaders',
     'django_extensions',
     'redactor',
     'rest_framework',
@@ -50,7 +49,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -161,12 +159,6 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FileUploadParser',
     ],
 }
-
-CORS_ORIGIN_WHITELIST = (
-    'admin.blocktimes.io',
-    'blocktimes.io',
-    'localhost:8000',
-)
 
 DEFAULT_SOCIAL_NEWS = {
     'google': 0,
