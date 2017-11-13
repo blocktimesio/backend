@@ -1,8 +1,7 @@
 import os
 import logging
-from urllib.request import urlretrieve
-
 import requests
+import socialshares
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from ..models import (Tag, Domain, News)
@@ -21,14 +20,23 @@ class DjangoPipeline(object):
         domain_name = item.pop('domain')
         domain, created = Domain.objects.get_or_create(name=domain_name)
 
+        social_data = {}
+        try:
+            social_data = socialshares.fetch(
+                item['url_raw'],
+                ['facebook', 'pinterest', 'linkedin', 'google', 'reddit']
+            )
+        except Exception as e:
+            logger.error('Err at get social data', exc_info=True)
+
         is_exists = News.objects.filter(url=item['url']).exists()
         if is_exists:
             try:
-                News.objects.filter(url=item['url']).update(**dict(item))
+                News.objects.filter(url=item['url']).update(social=social_data, **dict(item))
             except Exception as e:
                 logger.error('Error at update News', exc_info=True)
         else:
-            obj = News.objects.create(domain=domain, **item)
+            obj = News.objects.create(domain=domain, social=social_data, **item)
             for tag in tags:
                 obj.tags.add(tag)
 
@@ -48,7 +56,6 @@ class DjangoPipeline(object):
                         obj.image.save(image_path, File(img_temp), save=True)
                 except Exception as e:
                     logger.error('Error at save image for news', exc_info=True)
-
             try:
                 obj.save()
             except Exception as e:

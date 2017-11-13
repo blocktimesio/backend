@@ -3,7 +3,6 @@ from datetime import timedelta
 from celery.task import periodic_task
 from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
-from .utils import SocialCrawler
 from apps.news.crawlers.spiders.bitcoinist_feed import BitcoinistFeedSpider
 from apps.news.crawlers.spiders.bitnewstoday import BitNewsTodaySpider
 from apps.news.crawlers.spiders.blogethereum_feed import BlogEthereumFeedSpider
@@ -46,15 +45,3 @@ def run_sites_crawlers():
         reactor.run()
     except Exception as e:
         logger.error('', exc_info=True)
-
-
-@periodic_task(run_every=timedelta(minutes=5))
-def crawl_social_latest():
-    crawler = SocialCrawler()
-    crawler.start()
-
-
-@periodic_task(run_every=timedelta(hours=6))
-def crawl_social_oldest():
-    crawler = SocialCrawler(day_lte=8, day_gte=2)
-    crawler.start()
