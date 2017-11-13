@@ -20,18 +20,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         spiders = [
-            # BitcoinistFeedSpider,
-            # BitNewsTodaySpider,
-            # BlogEthereumFeedSpider,
+            BitcoinistFeedSpider,
+            BitNewsTodaySpider,
+            BlogEthereumFeedSpider,
             CoindeskFeedSpider,
-            # CoinTelegraphFeedSpider,
-            # EthereumWorldNewsFeedSpider,
-            # InvestopediaSpider,
-            # MoneyAndStateFeedSpider,
-            # NewsBitcoinFeedSpider,
-            # NewsBtcFeedSpider,
-            # PrestonByrneFeedSpider,
-            # TrustNodesFeedSpider,
+            CoinTelegraphFeedSpider,
+            EthereumWorldNewsFeedSpider,
+            InvestopediaSpider,
+            MoneyAndStateFeedSpider,
+            NewsBitcoinFeedSpider,
+            NewsBtcFeedSpider,
+            PrestonByrneFeedSpider,
+            TrustNodesFeedSpider,
         ]
 
         runner = CrawlerRunner()
