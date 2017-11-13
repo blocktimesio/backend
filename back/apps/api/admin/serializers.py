@@ -2,12 +2,24 @@ from copy import deepcopy
 from datetime import datetime
 from django.conf import settings
 from rest_framework import serializers
-from apps.news.models import (News, RankConfig)
+from apps.news.models import (Domain, Tag, News, RankConfig)
 
 
 class SignInSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
+
+
+class DomainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Domain
+        fields = '__all__'
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -16,6 +28,9 @@ class NewsSerializer(serializers.ModelSerializer):
     short_text = serializers.SerializerMethodField()
     time_elapsed = serializers.SerializerMethodField()
     social_data = serializers.SerializerMethodField()
+
+    domain = DomainSerializer(read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
 
     def get_rank(self, obj: News):
         return round(obj.rank, 4)

@@ -7,9 +7,12 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
-from rest_framework.viewsets import ModelViewSet
-from .serializers import (NewsSerializer, RankConfigSerializer, SignInSerializer)
-from apps.news.models import (News, RankConfig)
+from rest_framework.viewsets import (ModelViewSet, ReadOnlyModelViewSet)
+from .serializers import (
+    DomainSerializer, TagSerializer, NewsSerializer,
+    RankConfigSerializer, SignInSerializer
+)
+from apps.news.models import (Tag, Domain, News, RankConfig)
 from django.contrib.auth import (
     authenticate,
     login as django_login
@@ -18,8 +21,17 @@ from django.contrib.auth import (
 logger = logging.getLogger('django.request')
 
 
+class DomainViewSet(ReadOnlyModelViewSet):
+    serializer_class = DomainSerializer
+    queryset = Domain.objects.all()
+
+
+class TagViewSet(ReadOnlyModelViewSet):
+    serializer_class = TagSerializer
+    queryset = Tag.objects.all()
+
+
 class NewsViewSet(ModelViewSet):
-    lookup_field = 'id'
     serializer_class = NewsSerializer
     queryset = News.objects.all()
 

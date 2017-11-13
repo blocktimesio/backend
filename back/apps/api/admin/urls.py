@@ -1,8 +1,13 @@
 from django.conf.urls import include, url
 from rest_framework.routers import DefaultRouter
-from .views import (NewsViewSet, RankConfigView, SignInView, load_image)
+from .views import (
+    DomainViewSet, TagViewSet, NewsViewSet,
+    RankConfigView, SignInView, load_image
+)
 
 router = DefaultRouter()
+router.register(r'tag', TagViewSet, r'news')
+router.register(r'domain', DomainViewSet, r'news')
 router.register(r'news', NewsViewSet, r'news')
 
 urlpatterns = [
