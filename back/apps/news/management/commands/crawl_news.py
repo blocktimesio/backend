@@ -1,18 +1,18 @@
 from django.core.management import BaseCommand
 from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
-from crawlers.spiders.bitcoinist_feed import BitcoinistFeedSpider
-from crawlers.spiders.bitnewstoday import BitNewsTodaySpider
-from crawlers.spiders.blogethereum_feed import BlogEthereumFeedSpider
-from crawlers.spiders.coindesk_feed import CoindeskFeedSpider
-from crawlers.spiders.cointelegraph_feed import CoinTelegraphFeedSpider
-from crawlers.spiders.ethereumworldnews_feed import EthereumWorldNewsFeedSpider
-from crawlers.spiders.investopedia_feed import InvestopediaSpider
-from crawlers.spiders.moneyandstate_feed import MoneyAndStateFeedSpider
-from crawlers.spiders.news_bitcoin_feed import NewsBitcoinFeedSpider
-from crawlers.spiders.newsbtc_feed import NewsBtcFeedSpider
-from crawlers.spiders.prestonbyrne_feed import PrestonByrneFeedSpider
-from crawlers.spiders.trustnodes_feed import TrustNodesFeedSpider
+from apps.news.crawlers.spiders.bitcoinist_feed import BitcoinistFeedSpider
+from apps.news.crawlers.spiders.bitnewstoday import BitNewsTodaySpider
+from apps.news.crawlers.spiders.blogethereum_feed import BlogEthereumFeedSpider
+from apps.news.crawlers.spiders.coindesk_feed import CoindeskFeedSpider
+from apps.news.crawlers.spiders.cointelegraph_feed import CoinTelegraphFeedSpider
+from apps.news.crawlers.spiders.ethereumworldnews_feed import EthereumWorldNewsFeedSpider
+from apps.news.crawlers.spiders.investopedia_feed import InvestopediaSpider
+from apps.news.crawlers.spiders.moneyandstate_feed import MoneyAndStateFeedSpider
+from apps.news.crawlers.spiders.news_bitcoin_feed import NewsBitcoinFeedSpider
+from apps.news.crawlers.spiders.newsbtc_feed import NewsBtcFeedSpider
+from apps.news.crawlers.spiders.prestonbyrne_feed import PrestonByrneFeedSpider
+from apps.news.crawlers.spiders.trustnodes_feed import TrustNodesFeedSpider
 
 
 class Command(BaseCommand):
@@ -20,18 +20,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         spiders = [
-            BitcoinistFeedSpider,
-            BitNewsTodaySpider,
-            BlogEthereumFeedSpider,
+            # BitcoinistFeedSpider,
+            # BitNewsTodaySpider,
+            # BlogEthereumFeedSpider,
             CoindeskFeedSpider,
-            CoinTelegraphFeedSpider,
-            EthereumWorldNewsFeedSpider,
-            InvestopediaSpider,
-            MoneyAndStateFeedSpider,
-            NewsBitcoinFeedSpider,
-            NewsBtcFeedSpider,
-            PrestonByrneFeedSpider,
-            TrustNodesFeedSpider,
+            # CoinTelegraphFeedSpider,
+            # EthereumWorldNewsFeedSpider,
+            # InvestopediaSpider,
+            # MoneyAndStateFeedSpider,
+            # NewsBitcoinFeedSpider,
+            # NewsBtcFeedSpider,
+            # PrestonByrneFeedSpider,
+            # TrustNodesFeedSpider,
         ]
 
         runner = CrawlerRunner()

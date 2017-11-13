@@ -1,8 +1,9 @@
+from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from datetime import datetime
 from django.template.defaultfilters import (striptags, truncatewords)
 from django.utils import timezone
-from mongoengine import (Document, fields)
 from solo.models import SingletonModel
 
 
@@ -20,31 +21,52 @@ class RankConfig(SingletonModel):
         return 'Rank formula config'
 
     class Meta:
+        app_label = 'news'
         verbose_name = 'Rank formula config'
 
 
-class News(Document):
-    id = fields.StringField(required=True, primary_key=True)
+class Domain(models.Model):
+    name = models.CharField(max_length=128)
 
-    domain = fields.StringField(required=True)
-    url = fields.StringField(required=True)
-    url_raw = fields.StringField(required=False, null=True)
-    slug = fields.StringField(required=True)
-    title = fields.StringField(required=True)
-    author = fields.StringField(required=True)
-    text = fields.StringField(required=True)
-    tags = fields.ListField(fields.StringField())
-    pub_date = fields.StringField(required=True)
+    def __str__(self):
+        return self.name
 
-    social = fields.DictField(required=False, null=True)
-    views = fields.IntField(required=False, null=True, default=0)
-    comments = fields.IntField(required=False, null=True, default=0)
+    class Meta:
+        app_label = 'news'
+        ordering = ['-name']
 
-    image_url = fields.StringField(required=False, null=True)
-    image_file_path = fields.StringField(required=False, null=True)
 
-    created = fields.DateTimeField(default=timezone.now)
-    updated = fields.DateTimeField(default=timezone.now)
+class Tag(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'news'
+        ordering = ['-name']
+
+
+class News(models.Model):
+    domain = models.ForeignKey(Domain)
+    url = models.URLField(unique=True)
+    url_raw = models.URLField()
+    slug = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    text = models.TextField(default='')
+    tags = models.ManyToManyField(Tag, blank=True)
+    pub_date = models.DateTimeField()
+
+    social = JSONField(default=settings.DEFAULT_SOCIAL_NEWS)
+    views = models.PositiveIntegerField(default=0)
+    comments = models.PositiveIntegerField(default=0)
+
+    image = models.ImageField(blank=True, null=True, upload_to='news_images')
+    image_url = models.URLField(blank=True, null=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     @property
     def rank(self):
@@ -54,21 +76,16 @@ class News(Document):
         social = self.social  # type: dict
 
         fb_shares = 0
-        fb_comments = 0
         fb_data = social.get('facebook', {})
         if fb_data:
             fb_shares = fb_data.get('share_count', 0)
-            fb_comments = fb_data.get('comment_count', 0)
 
         reddit_ups = 0
-        reddit_downs = 0
         reddit_data = social.get('reddit', {})
         if reddit_data:
             reddit_ups = reddit_data.get('ups')
-            reddit_downs = reddit_data.get('downs')
 
         linkedin_shares = social.get('linkedin', 0)
-        pinterest = social.get('pinterest', 0)
 
         config = RankConfig.get_solo()  # type: RankConfig
 
@@ -85,3 +102,6 @@ class News(Document):
     @property
     def short_text(self):
         return truncatewords(striptags(self.text), 30)
+
+    class Meta:
+        app_label = 'news'

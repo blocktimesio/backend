@@ -24,7 +24,7 @@ export class LoginComponent {
     signIn() {
         this.errorMessage = null;
         const data = this.signInForm.value;
-        this.http.post('/api/v1/sign-in', data)
+        this.http.post('/api/v1/admin/sign-in', data)
             .subscribe((response: Response) => {
                 localStorage.setItem('sessionId', response.json()['sessionid']);
                 localStorage.setItem('isSignIn', 'true');

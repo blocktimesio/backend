@@ -15,3 +15,7 @@ class CoindeskFeedSpider(BaseFeedSpider):
             log_message = 'IMAGE NOT FOUND {}'.format(response.url)
             self.log(log_message, logging.WARNING)
             return ''
+
+    def get_text(self, entry: dict, response: HtmlResponse) -> str:
+        nodes_text = response.xpath('//div[contains(@class, "article-content-container")]//node()[not(self::javascript)]').extract()
+        return ''.join(nodes_text).strip()

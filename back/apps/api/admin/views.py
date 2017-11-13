@@ -1,6 +1,5 @@
 import os
 import logging
-from bson import ObjectId
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -8,8 +7,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
-from rest_framework_mongoengine.generics import get_object_or_404
-from rest_framework_mongoengine.viewsets import ModelViewSet as MongoModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from .serializers import (NewsSerializer, RankConfigSerializer, SignInSerializer)
 from apps.news.models import (News, RankConfig)
 from django.contrib.auth import (
@@ -20,12 +18,10 @@ from django.contrib.auth import (
 logger = logging.getLogger('django.request')
 
 
-class NewsViewSet(MongoModelViewSet):
+class NewsViewSet(ModelViewSet):
     lookup_field = 'id'
     serializer_class = NewsSerializer
-
-    def get_queryset(self):
-        return News.objects.all()
+    queryset = News.objects.all()
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -38,30 +34,6 @@ class NewsViewSet(MongoModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
-    def get_object(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
-
-        assert lookup_url_kwarg in self.kwargs, (
-            'Expected view %s to be called with a URL keyword argument '
-            'named "%s". Fix your URL conf, or set the `.lookup_field` '
-            'attribute on the view correctly.' %
-            (self.__class__.__name__, lookup_url_kwarg)
-        )
-
-        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
-        if 'id' in filter_kwargs:
-            filter_kwargs['id'] = ObjectId(filter_kwargs['id'])
-        obj = get_object_or_404(queryset, **filter_kwargs)
-        self.check_object_permissions(self.request, obj)
-        return obj
-
-    def filter_queryset(self, queryset):
-        domains = [d for d in self.request.GET.get('domains', '').split(',') if d]
-        if domains:
-            queryset = queryset.filter(domain__in=domains)
-        return queryset
 
 
 class RankConfigView(APIView):
@@ -108,10 +80,16 @@ class SignInView(APIView):
         return self.post(request, format)
 
 
-class UploadImageView(APIView):
-    def post(self, request, format=None):
-        image_path = 'news/{}'.format(request.FILES['file'].name)
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
+
+@csrf_exempt
+def load_image(request):
+    if request.method == 'POST':
+        image_path = 'news_images/{}'.format(request.FILES['file'].name)
         content = request.FILES['file'].file.read()
         uploaded_path = default_storage.save(image_path, ContentFile(content))
         link = os.path.join(settings.MEDIA_URL, uploaded_path)
-        return Response({'link': link})
+        return JsonResponse({'link': link})
+    return JsonResponse({})

@@ -8,6 +8,8 @@ from urllib.parse import (urlparse, ParseResult)
 from scrapy.http import HtmlResponse
 from .items import NewsItem
 
+logger = logging.getLogger('crawlers')
+
 
 class SpiderUrlMixin(object):
     def get_domain(self, url: str) -> str:
@@ -27,22 +29,12 @@ class SpiderUrlMixin(object):
 class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
     item = NewsItem
     custom_settings = {
-        'ITEM_PIPELINES': {
-            'crawlers.pipelines.ImagePipeline': 1,
-            'crawlers.pipelines.MongoPipeline': 2,
-        },
+        'ITEM_PIPELINES': {'apps.news.crawlers.pipelines.DjangoPipeline': 1},
 
-        'MONGODB_URI': os.environ.get('MONGODB_URI', 'mongodb://localhost/blocktimes'),
-        'MONGODB_DB': os.environ.get('MONGODB_DB', 'blocktimes'),
-
-        'IMAGES_STORE': os.environ.get('IMAGES_STORE_PATH', 'media'),
-        'IMAGES_URLS_FIELD': 'image_url',
-
-        'ROBOTSTXT_OBEY': False,
-
-        'LOG_LEVEL': logging.WARNING,
+        'LOG_LEVEL': logging.DEBUG,
 
         'DOWNLOAD_DELAY': 2,
+        'ROBOTSTXT_OBEY': False,
         'CONCURRENT_REQUESTS': 32,
     }
 
@@ -55,34 +47,27 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
     def parse_article(self, response):
         entry = response.meta['entry']
 
-        slug = self.get_slug(response.url)
+        try:
+            yield self.item(
+                domain=self.get_domain(response.url),
 
-        image_url = self.get_image_url(entry, response)
+                url=self.get_url(response.url),
+                url_raw=response.url,
+                slug=self.get_slug(response.url),
 
-        image_file_path = ''
-        if image_url:
-            slug = self.get_slug(response.url)
-            image_file_path = self.get_image_path(image_url, slug)
+                title=self.get_title(entry, response),
+                author=self.get_authors(entry, response),
+                text=self.get_text(entry, response),
+                tags=self.get_tags(entry, response),
+                pub_date=self.get_pub_date(entry, response),
 
-        yield self.item(
-            domain=self.get_domain(response.url),
+                image_url=self.get_image_url(entry, response),
 
-            url=self.get_url(response.url),
-            url_raw=response.url,
-            slug=slug,
-
-            title=self.get_title(entry, response),
-            author=self.get_authors(entry, response),
-            text=self.get_text(entry, response),
-            tags=self.get_tags(entry, response),
-            pub_date=self.get_pub_date(entry, response),
-
-            image_url=image_url,
-            image_file_path=image_file_path,
-
-            views=self.get_total_views(entry, response),
-            comments=self.get_total_views(entry, response),
-        )
+                views=self.get_total_views(entry, response),
+                comments=self.get_total_views(entry, response),
+            )
+        except Exception as e:
+            logger.error('Errror at create Item', exc_info=True)
 
     def get_title(self, entry: dict, response: HtmlResponse) -> str:
         return entry.get('title', '')

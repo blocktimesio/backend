@@ -2,7 +2,6 @@ from copy import deepcopy
 from datetime import datetime
 from django.conf import settings
 from rest_framework import serializers
-from rest_framework_mongoengine import serializers as mongoserializers
 from apps.news.models import (News, RankConfig)
 
 
@@ -11,7 +10,7 @@ class SignInSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 
-class NewsSerializer(mongoserializers.DocumentSerializer):
+class NewsSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=False)
     rank = serializers.SerializerMethodField()
     short_text = serializers.SerializerMethodField()

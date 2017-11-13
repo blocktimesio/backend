@@ -39,7 +39,8 @@ export class NewsDetailComponent {
 
     public saveNews(): void {
         this.route.params.subscribe(params => {
-            this.http.patch(`/api/v1/admin/news/${params['id']}/`, this.news)
+            const data = {text: this.news.text};
+            this.http.patch(`/api/v1/admin/news/${params['id']}/`, data)
                 .subscribe((data: Response) => {
                     this.alerts.push({
                         type: 'success',
