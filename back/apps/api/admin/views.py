@@ -78,7 +78,7 @@ class RankConfigView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = RankConfigSerializer(data=request.POST)
+        serializer = RankConfigSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         try:
