@@ -47,7 +47,7 @@ class NewsFilter(filters.FilterSet):
 
     class Meta:
         model = News
-        # fields = {'domain': ['exact', 'in']}
+        fields = {'domain': ['exact', 'in']}
 
 
 class NewsViewSet(ModelViewSet):
