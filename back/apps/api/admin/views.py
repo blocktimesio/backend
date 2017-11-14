@@ -1,6 +1,7 @@
 import os
 import logging
 from django.conf import settings
+import rest_framework_filters as filters
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from rest_framework import status
@@ -31,7 +32,26 @@ class TagViewSet(ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
 
 
+class DomainFilter(filters.FilterSet):
+
+    class Meta:
+        model = Domain
+        fields = {
+            'name': ['exact'],
+            'id': ['exact', 'in'],
+        }
+
+
+class NewsFilter(filters.FilterSet):
+    domain = filters.RelatedFilter(DomainFilter, name='domain', queryset=Domain.objects.all())
+
+    class Meta:
+        model = News
+        # fields = {'domain': ['exact', 'in']}
+
+
 class NewsViewSet(ModelViewSet):
+    filter_class = NewsFilter
     serializer_class = NewsSerializer
     queryset = News.objects.all()
 

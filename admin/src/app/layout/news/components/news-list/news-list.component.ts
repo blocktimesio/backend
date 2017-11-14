@@ -80,7 +80,7 @@ export class NewsListComponent {
         let url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${offset}`;
         if (this.filterForm.value['domains']) {
             const domains = this.filterForm.value['domains'].join();
-            url += `&domain__in=${domains}`;
+            url += `&domain__id__in=${domains}`;
         }
         this.http.get(url)
             .subscribe((response: Response) => {

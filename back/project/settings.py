@@ -158,6 +158,9 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser',
         'rest_framework.parsers.FileUploadParser',
     ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'rest_framework_filters.backends.DjangoFilterBackend',
+    ],
 }
 
 DEFAULT_SOCIAL_NEWS = {
