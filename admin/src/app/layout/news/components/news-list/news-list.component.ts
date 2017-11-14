@@ -76,7 +76,11 @@ export class NewsListComponent {
 
     private loadNews(): void {
         // /api/v1/news/?limit=10&offset=50
-        const offset = Number(this.pageSize) * Number(this.currentPage);
+        let offset = 0;
+        if (this.currentPage > 1) {
+            offset = Number(this.pageSize) * Number(this.currentPage);
+        }
+
         let url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${offset}`;
         if (this.filterForm.value['domains']) {
             const domains = this.filterForm.value['domains'].join();
