@@ -79,6 +79,47 @@ services:
       - ./nginx/sites-enabled/admin.conf:/etc/nginx/sites-enabled/admin.conf
     depends_on:
       - back
+      - kibana
+    expose:
+      - 5601
     ports:
-      - 80:80
+      - 8080:80
       - 443:443
+
+  elasticsearch:
+    build: log_server/elasticsearch/
+    volumes:
+      - ./log_server/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    expose:
+      - 9200
+      - 9300
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+
+  logstash:
+    build: log_server/logstash/
+    volumes:
+      - ./nginx/logs:/tmp/nginx_logs
+      - ./log_server/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./log_server/logstash/pipeline:/usr/share/logstash/pipeline
+    expose:
+      - 5000
+      - 9200
+      - 9300
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    build: log_server/kibana/
+    volumes:
+      - ./log_server/kibana/config/:/usr/share/kibana/config
+    expose:
+      - 5000
+      - 5601
+    depends_on:
+      - logstash
+      - elasticsearch
+    ports:
+      - 5601:5601
