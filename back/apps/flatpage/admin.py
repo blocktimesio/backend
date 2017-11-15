@@ -16,8 +16,9 @@ class FlatpageAdminForm(forms.ModelForm):
 @admin.register(Flatpage)
 class FlatpageAdmin(admin.ModelAdmin):
     form = FlatpageAdminForm
+    prepopulated_fields = {'slug': ['title']}
 
-    list_display = ['title', 'url', 'is_show']
+    list_display = ['title', 'slug', 'is_show']
     list_editable = ['is_show']
-    search_fields = ['title', 'url', 'content']
-    fields = ['url', 'title', 'is_show', 'content']
+    search_fields = ['title', 'slug', 'content']
+    fields = ['title', 'slug', 'is_show', 'content']
