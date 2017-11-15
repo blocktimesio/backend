@@ -83,7 +83,7 @@ services:
     expose:
       - 5601
     ports:
-      - 8080:80
+      - 80:80
       - 443:443
 
   elasticsearch:
