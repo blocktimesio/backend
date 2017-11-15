@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'apps.post',
     'apps.news',
     'apps.users',
+
+    'rest_framework_jwt',
 ]
 
 MIDDLEWARE = [
@@ -147,8 +149,13 @@ SOCIAL_CRAWLER_THREAD_COUNT = env('SOCIAL_CRAWLER_THREAD_COUNT', default=10, cas
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
@@ -176,6 +183,8 @@ DEFAULT_SOCIAL_NEWS = {
         'downs': 0
     },
 }
+
+JWT_RESPONSE_PAYLOAD_HANDLER = 'apps.users.models.jwt_response_payload_handler'
 
 include('loggers.py')
 
