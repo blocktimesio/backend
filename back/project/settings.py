@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'solo',
     'templated_email',
 
+    'apps.api',
+    'apps.common',
+    'apps.flatpage',
     'apps.post',
     'apps.news',
     'apps.users',
