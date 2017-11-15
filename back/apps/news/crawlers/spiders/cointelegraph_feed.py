@@ -21,6 +21,14 @@ class CoinTelegraphFeedSpider(BaseFeedSpider):
             return ''
 
     def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
+        nodes = response.css('.total-views .total-qty')
+        if nodes:
+            comments = nodes[0].root.text.strip()
+            if comments.isdigit():
+                return int(comments)
+        return 0
+
+    def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.css('.comments-title ::text')
         if len(nodes):
             m = re.match('Comments \((\d+)\)', nodes[0].root)
@@ -28,12 +36,4 @@ class CoinTelegraphFeedSpider(BaseFeedSpider):
                 count = m.group(1).strip()  # type: str
                 if count.isdigit():
                     return int(count)
-        return 0
-
-    def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
-        nodes = response.css('.total-views .total-qty')
-        if nodes:
-            comments = nodes[0].root.text.strip()
-            if comments.isdigit():
-                return int(comments)
         return 0
