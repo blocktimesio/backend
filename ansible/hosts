@@ -1,0 +1,5 @@
+[prod]
+blocktimes.io       ansible_connection=ssh  ansible_user=root
+
+[local]
+localhost           ansible_connection=local
