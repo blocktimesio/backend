@@ -2,8 +2,9 @@ from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from datetime import datetime
-from django.template.defaultfilters import (striptags, truncatewords)
-from django.utils import timezone
+from django.template.defaultfilters import (
+    striptags, truncatewords, truncatechars
+)
 from solo.models import SingletonModel
 
 
@@ -102,6 +103,9 @@ class News(models.Model):
     @property
     def short_text(self):
         return truncatewords(striptags(self.text), 30)
+
+    def __str__(self):
+        return truncatechars(self.title, 32)
 
     class Meta:
         app_label = 'news'
