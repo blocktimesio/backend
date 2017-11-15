@@ -2,6 +2,38 @@
     <app-page-header [heading]="'News list'" [icon]="'fa-newspaper-o'"></app-page-header>
 
     <div class="row">
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12">
+            <div class="card">
+                <h5 class="card-header">Filter form</h5>
+                <div class="card-block" style="padding-bottom: 0;">
+                    <form [formGroup]="filterForm" (ngSubmit)="submitFilterForm()">
+                        <div class="form-group" *ngIf="domainsList.length">
+                            <label for="id_domain">Domain</label>
+                            <select multiple class="form-control" id="id_domain" size="11" formControlName="domains">
+                                <option *ngFor="let domain of domainsList" [value]="domain.id">{{ domain.name }}</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%">
+                            Filter news <i class="fa fa-filter"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="card-block" style="padding-top: 0">
+                    <hr>
+                    <p class="card-text">
+                        <button class="btn btn-sm btn-info card-link" (click)="collapseNewsCards()">
+                            <span *ngIf="isNewsCardsCollapsed">
+                                Show all news card <i class="fa fa-chevron-down"></i>
+                            </span>
+                            <span *ngIf="!isNewsCardsCollapsed">
+                                Hide all news card <i class="fa fa-chevron-up"></i>
+                            </span>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center">
             <div class="card form-rank">
                 <h5 class="card-header" (click)="collapseRankForm()">
@@ -65,38 +97,6 @@
                 </div>
                 <div class="card-block" *ngIf="isRankFormCollapsed">
                     <h5 align="center">...</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12">
-            <div class="card">
-                <h5 class="card-header">Filter form</h5>
-                <div class="card-block" style="padding-bottom: 0;">
-                    <form [formGroup]="filterForm" (ngSubmit)="submitFilterForm()">
-                        <div class="form-group" *ngIf="domainsList.length">
-                            <label for="id_domain">Domain</label>
-                            <select multiple class="form-control" id="id_domain" size="11" formControlName="domains">
-                                <option *ngFor="let domain of domainsList" [value]="domain.id">{{ domain.name }}</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%">
-                            Filter news <i class="fa fa-filter"></i>
-                        </button>
-                    </form>
-                </div>
-                <div class="card-block" style="padding-top: 0">
-                    <hr>
-                    <p class="card-text">
-                        <button class="btn btn-sm btn-info card-link" (click)="collapseNewsCards()">
-                            <span *ngIf="isNewsCardsCollapsed">
-                                Show all news card <i class="fa fa-chevron-down"></i>
-                            </span>
-                            <span *ngIf="!isNewsCardsCollapsed">
-                                Hide all news card <i class="fa fa-chevron-up"></i>
-                            </span>
-                        </button>
-                    </p>
                 </div>
             </div>
         </div>
@@ -183,9 +183,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount" >
-        <ngb-pagination aria-label="Default pagination"
-                        [collectionSize]="totalCount" [(page)]="currentPage" [maxSize]="pageSize"></ngb-pagination>
     </div>
 </div>
