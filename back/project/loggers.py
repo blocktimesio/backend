@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 
 LOGGING = {
@@ -21,8 +22,8 @@ LOGGING = {
         'django': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': 'localhost',
-            'port': 5000,
+            'host': os.environ.get('LOGSTASH_HOST', 'localhost'),
+            'port': os.environ.get('LOGSTASH_PORT', 5000),
             'message_type': 'django',
             'fqdn': False,
             'tags': ['django', 'backend'],
@@ -30,8 +31,8 @@ LOGGING = {
         'celery': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': 'localhost',
-            'port': 5000,
+            'host': os.environ.get('LOGSTASH_HOST', 'localhost'),
+            'port': os.environ.get('LOGSTASH_PORT', 5000),
             'message_type': 'django',
             'fqdn': False,
             'tags': ['django', 'celery'],
@@ -39,8 +40,8 @@ LOGGING = {
         'crawlers': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': 'localhost',
-            'port': 5000,
+            'host': os.environ.get('LOGSTASH_HOST', 'localhost'),
+            'port': os.environ.get('LOGSTASH_PORT', 5000),
             'message_type': 'django',
             'fqdn': False,
             'tags': ['django', 'celery'],
