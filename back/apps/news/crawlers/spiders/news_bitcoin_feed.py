@@ -17,7 +17,7 @@ class NewsBitcoinFeedSpider(BaseFeedSpider):
             self.log(log_message, logging.WARNING)
             return ''
 
-    def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
+    def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.css('.td-post-views span')
         if nodes:
             comments = nodes[0].root.text
@@ -25,7 +25,7 @@ class NewsBitcoinFeedSpider(BaseFeedSpider):
                 return int(comments)
         return 0
 
-    def get_total_views(self, entry: dict, response: HtmlResponse) -> int:
+    def get_total_comments(self, entry: dict, response: HtmlResponse) -> int:
         nodes = response.xpath('//div[@class="td-post-comments"]//a//text()')
         if nodes:
             comments = nodes[0].root
