@@ -1,3 +1,5 @@
+from django.conf import settings
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -16,27 +18,65 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
+        'django': {
+            'level': 'DEBUG',
+            'class': 'logstash.TCPLogstashHandler',
+            'host': 'localhost',
+            'port': 5000,
+            'message_type': 'django',
+            'fqdn': False,
+            'tags': ['django', 'backend'],
+        },
+        'celery': {
+            'level': 'DEBUG',
+            'class': 'logstash.TCPLogstashHandler',
+            'host': 'localhost',
+            'port': 5000,
+            'message_type': 'django',
+            'fqdn': False,
+            'tags': ['django', 'celery'],
+        },
+        'crawlers': {
+            'level': 'DEBUG',
+            'class': 'logstash.TCPLogstashHandler',
+            'host': 'localhost',
+            'port': 5000,
+            'message_type': 'django',
+            'fqdn': False,
+            'tags': ['django', 'celery'],
+        },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['console', ],
+            'handlers': ['django'],
             'level': 'DEBUG',
-            'propagate': False
+            'propagate': True,
         },
         'django.db.backends': {
             'level': 'WARNING',
-            'handlers': ['console', ],
+            'handlers': ['django'],
             'propagate': False,
         },
-        'notification': {
-            'handlers': ['console', ],
-            'level': 'ERROR',
-            'propagate': False
-        },
+
         'crawlers': {
-            'handlers': ['console', ],
+            'handlers': ['crawlers'],
             'level': 'INFO',
-            'propagate': False
-        }
+            'propagate': True
+        },
+
+        'celery.task': {
+            'handlers': ['celery'],
+            'level': 'INFO',
+            'propagate': True
+        },
+        'celery.worker': {
+            'handlers': ['celery'],
+            'level': 'INFO',
+            'propagate': True
+        },
     },
 }
+
+if settings.DEBUG:
+    for name in LOGGING['loggers'].keys():
+        LOGGING['loggers'][name]['handlers'].append('console')

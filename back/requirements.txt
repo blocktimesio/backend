@@ -33,6 +33,7 @@ hyperlink==17.3.1
 idna==2.6
 incremental==17.5.0
 kombu==4.1.0
+logstash-formatter==0.5.16
 lxml==4.1.1
 olefile==0.44
 parsel==1.2.0
@@ -45,6 +46,7 @@ PyDispatcher==2.0.5
 PyJWT==1.5.3
 pyOpenSSL==17.3.0
 python-dateutil==2.6.1
+python-logstash==0.4.6
 pytz==2017.3
 queuelib==1.4.2
 redis==2.10.6
