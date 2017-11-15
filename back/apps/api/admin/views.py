@@ -25,11 +25,15 @@ logger = logging.getLogger('django.request')
 
 
 class DomainViewSet(ReadOnlyModelViewSet):
+    permission_classes = []
+    authentication_classes = []
     serializer_class = DomainSerializer
     queryset = Domain.objects.all()
 
 
 class TagViewSet(ReadOnlyModelViewSet):
+    permission_classes = []
+    authentication_classes = []
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
 
@@ -53,6 +57,8 @@ class NewsFilter(filters.FilterSet):
 
 
 class NewsViewSet(ModelViewSet):
+    permission_classes = []
+    authentication_classes = []
     filter_class = NewsFilter
     serializer_class = NewsSerializer
     queryset = News.objects.all()
@@ -73,6 +79,7 @@ class NewsViewSet(ModelViewSet):
 class RankConfigView(APIView):
     model = RankConfig
     permission_classes = []
+    authentication_classes = []
 
     def get(self, request, format=None):
         obj = self.model.get_solo()
@@ -97,6 +104,9 @@ class RankConfigView(APIView):
 
 
 class SignInView(APIView):
+    permission_classes = []
+    authentication_classes = []
+
     def post(self, request, format=None):
         serializer = SignInSerializer(data=request.data)
         if serializer.is_valid():
@@ -130,6 +140,8 @@ def load_image(request):
 
 
 class FlatpageViewSet(ModelViewSet):
+    permission_classes = []
+    authentication_classes = []
     queryset = Flatpage.objects.filter(is_show=True)
     serializer_class = FlatpageSerializer
     lookup_field = 'slug'
