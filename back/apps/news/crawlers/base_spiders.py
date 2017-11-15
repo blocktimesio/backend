@@ -64,7 +64,7 @@ class BaseFeedSpider(scrapy.Spider, SpiderUrlMixin):
                 image_url=self.get_image_url(entry, response),
 
                 views=self.get_total_views(entry, response),
-                comments=self.get_total_views(entry, response),
+                comments=self.get_total_comments(entry, response),
             )
         except Exception as e:
             logger.error('Errror at create Item', exc_info=True)
