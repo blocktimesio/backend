@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from apps.news.models import (Domain, Tag, News, RankConfig)
+from apps.flatpage.models import Flatpage
 from apps.users.admin import User as UserModel
 
 User = get_user_model()  # type: UserModel
@@ -65,3 +66,13 @@ class UserJWTSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         filels = ['type', 'username', 'email']
+
+
+class FlatpageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Flatpage
+        fields = ['slug', 'title', 'content']
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }

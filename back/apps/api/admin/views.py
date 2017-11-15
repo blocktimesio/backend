@@ -11,8 +11,10 @@ from rest_framework.exceptions import APIException
 from rest_framework.viewsets import (ModelViewSet, ReadOnlyModelViewSet)
 from .serializers import (
     DomainSerializer, TagSerializer, NewsSerializer,
-    RankConfigSerializer, SignInSerializer
+    RankConfigSerializer, SignInSerializer,
+    FlatpageSerializer
 )
+from apps.flatpage.models import Flatpage
 from apps.news.models import (Tag, Domain, News, RankConfig)
 from django.contrib.auth import (
     authenticate,
@@ -125,3 +127,9 @@ def load_image(request):
         link = os.path.join(settings.MEDIA_URL, uploaded_path)
         return JsonResponse({'link': link})
     return JsonResponse({})
+
+
+class FlatpageViewSet(ModelViewSet):
+    queryset = Flatpage.objects.filter(is_show=True)
+    serializer_class = FlatpageSerializer
+    lookup_field = 'slug'
