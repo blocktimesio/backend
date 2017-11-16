@@ -24,8 +24,11 @@ class DjangoPipeline(object):
         try:
             social_data = socialshares.fetch(
                 item['url_raw'],
-                ['facebook', 'pinterest', 'linkedin', 'google', 'reddit']
+                ['pinterest', 'linkedin', 'google', 'reddit']
             )
+            fb_data = self._get_fb_data(item['raw_url'])
+            social_data.update(fb_data)
+
         except Exception as e:
             logger.error('Err at get social data', exc_info=True)
 
@@ -60,3 +63,17 @@ class DjangoPipeline(object):
                 obj.save()
             except Exception as e:
                 logger.error('Error at create new News', exc_info=True)
+
+    def _get_fb_data(self, url: str) -> dict:
+        fb_url = 'https://graph.facebook.com/?key={}&id={}'.format(
+            os.environ.get('FB_KEY', ''),
+            url
+        )
+        fb_response = requests.get(fb_url)
+        if fb_response.status_code == 200:
+            fb_data = fb_response.json()
+            share_data = fb_data.get('share', {})
+            return {'facebook': share_data}
+        else:
+            logger.warning('Can\'t get FB data for {}'.format(url))
+            return {}
