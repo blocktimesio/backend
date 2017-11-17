@@ -74,29 +74,26 @@ class News(models.Model):
         if not self.social:
             return 0
 
+        rank = 0
         social = self.social  # type: dict
-
-        fb_shares = 0
-        fb_data = social.get('facebook', {})
-        if fb_data:
-            fb_shares = fb_data.get('share_count', 0)
-
-        reddit_ups = 0
-        reddit_data = social.get('reddit', {})
-        if reddit_data:
-            reddit_ups = reddit_data.get('ups')
-
-        linkedin_shares = social.get('linkedin', 0)
-
         config = RankConfig.get_solo()  # type: RankConfig
 
-        rank = 0
-        rank += fb_shares * config.fb_shares
-        rank += linkedin_shares * config.linkedin_shares
-        rank += reddit_ups * config.reddit_up
-        rank += self.views or 0 * config.views
-        rank += self.comments or 0 * config.comments
-        rank = float(rank)
+        for f in config._meta.fields:
+            value = float(getattr(config, f.name))
+            setattr(config, f.name, value)
+
+        fb_data = social.get('facebook', {})
+        if fb_data:
+            rank += config.fb_shares * fb_data.get('share_count', 0)
+
+        reddit_data = social.get('reddit', {})
+        if reddit_data:
+            rank += config.reddit_up * reddit_data.get('ups', 0)
+
+        rank += config.linkedin_shares * social.get('linkedin', 0)
+
+        rank += self.views * config.views
+        rank += self.comments * config.comments
         rank -= (datetime.now() - self.pub_date).seconds / float(config.date_elapsed_seconds * config.date_coef * 3600)
         return rank
 
