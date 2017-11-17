@@ -1,3 +1,40 @@
-<p>
-  flatpage-list works!
-</p>
+<div [@routerTransition]>
+    <app-page-header [heading]="'Flatpage list'" [icon]="'fa-image'"></app-page-header>
+
+    <div class="row">
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12">
+            <a routerLink="/flatpage/create" class="btn btn-success">
+                <i class="fa fa-plus"></i> Create
+            </a>
+        </div>
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 table-responsive" style="margin-top: 10px;">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">On site</th>
+                        <th scope="col">
+                            Views
+                            <i class="fa fa-eye"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let page of flatpageList">
+                        <td>
+                            <a [routerLink]="['/flatpage', page.slug]">
+                                {{ page.title|slice:0:64 }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="http://blocktimes.io/pages/{{ page.slug }}/" target="_blank">
+                                /pages/{{ page.slug }}
+                            </a>
+                        </td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

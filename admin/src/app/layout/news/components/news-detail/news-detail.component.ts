@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { routerTransition } from '../../../../router.animations';
@@ -11,7 +11,7 @@ import * as $ from 'jquery/dist/jquery.min.js';
     styleUrls: ['news-detail.component.scss'],
     animations: [routerTransition()]
 })
-export class NewsDetailComponent {
+export class NewsDetailComponent implements OnInit {
     public news: any = null;
     public alerts: Array<any> = [];
 
@@ -26,7 +26,9 @@ export class NewsDetailComponent {
                     this.router.navigate(['/not-found']);
                 });
         });
+    }
 
+    ngOnInit() {
         setTimeout(() => $('.fr-wrapper > div > a').remove(), 1000);
     }
 

@@ -1,3 +1,36 @@
-<p>
-  flatpage-detail works!
-</p>
+<div [@routerTransition]>
+    <div class="row">
+        <div class="col-xl-12">
+            <h2 class="page-header">Create flatpage</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <i class="fa fa-dashboard"></i> <a href="Javascript:void(0)" [routerLink]="['/dashboard']">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <i class="fa fa-list"></i> <a href="Javascript:void(0)" [routerLink]="['/flatpage']">Flatpage list</a>
+                </li>
+                <li class="breadcrumb-item active"><i class="fa {{icon}}"></i>Create</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12">
+        <form [formGroup]="flatpageForm" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label for="id_title">Title</label>
+                <input type="text" class="form-control" id="id_title" placeholder="Title of new page" formControlName="title">
+            </div>
+            <div class="form-group">
+                <label for="id_slug">Slug</label>
+                <input type="text" class="form-control" id="id_slug" placeholder="Slug name" formControlName="slug">
+            </div>
+            <div class="form-group">
+                <label for="id_content">Content</label>
+                <div [froalaEditor]="editorConfig"></div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" [disabled]="!flatpageForm.valid">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
