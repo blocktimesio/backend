@@ -27,19 +27,16 @@ export class FlatpageDetailComponent implements OnInit {
                 private router: Router,
                 private route: ActivatedRoute) {
         this.flatpageForm = fb.group({
-            'slug' : [
-                null,
-                Validators.required,
-                // Validators.maxLength(128),
-                // Validators.pattern('[-a-z0-9]+')
-            ],
             'title' : [
                 null,
-                Validators.required,
-                // Validators.maxLength(128)
+                Validators.required
             ],
-            'is_show' : [null, Validators.required],
-            'content' : [null, Validators.required],
+            'slug' : [
+                null,
+                Validators.required
+            ],
+            'is_show' : [null],
+            'content' : [null],
         });
 
         this.route.params.subscribe(params => {
@@ -52,9 +49,17 @@ export class FlatpageDetailComponent implements OnInit {
     }
 
     ngOnInit() {
+        setTimeout(() => $('.fr-wrapper > div > a').remove(), 1000);
     }
 
     public submit(): void {
-        console.log(123);
+        this.route.params.subscribe(params => {
+            const sendData = this.flatpageForm.value;
+            this.http.patch(`/api/v1/admin/flatpage/${params['slug']}/`, sendData)
+                .subscribe((response: Response) => {
+                    const data = response.json();
+                    this.flatpageForm.reset(data);
+                });
+        });
     }
 }
