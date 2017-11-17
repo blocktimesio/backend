@@ -29,14 +29,24 @@ export class FlatpageDetailComponent implements OnInit {
         this.flatpageForm = fb.group({
             'title' : [
                 null,
-                Validators.required
+                Validators.compose([
+                    Validators.required,
+                    Validators.maxLength(128)
+                ])
             ],
             'slug' : [
                 null,
-                Validators.required
+                Validators.compose([
+                    Validators.required,
+                    Validators.maxLength(128),
+                    Validators.pattern('[-0-9a-z]+')
+                ])
             ],
             'is_show' : [null],
-            'content' : [null],
+            'content' : [
+                null,
+                Validators.compose([Validators.required])
+            ],
         });
 
         this.route.params.subscribe(params => {
