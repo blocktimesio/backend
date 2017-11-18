@@ -1,0 +1,6 @@
+<div class="outer-alerts">
+    <ngb-alert *ngFor="let alert of alerts"
+               [type]="geType(alert)" (close)="removeAlert(alert)">{{ alert.message }}</ngb-alert>
+</div>
+
+
