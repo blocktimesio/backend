@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { NewsRoutingModule } from './news-routing.module';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbAlertConfig, NgbPaginationConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NewsListComponent } from './components/news-list/news-list.component';
 import { NewsDetailComponent } from './components/news-detail/news-detail.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
@@ -23,6 +23,6 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
         NewsListComponent,
         NewsDetailComponent,
     ],
-    providers: [NgbAlertConfig, NgbPaginationConfig]
+    providers: [NgbPaginationConfig]
 })
 export class NewsModule { }
