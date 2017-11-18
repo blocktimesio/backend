@@ -1,5 +1,6 @@
 import os
 import logging
+from datetime import datetime
 from django.conf import settings
 import rest_framework_filters as filters
 from django.core.files.base import ContentFile
@@ -62,6 +63,10 @@ class NewsViewSet(ModelViewSet):
     filter_class = NewsFilter
     serializer_class = NewsSerializer
     queryset = News.objects.all()
+    pagination_class = None
+
+    def get_queryset(self):
+        return self.queryset.filter(pub_date__date=datetime.today())
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
