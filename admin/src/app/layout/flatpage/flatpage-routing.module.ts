@@ -6,7 +6,7 @@ import { FlatpageDetailComponent } from './components/flatpage-detail/flatpage-d
 const routes: Routes = [
     { path: '', component: FlatpageListComponent },
     { path: 'create, isCreated', component: FlatpageDetailComponent },
-    { path: ':slug', component: FlatpageDetailComponent },
+    { path: ':id', component: FlatpageDetailComponent },
 ];
 
 @NgModule({

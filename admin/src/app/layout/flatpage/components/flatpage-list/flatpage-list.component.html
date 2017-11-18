@@ -22,7 +22,7 @@
                 <tbody>
                     <tr *ngFor="let page of flatpageList">
                         <td>
-                            <a [routerLink]="['/flatpage', page.slug]">
+                            <a [routerLink]="['/flatpage', page.id]">
                                 {{ page.title|slice:0:64 }}
                             </a>
                         </td>

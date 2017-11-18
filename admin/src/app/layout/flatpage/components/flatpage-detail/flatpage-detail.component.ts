@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../../../router.animations';
-import { Http, Response } from '@angular/http';
+import { Http, Request, Response, RequestOptions } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../../alert/alert.service';
@@ -15,7 +15,6 @@ import * as $ from 'jquery/dist/jquery.min.js';
 })
 export class FlatpageDetailComponent implements OnInit {
     public flatpageForm: FormGroup;
-    public slugExample: String = '';
     public isCreated: Boolean = false;
 
     public editorConfig = {
@@ -23,6 +22,12 @@ export class FlatpageDetailComponent implements OnInit {
         imageUploadMethod: 'POST',
         imageMaxSize: 30 * 1024 * 1024,
         imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+        placeholder: 'Page text',
+        // events : {
+        //     'froalaEditor.image.error' : function(e, editor, error, response) {
+        //         this.alertService.warn('Oops! Uploading image is wrong');
+        //     },
+        // }
     };
 
     constructor(private fb: FormBuilder,
@@ -53,33 +58,26 @@ export class FlatpageDetailComponent implements OnInit {
         });
 
         this.route.params.subscribe(params => {
-            if (params['slug'] === 'create') {
-                this.slugifyTitle();
+            if (params['id'] === 'create') {
+                this.flatpageForm.controls['title'].valueChanges.subscribe(
+                    (title) => {
+                        const slug = this.slugify(title);
+                        this.flatpageForm.patchValue({slug});
+                    }
+                );
                 this.isCreated = true;
                 return ;
             }
 
-            this.http.get(`/api/v1/admin/flatpage/${params['slug']}/`)
+            this.http.get(`/api/v1/admin/flatpage/${params['id']}/`)
                 .subscribe((response: Response) => {
                     const data = response.json();
                     this.flatpageForm.reset(data);
-                    this.slugifyTitle();
-                    this.slugExample = this.slugify(data['title']);
                     setTimeout(() => $('.fr-wrapper > div > a').remove(), 1000);
                 }, (error) => {
                     this.alertService.warn('Oops! Something is wrong');
                 });
         });
-    }
-
-    private slugifyTitle(): void {
-        this.flatpageForm.controls['title'].valueChanges.subscribe(
-            (title) => {
-                const slug = this.slugify(title);
-                this.slugExample = slug;
-                this.flatpageForm.patchValue({slug: slug});
-            }
-        );
     }
 
     private slugify(text: String): String {
@@ -96,11 +94,44 @@ export class FlatpageDetailComponent implements OnInit {
     public submit(): void {
         this.route.params.subscribe(params => {
             const sendData = this.flatpageForm.value;
-            this.http.patch(`/api/v1/admin/flatpage/${params['slug']}/`, sendData)
+            const options = new RequestOptions();
+            options.body = sendData;
+            options.responseType = 1;
+            if (this.isCreated) {
+                options.url = '/api/v1/admin/flatpage/';
+                options.method = 'post';
+            }
+            else {
+                options.url = `/api/v1/admin/flatpage/${params['id']}/`;
+                options.method = 'patch';
+            }
+            this.http.request(new Request(options), sendData)
                 .subscribe((response: Response) => {
-                    this.alertService.success('Page was saved');
-                }, (error) => {
-                    this.alertService.warn('Oops! Something is wrong');
+                    let message = '';
+                    if (this.isCreated) {
+                        message = 'Page was created';
+                    }
+                    else {
+                        message = 'Page was saved';
+                    }
+                    this.alertService.success(message);
+
+                    this.router.navigate(['/flatpage', params['id']]);
+                }, (response: Response) => {
+                    const errors = response.json();
+                    let message = '';
+                    if (response.status === 400 && 'slug' in errors) {
+                        message = 'This slug is not unique. Rename, please';
+                    }
+                    else {
+                        if (this.isCreated) {
+                            message = 'Oops! Something is wrong at creating the new page';
+                        }
+                        else {
+                            message = 'Oops! Something is wrong at updating the page';
+                        }
+                    }
+                    this.alertService.warn(message);
                 });
         });
     }
