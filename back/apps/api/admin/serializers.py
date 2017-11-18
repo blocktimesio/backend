@@ -71,8 +71,4 @@ class UserJWTSerializer(serializers.ModelSerializer):
 class FlatpageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flatpage
-        fields = ['slug', 'title', 'content']
-        lookup_field = 'slug'
-        extra_kwargs = {
-            'url': {'lookup_field': 'slug'}
-        }
+        fields = ['id', 'slug', 'title', 'content']

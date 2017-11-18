@@ -142,6 +142,5 @@ def load_image(request):
 class FlatpageViewSet(ModelViewSet):
     permission_classes = []
     authentication_classes = []
-    queryset = Flatpage.objects.filter(is_show=True)
+    queryset = Flatpage.objects.all()
     serializer_class = FlatpageSerializer
-    lookup_field = 'slug'
