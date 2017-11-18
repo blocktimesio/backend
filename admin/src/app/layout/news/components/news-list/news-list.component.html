@@ -50,7 +50,7 @@
                                        type="number" step=".01" formControlName="fb_shares" />
                             </div>
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                                <label for="id_linkedin_shares"><i class="fa fa-link"></i></label>
+                                <label for="id_linkedin_shares"><i class="fa fa-linkedin"></i></label>
                                 <input class="form-control input-xs" id="id_linkedin_shares"
                                        type="number" formControlName="linkedin_shares" />
                             </div>
@@ -70,7 +70,7 @@
                                        type="number" step=".01" formControlName="views" />
                             </div>
                             <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
-                                <label for="id_comments"><i class="fa fa-clock-o"></i></label>
+                                <label for="id_comments"><i class="fa fa-comment"></i></label>
                                 <input class="form-control input-xs" id="id_comments"
                                        type="number" step=".01" formControlName="comments" />
                             </div>
@@ -163,6 +163,7 @@
                                 <td><i class="fa fa-facebook"></i></td>
                                 <td><i class="fa fa-linkedin"></i></td>
                                 <td><i class="fa fa-reddit"></i></td>
+                                <td><i class="fa fa-twitter"></i></td>
                                 <td><i class="fa fa-eye"></i></td>
                                 <td><i class="fa fa-comment"></i></td>
                                 <td><i class="fa fa-clock-o"></i></td>
@@ -172,6 +173,7 @@
                                 <td>{{ news.social_data.facebook.share_count }}</td>
                                 <td>{{ news.social_data.linkedin }}</td>
                                 <td>{{ news.social_data.reddit.ups }}</td>
+                                <td>{{ news.social_data.twitter || 0 }}</td>
                                 <td>{{ news.views || 0 }}</td>
                                 <td>{{ news.comments || 0 }}</td>
                                 <td>{{ news.time_elapsed }}</td>
