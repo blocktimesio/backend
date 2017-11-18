@@ -58,6 +58,7 @@ export class FlatpageDetailComponent implements OnInit {
         });
 
         this.route.params.subscribe(params => {
+            console.log(params['id']);
             if (params['id'] === 'create') {
                 this.flatpageForm.controls['title'].valueChanges.subscribe(
                     (title) => {
@@ -93,9 +94,8 @@ export class FlatpageDetailComponent implements OnInit {
 
     public submit(): void {
         this.route.params.subscribe(params => {
-            const sendData = this.flatpageForm.value;
             const options = new RequestOptions();
-            options.body = sendData;
+            options.body = this.flatpageForm.value;
             options.responseType = 1;
             if (this.isCreated) {
                 options.url = '/api/v1/admin/flatpage/';
@@ -105,7 +105,7 @@ export class FlatpageDetailComponent implements OnInit {
                 options.url = `/api/v1/admin/flatpage/${params['id']}/`;
                 options.method = 'patch';
             }
-            this.http.request(new Request(options), sendData)
+            this.http.request(new Request(options))
                 .subscribe((response: Response) => {
                     let message = '';
                     if (this.isCreated) {
@@ -116,7 +116,10 @@ export class FlatpageDetailComponent implements OnInit {
                     }
                     this.alertService.success(message);
 
-                    this.router.navigate(['/flatpage', params['id']]);
+                    if (this.isCreated) {
+                        const data = response.json();
+                        this.router.navigate(['/flatpage/']);
+                    }
                 }, (response: Response) => {
                     const errors = response.json();
                     let message = '';
