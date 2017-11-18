@@ -19,10 +19,6 @@ export class NewsListComponent {
     public isRankFormCollapsed: Boolean = false;
     public isNewsCardsCollapsed: Boolean = false;
 
-    public pageSize: Number = 10;
-    public totalCount: Number = 0;
-    public currentPage: Number = 1;
-
     constructor(private http: Http, private fb: FormBuilder) {
         this.filterForm = fb.group({
             'domains' : [null, ],
@@ -58,13 +54,7 @@ export class NewsListComponent {
         this.loadDomains();
     }
 
-    public changePage(selectedPage: number): void {
-        this.currentPage = selectedPage;
-        this.loadNews();
-    }
-
     public submitFilterForm(): void {
-        this.currentPage = 1;
         this.loadNews();
     }
 
@@ -75,22 +65,14 @@ export class NewsListComponent {
     }
 
     private loadNews(): void {
-        // /api/v1/news/?limit=10&offset=50
-        let offset = 0;
-        if (this.currentPage > 1) {
-            offset = Number(this.pageSize) * Number(this.currentPage);
-        }
-
-        let url = `/api/v1/admin/news?limit=${this.pageSize}&offset=${offset}`;
+        let url = '/api/v1/admin/news';
         if (this.filterForm.value['domains']) {
             const domains = this.filterForm.value['domains'].join();
-            url += `&domain__id__in=${domains}`;
+            url += `?domain__id__in=${domains}`;
         }
         this.http.get(url)
             .subscribe((response: Response) => {
-                const data = response.json();
-                this.newsList = data['results'];
-                this.totalCount = Number(data['count']) - Number(this.pageSize);
+                this.newsList = response.json();
             });
     }
 

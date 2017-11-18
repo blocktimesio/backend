@@ -103,9 +103,8 @@
     </div>
 
     <div class="row">
-        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="totalCount">
-            <ngb-pagination aria-label="Default pagination" (pageChange)="changePage($event)"
-                            [collectionSize]="totalCount" [(page)]="currentPage" [maxSize]="pageSize"></ngb-pagination>
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12 text-center" *ngIf="newsList.length">
+            <h4>{{ newsList.length }}</h4>
         </div>
         <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="newsList.length">
             <div class="card" *ngFor="let news of newsList">
