@@ -26,7 +26,7 @@ class DjangoPipeline(object):
                 item['url_raw'],
                 ['pinterest', 'linkedin', 'google', 'reddit']
             )
-            fb_data = self._get_fb_data(item['raw_url'])
+            fb_data = self._get_fb_data(item['url_raw'])
             social_data.update(fb_data)
 
         except Exception as e:
