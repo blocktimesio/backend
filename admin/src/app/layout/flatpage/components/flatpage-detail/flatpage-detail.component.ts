@@ -16,6 +16,7 @@ import * as $ from 'jquery/dist/jquery.min.js';
 export class FlatpageDetailComponent implements OnInit {
     public flatpageForm: FormGroup;
     public slugExample: String = '';
+    public isCreated: Boolean = false;
 
     public editorConfig = {
         imageUploadURL: '/api/v1/admin/upload-image',
@@ -45,30 +46,40 @@ export class FlatpageDetailComponent implements OnInit {
                     Validators.pattern('[-0-9a-z]+')
                 ])
             ],
-            'is_show' : [null],
             'content' : [
                 null,
-                Validators.compose([Validators.required])
+                Validators.required
             ],
         });
 
         this.route.params.subscribe(params => {
+            if (params['slug'] === 'create') {
+                this.slugifyTitle();
+                this.isCreated = true;
+                return ;
+            }
+
             this.http.get(`/api/v1/admin/flatpage/${params['slug']}/`)
                 .subscribe((response: Response) => {
                     const data = response.json();
                     this.flatpageForm.reset(data);
-
+                    this.slugifyTitle();
                     this.slugExample = this.slugify(data['title']);
-
-                    this.flatpageForm.controls['title'].valueChanges.subscribe(
-                        (title) => {
-                            const slug = this.slugify(title);
-                            this.slugExample = slug;
-                            this.flatpageForm.patchValue({slug: slug});
-                        }
-                    );
+                    setTimeout(() => $('.fr-wrapper > div > a').remove(), 1000);
+                }, (error) => {
+                    this.alertService.warn('Oops! Something is wrong');
                 });
         });
+    }
+
+    private slugifyTitle(): void {
+        this.flatpageForm.controls['title'].valueChanges.subscribe(
+            (title) => {
+                const slug = this.slugify(title);
+                this.slugExample = slug;
+                this.flatpageForm.patchValue({slug: slug});
+            }
+        );
     }
 
     private slugify(text: String): String {
