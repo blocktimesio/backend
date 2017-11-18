@@ -15,12 +15,12 @@ export class AlertComponent implements OnInit {
 
     ngOnInit() {
         this.alertService.getAlert().subscribe((alert: Alert) => {
-            console.log(alert);
             if (!alert) {
                 this.alerts = [];
             }
             else {
                 this.alerts.push(alert);
+                setTimeout(() => this.removeAlert(alert), 5000);
             }
         });
     }
