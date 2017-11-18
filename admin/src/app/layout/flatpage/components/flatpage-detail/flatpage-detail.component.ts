@@ -3,6 +3,7 @@ import { routerTransition } from '../../../../router.animations';
 import { Http, Response } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from '../../../alert/alert.service';
 import * as $ from 'jquery/dist/jquery.min.js';
 
 @Component({
@@ -26,7 +27,8 @@ export class FlatpageDetailComponent implements OnInit {
     constructor(private fb: FormBuilder,
                 private http: Http,
                 private router: Router,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private alertService: AlertService) {
         this.flatpageForm = fb.group({
             'title' : [
                 null,
@@ -85,8 +87,9 @@ export class FlatpageDetailComponent implements OnInit {
             const sendData = this.flatpageForm.value;
             this.http.patch(`/api/v1/admin/flatpage/${params['slug']}/`, sendData)
                 .subscribe((response: Response) => {
-                    const data = response.json();
-                    this.flatpageForm.reset(data);
+                    this.alertService.success('Page was saved');
+                }, (error) => {
+                    this.alertService.warn('Oops! Something is wrong');
                 });
         });
     }

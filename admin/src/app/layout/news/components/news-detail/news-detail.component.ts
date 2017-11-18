@@ -44,7 +44,7 @@ export class NewsDetailComponent implements OnInit {
         this.route.params.subscribe(params => {
             const data = {text: this.news.text};
             this.http.patch(`/api/v1/admin/news/${params['id']}/`, data)
-                .subscribe((data: Response) => {
+                .subscribe((response: Response) => {
                     this.alertService.success('Saving news was succeed');
                 }, (error) => {
                     this.alertService.warn('Saving news was failure');
