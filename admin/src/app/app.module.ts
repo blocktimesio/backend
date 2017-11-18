@@ -6,12 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
-import { FlatpageComponent } from './layout/flatpage/flatpage.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        FlatpageComponent,
     ],
     imports: [
         BrowserModule,
