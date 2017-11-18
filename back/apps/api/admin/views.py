@@ -144,3 +144,4 @@ class FlatpageViewSet(ModelViewSet):
     authentication_classes = []
     queryset = Flatpage.objects.all()
     serializer_class = FlatpageSerializer
+    pagination_class = None
