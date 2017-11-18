@@ -14,6 +14,7 @@ import * as $ from 'jquery/dist/jquery.min.js';
 })
 export class FlatpageDetailComponent implements OnInit {
     public flatpageForm: FormGroup;
+    public slugExample: String = '';
 
     public editorConfig = {
         imageUploadURL: '/api/v1/admin/upload-image',
@@ -54,8 +55,25 @@ export class FlatpageDetailComponent implements OnInit {
                 .subscribe((response: Response) => {
                     const data = response.json();
                     this.flatpageForm.reset(data);
+
+                    this.slugExample = this.slugify(data['title']);
+
+                    this.flatpageForm.controls['title'].valueChanges.subscribe(
+                        (title) => {
+                            const slug = this.slugify(title);
+                            this.slugExample = slug;
+                            this.flatpageForm.patchValue({slug: slug});
+                        }
+                    );
                 });
         });
+    }
+
+    private slugify(text: String): String {
+        let slug = text.toLowerCase().trim();
+        slug = slug.replace(/[^a-z0-9\s-]/g, ' ');
+        slug = slug.replace(/[\s-]+/g, '-');
+        return slug;
     }
 
     ngOnInit() {

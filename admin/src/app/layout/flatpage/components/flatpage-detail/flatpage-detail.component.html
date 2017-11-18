@@ -27,8 +27,8 @@
                 <input type="text" class="form-control" id="id_slug" placeholder="Slug name"
                        formControlName="slug"
                        [ngClass]="{'form-control-danger': !flatpageForm.controls['slug'].valid}" />
-                <small class="form-text text-muted">
-                    Slug should be the same: ""
+                <small class="form-text text-muted" *ngIf="!flatpageForm.controls['slug'].valid">
+                    Slug should be the same: "{{ slugExample }}"
                 </small>
             </div>
             <div class="form-group" [ngClass]="{'has-danger': !flatpageForm.controls['content'].valid}">
