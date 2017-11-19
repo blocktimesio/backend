@@ -75,8 +75,7 @@ services:
       - ./nginx/confs/static_params:/etc/nginx/static_params
 
       # Sites
-      - ./nginx/sites-enabled/main.conf:/etc/nginx/sites-enabled/main.conf
-      - ./nginx/sites-enabled/admin.conf:/etc/nginx/sites-enabled/admin.conf
+      - ./nginx/site.conf:/etc/nginx/sites-enabled/site.conf
     depends_on:
       - back
       - kibana
