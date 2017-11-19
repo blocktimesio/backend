@@ -3,7 +3,7 @@ import { routerTransition } from '../../../../router.animations';
 import { Http, Request, Response, RequestOptions } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertService } from '../../../alert/alert.service';
+import { AlertService } from '../../../../shared';
 import * as $ from 'jquery/dist/jquery.min.js';
 
 @Component({

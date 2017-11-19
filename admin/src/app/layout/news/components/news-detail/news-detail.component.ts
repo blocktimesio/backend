@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertService } from '../../../alert/alert.service';
+import { AlertService } from '../../../../shared';
 import { routerTransition } from '../../../../router.animations';
 import * as $ from 'jquery/dist/jquery.min.js';
 

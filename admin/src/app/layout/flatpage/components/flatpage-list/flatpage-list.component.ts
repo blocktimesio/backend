@@ -1,7 +1,7 @@
 import { Http, Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../../../router.animations';
-import { AlertService } from '../../../alert/alert.service';
+import { AlertService } from '../../../../shared';
 
 @Component({
     moduleId: module.id,
