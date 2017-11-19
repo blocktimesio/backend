@@ -121,5 +121,3 @@ services:
     depends_on:
       - logstash
       - elasticsearch
-    ports:
-      - 5601:5601
