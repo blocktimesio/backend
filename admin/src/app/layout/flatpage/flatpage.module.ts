@@ -7,6 +7,7 @@ import { NgbAlertConfig, NgbPaginationConfig, NgbModule} from '@ng-bootstrap/ng-
 import { FlatpageListComponent } from './components/flatpage-list/flatpage-list.component';
 import { FlatpageDetailComponent } from './components/flatpage-detail/flatpage-detail.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { UiSwitchModule } from 'ngx-ui-switch';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
         NewsRoutingModule,
         PageHeaderModule,
         NgbModule,
+        UiSwitchModule,
         FroalaEditorModule.forRoot(),
         FroalaViewModule.forRoot(),
     ],

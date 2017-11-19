@@ -31,4 +31,11 @@ export class FlatpageListComponent implements OnInit {
     ngOnInit() {
     }
 
+    public setEnable(page: any, isShow: Boolean): void {
+        const url = `/api/v1/admin/flatpage/${page['id']}/`;
+        this.http.patch(url, {is_show: isShow})
+            .subscribe((response: Response) => {
+                this.alertService.success(`Set is show value to "${isShow}" for page "${page.title}"`);
+            });
+    }
 }

@@ -71,4 +71,4 @@ class UserJWTSerializer(serializers.ModelSerializer):
 class FlatpageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flatpage
-        fields = ['id', 'slug', 'title', 'content']
+        fields = ['id', 'slug', 'title', 'content', 'is_show']
