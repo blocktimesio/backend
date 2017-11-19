@@ -96,6 +96,10 @@ class News(models.Model):
         rank += self.views * config.views
         rank += self.comments * config.comments
         rank -= (datetime.now() - self.pub_date).seconds / float(config.date_elapsed_seconds * config.date_coef * 3600)
+
+        if self.domain.coef:
+            rank *= self.domain.coef
+
         return rank
 
     @property
