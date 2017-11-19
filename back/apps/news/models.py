@@ -28,9 +28,10 @@ class RankConfig(SingletonModel):
 
 class Domain(models.Model):
     name = models.CharField(max_length=128)
+    coef = models.DecimalField(max_digits=9, decimal_places=5, default=0.)
 
     def __str__(self):
-        return self.name
+        return '{} [{}]'.format(self.name, self.coef)
 
     class Meta:
         app_label = 'news'

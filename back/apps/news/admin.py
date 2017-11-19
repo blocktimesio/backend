@@ -13,8 +13,9 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name', 'coef']
     search_fields = ['name']
+    list_editable = ['coef']
 
 
 @admin.register(News)
