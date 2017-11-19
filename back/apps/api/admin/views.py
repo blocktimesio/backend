@@ -25,7 +25,7 @@ from django.contrib.auth import (
 logger = logging.getLogger('django.request')
 
 
-class DomainViewSet(ReadOnlyModelViewSet):
+class DomainViewSet(ModelViewSet):
     permission_classes = []
     authentication_classes = []
     serializer_class = DomainSerializer
