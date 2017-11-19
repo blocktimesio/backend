@@ -11,11 +11,14 @@ services:
     links:
       - db:db
       - redis:redis
+      - logstash:logstash
     depends_on:
       - db
       - redis
       - celery
+      - logstash
     expose:
+      - 5000
       - 5432
       - 6379
       - 27017
@@ -86,7 +89,7 @@ services:
       - 443:443
 
   elasticsearch:
-    build: log_server/elasticsearch/
+    build: ./log_server/elasticsearch/.
     volumes:
       - ./log_server/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     expose:
@@ -96,7 +99,7 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
 
   logstash:
-    build: log_server/logstash/
+    build: ./log_server/logstash/.
     volumes:
       - ./nginx/logs:/tmp/nginx_logs
       - ./log_server/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
@@ -111,7 +114,7 @@ services:
       - elasticsearch
 
   kibana:
-    build: log_server/kibana/
+    build: ./log_server/kibana/.
     volumes:
       - ./log_server/kibana/config/:/usr/share/kibana/config
     expose:
