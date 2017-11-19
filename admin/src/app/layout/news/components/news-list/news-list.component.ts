@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { routerTransition } from '../../../../router.animations';
 import { Http, Response } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from '../../../../shared';
 
 @Component({
     moduleId: module.id,
@@ -19,7 +20,9 @@ export class NewsListComponent {
     public isRankFormCollapsed: Boolean = false;
     public isNewsCardsCollapsed: Boolean = false;
 
-    constructor(private http: Http, private fb: FormBuilder) {
+    constructor(private http: Http,
+                private fb: FormBuilder,
+                private alertService: AlertService) {
         this.filterForm = fb.group({
             'domains' : [null, ],
         });
@@ -115,6 +118,19 @@ export class NewsListComponent {
             .subscribe((response: Response) => {
                 const data = response.json();
                 this.domainsList = data.results;
+            });
+    }
+
+    public updateDomain(domain: any): void {
+        const url = `/api/v1/admin/domain/${domain.id}/`
+        this.http.patch(url, {coef: domain.coef})
+            .subscribe((response: Response) => {
+                const message = `Coef for domain "${domain.name}" was updated`;
+                this.alertService.success(message);
+                this.loadNews();
+            }, (error) => {
+                const message = `Oops! Something is wrong. Coef for domain "${domain.name}" was not updated`;
+                this.alertService.warn(message);
             });
     }
 }

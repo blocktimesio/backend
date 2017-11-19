@@ -10,7 +10,9 @@
                         <div class="form-group" *ngIf="domainsList.length">
                             <label for="id_domain">Domain</label>
                             <select multiple class="form-control" id="id_domain" size="11" formControlName="domains">
-                                <option *ngFor="let domain of domainsList" [value]="domain.id">{{ domain.name }}</option>
+                                <option *ngFor="let domain of domainsList" [value]="domain.id">
+                                    {{ domain.name }} [{{ domain.coef }}]
+                                </option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%">
@@ -30,6 +32,43 @@
                             </span>
                         </button>
                     </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-lg-12 col-md-12 col-xs-12 col-sm-12" *ngIf="domainsList.length">
+            <div class="card form-rank">
+                <h5 class="card-header" (click)="collapseRankForm()">
+                    Domains
+                    <i class="fa pull-right"
+                       [ngClass]="{'fa-chevron-down': isRankFormCollapsed, 'fa-chevron-up': !isRankFormCollapsed}"></i>
+                </h5>
+                <div class="card-block" [ngbCollapse]="isRankFormCollapsed">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Coef</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let domain of domainsList">
+                                <td class="text-left">{{ domain.name }}</td>
+                                <td>
+                                    <input class="form-control" type="number" step=".01" [(ngModel)]="domain.coef" />
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-success" (click)="updateDomain(domain)">
+                                        <i class="fa fa-save"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-block" *ngIf="isRankFormCollapsed">
+                    <h5 align="center">...</h5>
                 </div>
             </div>
         </div>
