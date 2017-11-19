@@ -98,7 +98,7 @@ class News(models.Model):
         rank -= (datetime.now() - self.pub_date).seconds / float(config.date_elapsed_seconds * config.date_coef * 3600)
 
         if self.domain.coef:
-            rank *= self.domain.coef
+            rank *= float(self.domain.coef)
 
         return rank
 
