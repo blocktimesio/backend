@@ -13,8 +13,8 @@ urlpatterns = [
     # url(r'^robots\.txt$', views.TemplateView.as_view(template_name='robots.txt')),
     # url(r'^sitemap\.xml', views.TemplateView.as_view(template_name='sitempa.xml')),
 
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin/redactor/', include('redactor.urls')),
+    url(r'^django-admin/', include(admin.site.urls)),
+    url(r'^django-admin/redactor/', include('redactor.urls')),
 ]
 
 if settings.DEBUG:
