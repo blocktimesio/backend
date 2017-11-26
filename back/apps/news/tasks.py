@@ -1,8 +1,7 @@
 import logging
 from datetime import timedelta
 from celery.task import periodic_task
-from twisted.internet import reactor
-from scrapy.crawler import CrawlerRunner
+from scrapy.crawler import CrawlerProcess
 from apps.news.crawlers.spiders.bitcoinist_feed import BitcoinistFeedSpider
 from apps.news.crawlers.spiders.bitnewstoday import BitNewsTodaySpider
 from apps.news.crawlers.spiders.blogethereum_feed import BlogEthereumFeedSpider
@@ -18,30 +17,31 @@ from apps.news.crawlers.spiders.trustnodes_feed import TrustNodesFeedSpider
 
 logger = logging.getLogger('crawlers')
 
+crawler_process = CrawlerProcess()
+spiders = [
+    BitcoinistFeedSpider,
+    BitNewsTodaySpider,
+    BlogEthereumFeedSpider,
+    CoindeskFeedSpider,
+    CoinTelegraphFeedSpider,
+    EthereumWorldNewsFeedSpider,
+    InvestopediaSpider,
+    MoneyAndStateFeedSpider,
+    NewsBitcoinFeedSpider,
+    NewsBtcFeedSpider,
+    PrestonByrneFeedSpider,
+    TrustNodesFeedSpider,
+]
 
-@periodic_task(run_every=timedelta(minutes=10))
+for spider in spiders:
+    crawler_process.crawl(spider)
+
+TASK_CRAWL_DELAY = 60 * 1  # seconds
+
+
+@periodic_task(run_every=timedelta(seconds=TASK_CRAWL_DELAY))
 def run_sites_crawlers():
-    spiders = [
-        BitcoinistFeedSpider,
-        BitNewsTodaySpider,
-        BlogEthereumFeedSpider,
-        CoindeskFeedSpider,
-        CoinTelegraphFeedSpider,
-        EthereumWorldNewsFeedSpider,
-        InvestopediaSpider,
-        MoneyAndStateFeedSpider,
-        NewsBitcoinFeedSpider,
-        NewsBtcFeedSpider,
-        PrestonByrneFeedSpider,
-        TrustNodesFeedSpider,
-    ]
-
     try:
-        runner = CrawlerRunner()
-        for spider in spiders:
-            runner.crawl(spider)
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        crawler_process.start()
     except Exception as e:
-        logger.error('Error at running crawler', exc_info=True)
+        logger.error('Error at run crawlers', exc_info=True)
