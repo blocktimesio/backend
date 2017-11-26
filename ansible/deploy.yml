@@ -1,63 +1,83 @@
 ---
-- name: Deploy new server
+- name: Deploy a new server
+  hosts: all
   gather_facts: no
 
+  roles:
+    - { role: Bessonov.docker, docker_engine_version: "17.06.2", ansible_distribution: "Ubuntu" }
+    - { role: Bessonov.docker-compose, docker_compose_version: "1.16.0" }
+
   vars:
-    git_url: git@bitbucket.org:drmartiner/blocktimes.git
+    git_url: 'git@github.com:TRANSCRYPT/transcrypt.server.api.git'
     repo_dir: /opt/app/
-    service_to_up: nginx
+    service_to_up: nginx sftp
 
   vars_prompt:
-  - name: 'git_ssh_key_path'
-    prompt: 'GitHub key path'
-    default: '~/.ssh/blocktimes_git_api'
+    - name: 'git_ssh_key_path'
+      prompt: 'GitHub key path'
+      default: '~/.ssh/transcrypt_git_api'
 
   handlers:
     - name: Restart ssh
       service: name=ssh state=restarted
 
   tasks:
-    # Check exists GitHub SSH key files
-    - stat:
-      path: {{ git_ssh_key }}
-      register: git_key_priv_path
-    - debug:
-      msg: 'GitHub SSH private key does not exists'
-      when: git_key_priv_path.stat.exists is not defined
-
-    - stat:
-      path: {{ git_ssh_key }}.pub
-      register: git_key_pub_path
-    - debug:
-      msg: 'GitHub SSH public key does not exists'
-      when: git_key_pub_path.stat.exists is not defined
-
-    # Install packages
     - name: Update all packages to the latest version
       apt:
         upgrade: dist
-    - name: Add repository "universe"
-      apt_repository: repo='universe' state=present
-    - name: Install the packages
+    - name: Install the packages list
       apt: name={{ item }} state=present
-      sudo: yes
       with_items:
         - mc
-        - gcc
         - make
-        - software-properties-common
         - git
         - lynx
         - htop
         - nmap
         - curl
         - bash-completion
-        - docker
-        - docker-compose
+
+    - name: Creates ~/.ssh/ dirrectory
+      file: path=~/.ssh state=directory
+    - name: Copy ~/.ssh/id_rsa.pub to ~/.ssh/authorized_keys
+      copy:
+        src: ~/.ssh/id_rsa.pub
+        dest: ~/.ssh/authorized_keys
+        mode: 0600
+        owner: root
+        group: root
+
+    - name: Check local SSH private GIT key file
+      stat:
+        path: "{{ git_ssh_key_path }}"
+      register: git_key_priv_path
+    - debug:
+        msg: "GitHub SSH private key does not exists"
+      when: git_key_priv_path.stat.exists is not defined
+
+    - name: Check local SSH public GIT key file
+      stat:
+        path: "{{ git_ssh_key_path }}.pub"
+      register: git_key_pub_path
+    - debug:
+        msg: "GitHub SSH public key does not exists"
+      when: git_key_pub_path.stat.exists is not defined
+
+    - name: Copy GitHub SSH full key
+      copy:
+        src: "{{ item.src }}"
+        dest: "~/.ssh/{{ item.dest }}"
+      with_items:
+        - { src: "{{ git_ssh_key_path }}", dest: "id_rsa" }
+        - { src: '{{ git_ssh_key_path }}.pub', dest: 'id_rsa.pub' }
+    - name: Clone repo
+      git: repo={{ git_url }} dest=/opt/app
+           accept_hostkey=yes force=yes recursive=no
 
     - name: Add bash-completion script to ~/.bashrc
       lineinfile: dest=~/.bashrc line='{{item}}'
       with_items:
+        - ''
         - 'if ! shopt -oq posix; then'
         - '  if [ -f /usr/share/bash-completion/bash_completion ]; then'
         - '    . /usr/share/bash-completion/bash_completion'
@@ -65,28 +85,6 @@
         - '    . /etc/bash_completion'
         - '  fi'
         - 'fi'
-
-    - name: Stop redundant services
-      with_items:
-        - apache
-        - postfix
-        - rpcbind
-
-    # Copy keys files
-    # TODO: change id_rsa.* to id_rsa-github.*
-    - name: Copy ~/.ssh/id_rsa.pub to ~/.ssh/authorized_keys
-      copy: src=~/.ssh/id_rsa.pub
-            dest=~/.ssh/authorized_keys
-            owner=root group=root mode=u=rw,g=,o=
-    - name: Copy GitHub private key
-      copy: src={{ item.src.path }} dest=~/.ssh/{{ item.dest }}
-            owner=root group=root mode=u=rw,g=,o=
-      with_items:
-        - { src: '{{ git_key_pub_path }}', dest: 'id_rsa.pub' }
-        - { src: '{{ git_key_priv_path }}', dest: 'id_rsa' }
-    - name: Clone repo
-      git: repo={{ git_url}} dest=/opt/app
-           accept_hostkey=yes force=yes recursive=no
 
     - name: Disallow password authentication
       lineinfile: dest=/etc/ssh/sshd_config
@@ -98,7 +96,7 @@
     - name: Run docker-compose
       command: docker-compose {{ item }}
       args:
-        chdir: {{ repo_dir }}
+        chdir: "{{ repo_dir }}"
       with_items:
         - build
         - up -d {{ service_to_up }}
