@@ -36,7 +36,7 @@ spiders = [
 for spider in spiders:
     crawler_process.crawl(spider)
 
-TASK_CRAWL_DELAY = 60 * 1  # seconds
+TASK_CRAWL_DELAY = 60 * 10  # seconds
 
 
 @periodic_task(run_every=timedelta(seconds=TASK_CRAWL_DELAY))
