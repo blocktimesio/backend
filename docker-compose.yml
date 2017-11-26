@@ -77,7 +77,7 @@ services:
       - 443:443
 
   elasticsearch:
-    build: ./elasticsearch/.
+    build: elasticsearch/
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     expose:
@@ -87,11 +87,11 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
 
   logstash:
-    build: ./logstash/.
+    build: logstash/
     volumes:
-      - ./nginx/logs:/tmp/nginx_logs
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./nginx/logs:/tmp/nginx-logs
     expose:
       - 5000
       - 9200
@@ -102,7 +102,7 @@ services:
       - elasticsearch
 
   kibana:
-    build: ./kibana/.
+    build: kibana/
     volumes:
       - ./kibana/config/:/usr/share/kibana/config
     expose:
