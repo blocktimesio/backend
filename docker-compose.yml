@@ -23,23 +23,6 @@ services:
       - 6379
       - 27017
 
-  celery:
-    build:
-      context: ./back/
-      dockerfile: Dockerfile-celery
-    command: sh docker-run-celery.sh
-    env_file: ./back/docker-env.ini
-    working_dir: /app/
-    volumes:
-      - ./back:/app
-    links:
-      - redis:redis
-    depends_on:
-      - redis
-    expose:
-      - 6379
-      - 27017
-
   redis:
     image: redis
     expose:
