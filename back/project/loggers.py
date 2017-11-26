@@ -22,7 +22,7 @@ LOGGING = {
         'django': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': os.environ.get('LOGSTASH_HOST', 'localhost'),
+            'host': os.environ.get('LOGSTASH_HOST', 'logstash'),
             'port': os.environ.get('LOGSTASH_PORT', 5000),
             'message_type': 'django',
             'fqdn': False,
@@ -31,7 +31,7 @@ LOGGING = {
         'celery': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': os.environ.get('LOGSTASH_HOST', 'localhost'),
+            'host': os.environ.get('LOGSTASH_HOST', 'logstash'),
             'port': os.environ.get('LOGSTASH_PORT', 5000),
             'message_type': 'django',
             'fqdn': False,
@@ -40,7 +40,7 @@ LOGGING = {
         'crawlers': {
             'level': 'DEBUG',
             'class': 'logstash.TCPLogstashHandler',
-            'host': os.environ.get('LOGSTASH_HOST', 'localhost'),
+            'host': os.environ.get('LOGSTASH_HOST', 'logstash'),
             'port': os.environ.get('LOGSTASH_PORT', 5000),
             'message_type': 'django',
             'fqdn': False,

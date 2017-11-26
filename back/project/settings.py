@@ -125,7 +125,7 @@ EMAIL_CONFIG = env.email_url(
     default='smtp://localhost:25'
 )
 
-BASE_URL = env('BASE_URL')
+BASE_URL = env('BASE_URL', default='http://blocktimes.io/')
 
 ADMIN_SITE_HEADER = 'Block Times'
 
@@ -138,10 +138,10 @@ FIXTURE_DIRS = [
 
 AUTH_USER_MODEL = 'users.User'
 
-BROKER_URL = env('CELERY_BROKER_URL', default='redis://localhost:6379')
+BROKER_URL = env('CELERY_BROKER_URL', default='redis://redis:6379')
 
-CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='redis://localhost:6379')
-CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND_URL', default='redis://localhost:6379')
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='redis://redis:6379')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND_URL', default='redis://redis:6379')
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
