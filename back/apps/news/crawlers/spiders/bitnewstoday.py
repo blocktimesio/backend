@@ -1,10 +1,12 @@
-import os
 import re
 import logging
 import requests
 import scrapy as scrapy
+from scrapy.http import HtmlResponse
 from ..items import NewsItem
 from ..base_spiders import SpiderUrlMixin
+
+logger = logging.getLogger('crawlers')
 
 
 class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
@@ -39,29 +41,11 @@ class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
         img_nodes = response.xpath('//img[@class="detailPhotoNews"]/@src')
         if len(img_nodes):
             image_url = self._get_abs_url(img_nodes[0].root)
-
-            file_name = os.path.basename(image_url)
-            image_name = slug + os.path.splitext(file_name)[1]
-            image_file_path = os.path.join(self.name, image_name)
         else:
             image_url = ''
-            image_file_path = ''
 
             log_message = 'IMAGE NOT FOUND {}'.format(response.url)
             self.log(log_message, logging.WARNING)
-
-        comments = 0
-        try:
-            news_id = re.search('news\d+', response.body.decode())
-            if news_id:
-                url = 'https://bitnewstoday.com/ajax/comments/get.php'
-                response = requests.post(url, data={'resource': news_id[0], 'showMore': False})
-                data = response.json()
-                total = re.match('\d+', data.get('total', ''))
-                if total:
-                    comments = int(total[0])
-        except Exception as e:
-            logging.error('Error at getting comment', exc_info=True)
 
         yield NewsItem(
             domain=self.get_domain(response.url),
@@ -69,18 +53,43 @@ class BitNewsTodaySpider(scrapy.Spider, SpiderUrlMixin):
             url=self.get_url(response.url),
             slug=slug,
 
-            title=response.xpath('//h1/text()')[0].root,
+            title=self._get_title(response),
             author='',
             text=text,
             tags='',
             pub_date=pub_date,
 
             image_url=image_url,
-            image_file_path=image_file_path,
 
             views=0,
-            comments=comments,
+            comments=self._get_commants(response),
         )
 
     def _get_abs_url(self, path):
         return 'https://bitnewstoday.com{}'.format(path)
+
+    def _get_title(self, response: HtmlResponse) -> str:
+        nodes = response.xpath('//h1/text()')
+        if nodes:
+            return nodes[0].root
+        else:
+            message = 'Can\'t get title for news {}'.format(response.url)
+            logger.warning(message)
+
+            return ''
+
+    def _get_commants(self, response: HtmlResponse) -> int:
+        comments = 0
+        try:
+            news_id = re.search('news\d+', response.body.decode())
+            if news_id:
+                url = 'https://bitnewstoday.com/ajax/comments/get.php'
+                response_comment = requests.post(url, data={'resource': news_id[0], 'showMore': False})
+                data = response_comment.json()
+                total = re.match('\d+', data.get('total', ''))
+                if total:
+                    comments = int(total[0])
+        except Exception as e:
+            logging.error('Error at getting comment', exc_info=True)
+
+        return comments
