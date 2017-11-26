@@ -15,7 +15,6 @@ services:
     depends_on:
       - db
       - redis
-      - celery
       - logstash
     expose:
       - 5000
