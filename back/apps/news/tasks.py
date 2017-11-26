@@ -44,4 +44,4 @@ def run_sites_crawlers():
         d.addBoth(lambda _: reactor.stop())
         reactor.run()
     except Exception as e:
-        logger.error('', exc_info=True)
+        logger.error('Error at running crawler', exc_info=True)
