@@ -7,7 +7,10 @@ class PrestonByrneFeedSpider(BaseFeedSpider):
     start_urls = ['https://prestonbyrne.com/feed/']
 
     def get_text(self, entry: dict, response: HtmlResponse) -> str:
-        pass
+        text = ''.join(
+            [e.root for e in response.xpath('//div[@class="entry-content-container"]//p//text()')]
+        )
+        return text
 
     def get_image_url(self, entry: dict, response: HtmlResponse) -> str:
         media_content = entry.get('media_content', [])
