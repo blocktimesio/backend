@@ -1,8 +1,7 @@
 from django.urls import reverse
 from django_dynamic_fixture import N
 from rest_framework import status
-
-from .base_test import BaseTest
+from apps.common.base_test import BaseTest
 from apps.news.models import RankConfig
 
 
