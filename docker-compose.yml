@@ -17,16 +17,20 @@ services:
     links:
       - db:db
       - redis:redis
-      - logstash:logstash
+      - graylog:graylog
     depends_on:
       - db
       - redis
-      - logstash
+      - graylog
     expose:
       - 5000
       - 5432
       - 6379
       - 27017
+
+      # Graylog2
+      - 12201
+      - 12201/udp
 
   redis:
     image: redis
@@ -57,7 +61,6 @@ services:
       - ./back/static:/var/www/html/static
 
       # Service
-      - ./nginx/logs:/var/log/nginx
       - ./nginx/certs:/etc/nginx/certs
 
       # Configs
@@ -66,48 +69,74 @@ services:
       - ./nginx/confs/static_params:/etc/nginx/static_params
 
       # Sites
-      - ./nginx/site.conf:/etc/nginx/sites-enabled/site.conf
+      - ./nginx/main.conf:/etc/nginx/sites-enabled/main.conf
     depends_on:
       - back
-      - kibana
+      - graylog
+    links:
+      - graylog:graylog
     expose:
       - 5601
+
+      - 12301
+      - 12301/udp
+
+      - 12302
+      - 12302/udp
     ports:
       - 80:80
       - 443:443
 
+  mongodb:
+    image: mongo:3
+    volumes:
+      - ./mongo/data:/data/db
+
   elasticsearch:
-    build: elasticsearch/
-    volumes:
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-    expose:
-      - 9200
-      - 9300
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.1
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - network.host=0.0.0.0
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 1g
 
-  logstash:
-    build: logstash/
+  graylog:
+    image: graylog/graylog:2.3.2-1
     volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-      - ./nginx/logs:/tmp/nginx-logs
-    expose:
-      - 5000
-      - 9200
-      - 9300
+      - ./graylog/journal:/usr/share/graylog/data/journal
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
+      # admin U4aB3shNMo4LG9NVwqsQ
+      - GRAYLOG_ROOT_PASSWORD_SHA2=5a163b92d33486af3f6034b0145e1aee867f912381108bdaaa20294807fe00b4
+      - GRAYLOG_WEB_ENDPOINT_URI=http://dev.tsrpay.com:9000//api
+    links:
+      - mongodb:mongo
+      - elasticsearch:elasticsearch
     depends_on:
+      - mongodb
       - elasticsearch
-
-  kibana:
-    build: kibana/
-    volumes:
-      - ./kibana/config/:/usr/share/kibana/config
     expose:
-      - 5000
-      - 5601
-    depends_on:
-      - logstash
-      - elasticsearch
+      - 514
+      - 514/udp
+
+      - 9000
+
+      # Back
+      - 12201
+      - 12201/udp
+
+      # Nginx error
+      - 12301
+      - 12301/udp
+
+      # Nginx access
+      - 12302
+      - 12302/udp
+    ports:
+      - 9000:9000

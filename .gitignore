@@ -20,13 +20,7 @@ back/media/
 back/static/
 
 db/data/
-
-nginx/logs/
-
 mongo/data/
-
-back/crawlers/setup.py
-back/crawlers/build/
-back/crawlers/*.egg-info/
+graylog/journal/
 
 admin/node_modules/

@@ -1,12 +1,10 @@
-import os
-from django.conf import settings
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
         'level': 'DEBUG',
-        'handlers': [],
+        'handlers': ['graylog', 'console'],
+        'propagate': True,
     },
     'formatters': {
         'verbose': {
@@ -19,65 +17,30 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'django': {
+        'graylog': {
             'level': 'DEBUG',
-            'class': 'logstash.TCPLogstashHandler',
-            'host': os.environ.get('LOGSTASH_HOST', 'logstash'),
-            'port': os.environ.get('LOGSTASH_PORT', 5000),
-            'message_type': 'django',
-            'fqdn': False,
-            'tags': ['django', 'backend'],
-        },
-        'celery': {
-            'level': 'DEBUG',
-            'class': 'logstash.TCPLogstashHandler',
-            'host': os.environ.get('LOGSTASH_HOST', 'logstash'),
-            'port': os.environ.get('LOGSTASH_PORT', 5000),
-            'message_type': 'django',
-            'fqdn': False,
-            'tags': ['django', 'celery'],
-        },
-        'crawlers': {
-            'level': 'DEBUG',
-            'class': 'logstash.TCPLogstashHandler',
-            'host': os.environ.get('LOGSTASH_HOST', 'logstash'),
-            'port': os.environ.get('LOGSTASH_PORT', 5000),
-            'message_type': 'django',
-            'fqdn': False,
-            'tags': ['django', 'celery'],
+            'class': 'pygelf.GelfTcpHandler',
+            'host': 'graylog',
+            'port': 12201,
         },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['django'],
             'level': 'DEBUG',
-            'propagate': True,
         },
         'django.db.backends': {
             'level': 'WARNING',
-            'handlers': ['django'],
-            'propagate': False,
         },
 
         'crawlers': {
-            'handlers': ['crawlers'],
             'level': 'INFO',
-            'propagate': True
         },
 
         'celery.task': {
-            'handlers': ['celery'],
             'level': 'INFO',
-            'propagate': True
         },
         'celery.worker': {
-            'handlers': ['celery'],
             'level': 'INFO',
-            'propagate': True
         },
     },
 }
-
-if settings.DEBUG:
-    for name in LOGGING['loggers'].keys():
-        LOGGING['loggers'][name]['handlers'].append('console')
