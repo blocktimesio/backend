@@ -8,7 +8,7 @@ FlatpageViewSet
 router = DefaultRouter()
 router.register(r'news', NewsViewSet, r'news')
 router.register(r'post', PostViewSet, r'post')
-router.register(r'post', FlatpageViewSet, r'flatpage')
+router.register(r'flatpage', FlatpageViewSet, r'flatpage')
 
 urlpatterns = [
     url(r'', include(router.urls)),
