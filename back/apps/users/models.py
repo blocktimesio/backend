@@ -49,7 +49,10 @@ def pre_save_user(sender, instance: User,  **kwargs):
 
 @receiver(post_save, sender=User)
 def post_save_user(sender, instance: User, **kwargs):
-    g = Group.objects.get(name='Journalists')
+    try:
+        g = Group.objects.get(name='Journalists')
+    except Group.DoesNotExist:
+        return
     if g:
         if instance.type in User.TYPE.EDITORS:
             if not instance.groups.filter(id__in=[g.id]).exists():

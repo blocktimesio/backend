@@ -8,7 +8,7 @@ from apps.api.public.serializers import NewsListSerializer
 from apps.news.models import News
 
 
-class NewsListViewTest(BaseTest):
+class NewsViewSetTest(BaseTest):
     url = reverse('api_v1:public:news-list')
 
     def test_filter_by_created__lte(self):

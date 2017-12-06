@@ -30,7 +30,7 @@ class Post(TimeStampedModel):
             (LONG, 'Long post'),
         )
 
-    name = models.CharField(max_length=256)
+    title = models.CharField(max_length=256)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='post_main_image', blank=True, null=True)
     author = models.ForeignKey(USER_MODEL, related_name='author')
@@ -38,7 +38,7 @@ class Post(TimeStampedModel):
     status = models.CharField(max_length=8, choices=STATUSES.CHOICES, default=STATUSES.DRAFT)
     type = models.CharField(max_length=8, choices=TYPE.CHOICES, default=TYPE.NEWS)
     tags = models.ManyToManyField('Tag', blank=True)
-    content = RedactorField()
+    text = RedactorField()
 
     pub_date = models.DateTimeField(blank=True, null=True)
 
@@ -46,7 +46,7 @@ class Post(TimeStampedModel):
     locked_by = models.ForeignKey(USER_MODEL, related_name='locked_by', blank=True, null=True)
 
     def __str__(self):
-        return truncatechars(self.name, 32)
+        return truncatechars(self.title, 32)
 
     class Meta:
         ordering = ['-pub_date']

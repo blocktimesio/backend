@@ -67,16 +67,16 @@ class PostAdmin(admin.ModelAdmin):
         'status': admin.HORIZONTAL,
     }
 
-    list_display = ['name', 'status', 'type', 'author', 'created', 'modified']
+    list_display = ['title', 'status', 'type', 'author', 'created', 'modified']
     list_filter = [PostOwnerFilter, 'status', 'author', 'created', 'modified']
 
     fieldsets = (
-        ('Main', {'fields': ['name', 'slug', 'image', 'pub_date', 'status', 'type'], 'classes': ['full-width']}),
-        ('Content', {'fields': ['content', 'tags']}),
+        ('Main', {'fields': ['title', 'slug', 'image', 'pub_date', 'status', 'type'], 'classes': ['full-width']}),
+        ('Content', {'fields': ['text', 'tags']}),
     )
 
     def get_prepopulated_fields(self, request, obj=None):
-        prepopulated_fields = {'slug': ('name',), }
+        prepopulated_fields = {'slug': ('title',), }
 
         if not obj:
             return prepopulated_fields

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from apps.news.models import News
+from apps.post.models import Post
 
 
 class NewsListSerializer(serializers.Serializer):
@@ -11,10 +12,26 @@ class NewsListSerializer(serializers.Serializer):
         ]
 
 
-class RetrieveDetailSerializer(serializers.Serializer):
+class NewsRetrieveDetailSerializer(serializers.Serializer):
     class Meta:
         model = News
         fields = [
             'slug', 'author', 'created',
             'title', 'text' 'image', 'views', 'comments',
+        ]
+
+
+class PostListSerializer(serializers.Serializer):
+    class Meta:
+        model = Post
+        fields = [
+            'title', 'slug', 'image', 'author', 'pub_date',
+        ]
+
+
+class PostRetrieveDetailSerializer(serializers.Serializer):
+    class Meta:
+        model = Post
+        fields = [
+            'title', 'slug', 'image', 'author', 'pub_date', 'text'
         ]

@@ -3,11 +3,28 @@ import rest_framework_filters as filters
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from .serializers import (
     NewsListSerializer,
-    RetrieveDetailSerializer
+    NewsRetrieveDetailSerializer,
+    PostListSerializer,
+    PostRetrieveDetailSerializer
 )
 from apps.news.models import News
+from apps.post.models import Post
 
 logger = logging.getLogger('django.request')
+
+
+class SerializerViewMixin(object):
+    serializer_class = None
+    serializer_class_map = {}
+
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class_map.get(self.action, None)
+        return serializer_class or self.serializer_class
+
+
+class AccessViewMixin(object):
+    permission_classes = []
+    authentication_classes = []
 
 
 class NewsFilter(filters.FilterSet):
@@ -22,19 +39,19 @@ class NewsFilter(filters.FilterSet):
         ]
 
 
-class NewsViewSet(ReadOnlyModelViewSet):
-    permission_classes = []
-    authentication_classes = []
-
+class NewsViewSet(SerializerViewMixin, AccessViewMixin, ReadOnlyModelViewSet):
     queryset = News.objects.all()
     serializer_class_map = {
         'list': NewsListSerializer,
-        'retrieve': RetrieveDetailSerializer,
+        'retrieve': NewsRetrieveDetailSerializer,
     }
-
     filter_class = NewsFilter
     ordering_fields = ['rank__identifier']
 
-    def get_serializer_class(self):
-        serializer_class = self.serializer_class_map.get(self.action, None)
-        return serializer_class or self.serializer_class
+
+class PostViewSet(SerializerViewMixin, AccessViewMixin, ReadOnlyModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class_map = {
+        'list': PostListSerializer,
+        'retrieve': PostRetrieveDetailSerializer,
+    }
