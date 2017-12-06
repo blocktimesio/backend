@@ -12,6 +12,6 @@ celery -A project worker --beat --loglevel=info \
                         --schedule="run/celerybeat-schedule" &
 
 gunicorn project.wsgi:application -w 2 --log-level=info \
-            --reload -b=unix:/app/run/gunicorn.socket \
+            --bind=back:8000
             --error-logfile=/app/logs/gunicorn-error.log \
             --access-logfile=/app/logs/gunicorn-access.log
