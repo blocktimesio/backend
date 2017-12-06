@@ -140,3 +140,11 @@ services:
       - 12302/udp
     ports:
       - 9000:9000
+
+  sftp:
+    image: atmoz/sftp
+    volumes:
+       - ./front/:/home/front/html
+    ports:
+       - "2222:22"
+    command: front:QC2EjSBpwMYelCobsxFaE54aeFH7ej:1001
