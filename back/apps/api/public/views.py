@@ -49,6 +49,7 @@ class NewsViewSet(SerializerViewMixin, AccessViewMixin, ReadOnlyModelViewSet):
     }
     filter_class = NewsFilter
     ordering_fields = ['rank__identifier']
+    lookup_field = 'slug'
 
 
 class PostViewSet(SerializerViewMixin, AccessViewMixin, ReadOnlyModelViewSet):
@@ -57,9 +58,12 @@ class PostViewSet(SerializerViewMixin, AccessViewMixin, ReadOnlyModelViewSet):
         'list': PostListSerializer,
         'retrieve': PostRetrieveDetailSerializer,
     }
+    lookup_field = 'slug'
 
 
 class FlatpageViewSet(AccessViewMixin, ReadOnlyModelViewSet):
     queryset = Flatpage.objects.filter(is_show=True)
     pagination_class = None
     serializer_class = FlatpageSerializer
+    lookup_field = 'slug'
+

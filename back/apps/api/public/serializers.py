@@ -19,8 +19,12 @@ class NewsRetrieveDetailSerializer(serializers.ModelSerializer):
         model = News
         fields = [
             'slug', 'author', 'created',
-            'title', 'text' 'image', 'views', 'comments',
+            'title', 'text', 'image', 'views', 'comments',
         ]
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -37,6 +41,10 @@ class PostRetrieveDetailSerializer(serializers.ModelSerializer):
         fields = [
             'title', 'slug', 'image', 'author', 'pub_date', 'text'
         ]
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class FlatpageSerializer(serializers.ModelSerializer):
@@ -45,3 +53,7 @@ class FlatpageSerializer(serializers.ModelSerializer):
         fields = [
             'slug', 'title', 'content'
         ]
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
