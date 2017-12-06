@@ -11,7 +11,7 @@ class NewsListSerializer(serializers.Serializer):
         ]
 
 
-class NewsDetailSerializer(serializers.Serializer):
+class RetrieveDetailSerializer(serializers.Serializer):
     class Meta:
         model = News
         fields = [
