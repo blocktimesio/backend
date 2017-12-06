@@ -5,10 +5,12 @@ from .serializers import (
     NewsListSerializer,
     NewsRetrieveDetailSerializer,
     PostListSerializer,
-    PostRetrieveDetailSerializer
+    PostRetrieveDetailSerializer,
+    FlatpageSerializer
 )
 from apps.news.models import News
 from apps.post.models import Post
+from apps.flatpage.models import Flatpage
 
 logger = logging.getLogger('django.request')
 
@@ -55,3 +57,9 @@ class PostViewSet(SerializerViewMixin, AccessViewMixin, ReadOnlyModelViewSet):
         'list': PostListSerializer,
         'retrieve': PostRetrieveDetailSerializer,
     }
+
+
+class FlatpageViewSet(AccessViewMixin, ReadOnlyModelViewSet):
+    queryset = Flatpage.objects.filter(is_show=True)
+    pagination_class = None
+    serializer_class = FlatpageSerializer

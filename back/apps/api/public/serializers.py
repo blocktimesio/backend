@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from apps.flatpage.models import Flatpage
 from apps.news.models import News
 from apps.post.models import Post
 
@@ -34,4 +36,12 @@ class PostRetrieveDetailSerializer(serializers.Serializer):
         model = Post
         fields = [
             'title', 'slug', 'image', 'author', 'pub_date', 'text'
+        ]
+
+
+class FlatpageSerializer(serializers.Serializer):
+    class Meta:
+        model = Flatpage
+        fields = [
+            'slug', 'title', 'content'
         ]
