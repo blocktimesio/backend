@@ -56,6 +56,7 @@ services:
       - ./back/run:/opt/run
 
       # Statics
+      - ./front/:/var/www/html/front
       - ./admin/dist:/var/www/html/admin
       - ./back/media:/var/www/html/media
       - ./back/static:/var/www/html/static
