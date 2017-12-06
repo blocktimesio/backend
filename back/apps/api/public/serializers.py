@@ -5,7 +5,7 @@ from apps.news.models import News
 from apps.post.models import Post
 
 
-class NewsListSerializer(serializers.Serializer):
+class NewsListSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = [
@@ -14,7 +14,7 @@ class NewsListSerializer(serializers.Serializer):
         ]
 
 
-class NewsRetrieveDetailSerializer(serializers.Serializer):
+class NewsRetrieveDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = [
@@ -23,7 +23,7 @@ class NewsRetrieveDetailSerializer(serializers.Serializer):
         ]
 
 
-class PostListSerializer(serializers.Serializer):
+class PostListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = [
@@ -31,7 +31,7 @@ class PostListSerializer(serializers.Serializer):
         ]
 
 
-class PostRetrieveDetailSerializer(serializers.Serializer):
+class PostRetrieveDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = [
@@ -39,7 +39,7 @@ class PostRetrieveDetailSerializer(serializers.Serializer):
         ]
 
 
-class FlatpageSerializer(serializers.Serializer):
+class FlatpageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flatpage
         fields = [
