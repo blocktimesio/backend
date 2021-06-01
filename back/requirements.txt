@@ -56,7 +56,7 @@ six==1.11.0
 socialshares==1.1.0
 Twisted==17.9.0
 typing==3.6.2
-urllib3==1.22
+urllib3==1.26.5
 vine==1.1.4
 w3lib==1.18.0
 zope.interface==4.4.3
