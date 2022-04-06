@@ -54,7 +54,7 @@ scrapy-djangoitem==1.1.1
 service-identity==17.0.0
 six==1.11.0
 socialshares==1.1.0
-Twisted==17.9.0
+Twisted==22.2.0
 typing==3.6.2
 urllib3==1.22
 vine==1.1.4
